@@ -19,7 +19,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des Monstres - Compendium</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2.0">
 </head>
 <body>
     <header class="site-header">
@@ -35,7 +35,30 @@ try {
                 <div class="monster-item">
                     <a href="details.php?id=<?= $monster['id'] ?>">
                         <div class="monster-icon-box">
-                            <img src="img/monsters/rathalos.png" alt="<?= htmlspecialchars($monster['name']) ?>">
+                            <?php 
+                            // 1. Préparation du nom pour correspondre aux noms de tes fichiers
+                            $nomBase = str_replace([' ', '-'], '_', $monster['name']);
+                            $nomBase = str_replace("'", "", $nomBase); // Gère le cas Xeno'jiiva
+                            
+                            // 2. Gestion des exceptions de ton pack d'icônes
+                            if ($nomBase === "Silver_Rathian") $nomBase = "Silver_Rathalos";
+                            if ($nomBase === "Kestodon") $nomBase = "Kestodon_Male";
+
+                            // 3. Tester les préfixes MHW et MHWI 
+                            $cheminMHW = "assets/img/monsters/MHW-" . $nomBase . "_Icon.png";
+                            $cheminMHWI = "assets/img/monsters/MHWI-" . $nomBase . "_Icon.png";
+
+                            // On vérifie quel fichier existe réellement dans ton dossier
+                            if (file_exists($cheminMHW)) {
+                                $imgFinale = $cheminMHW;
+                            } elseif (file_exists($cheminMHWI)) {
+                                $imgFinale = $cheminMHWI;
+                            } else {
+                                // Image de secours (au cas où une image manquerait)
+                                $imgFinale = "assets/img/monsters/MHW-Rathalos_Icon.png"; 
+                            }
+                            ?>
+                            <img src="<?= $imgFinale ?>" alt="<?= htmlspecialchars($monster['name']) ?>">
                         </div>
                         <span class="monster-name"><?= htmlspecialchars($monster['name']) ?></span>
                     </a>
