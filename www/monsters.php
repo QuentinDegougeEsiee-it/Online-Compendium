@@ -29,16 +29,28 @@ try {
     </header>
 
     <main class="container">
-        
         <div class="search-container">
             <div class="search-form">
                 <input type="text" id="searchInput" placeholder="Rechercher un monstre en temps réel..." autocomplete="off">
             </div>
         </div>
 
+        <div class="filters-container">
+            <div class="dropdown">
+                <button class="dropdown-btn" id="elementBtn">Éléments ▼</button>
+                <div class="dropdown-content" id="elementDropdown">
+                    <label><input type="checkbox" value="fire"> <img src="assets/img/elements/fire.png" alt="Feu"> Feu</label>
+                    <label><input type="checkbox" value="water"> <img src="assets/img/elements/water.png" alt="Eau"> Eau</label>
+                    <label><input type="checkbox" value="thunder"> <img src="assets/img/elements/thunder.png" alt="Foudre"> Foudre</label>
+                    <label><input type="checkbox" value="ice"> <img src="assets/img/elements/ice.png" alt="Glace"> Glace</label>
+                    <label><input type="checkbox" value="dragon"> <img src="assets/img/elements/dragon.png" alt="Dragon"> Dragon</label>
+                </div>
+            </div>
+        </div>
+
         <div class="monsters-grid" id="monstersGrid">
             <?php foreach ($monsters as $monster): ?>
-                <div class="monster-item">
+                <div class="monster-item" data-elements="<?= htmlspecialchars($monster['elements']) ?>">
                     <a href="details.php?id=<?= $monster['id'] ?>">
                         <div class="monster-icon-box">
                             <?php 
@@ -71,47 +83,69 @@ try {
             Aucun monstre trouvé pour "<strong id="searchTermDisplay"></strong>".
         </p>
 
-    </main>
-
     <script>
-        // 1. On cible la barre de recherche
-        const searchInput = document.getElementById('searchInput');
+    const searchInput = document.getElementById('searchInput');
+    const monsterItems = document.querySelectorAll('.monster-item');
+    const noResultsMessage = document.getElementById('noResults');
+    const searchTermDisplay = document.getElementById('searchTermDisplay');
+    
+    const elementBtn = document.getElementById('elementBtn');
+    const elementDropdown = document.getElementById('elementDropdown');
+    const elementCheckboxes = document.querySelectorAll('.dropdown-content input[type="checkbox"]');
+
+    // Ouvrir/Fermer le menu des éléments
+    elementBtn.addEventListener('click', () => {
+        elementDropdown.classList.toggle('show');
+    });
+
+    // Fonction de filtrage global
+    function filterMonsters() {
+        const searchTerm = searchInput.value.toLowerCase();
         
-        // 2. On cible toutes les "cases" de monstres
-        const monsterItems = document.querySelectorAll('.monster-item');
-        
-        // 3. On cible les éléments pour le message "Aucun résultat"
-        const noResultsMessage = document.getElementById('noResults');
-        const searchTermDisplay = document.getElementById('searchTermDisplay');
+        // On récupère une liste des éléments cochés (ex: ["fire", "ice"])
+        const checkedElements = Array.from(elementCheckboxes)
+                                     .filter(cb => cb.checked)
+                                     .map(cb => cb.value);
 
-        // 4. On écoute chaque frappe sur le clavier
-        searchInput.addEventListener('input', function(e) {
-            // On récupère le texte tapé et on le met en minuscules
-            const searchTerm = e.target.value.toLowerCase();
-            let hasVisibleMonsters = false;
+        let hasVisibleMonsters = false;
 
-            // On boucle sur chaque monstre de la grille
-            monsterItems.forEach(function(item) {
-                // On récupère le nom du monstre dans la case
-                const monsterName = item.querySelector('.monster-name').textContent.toLowerCase();
+        monsterItems.forEach(item => {
+            const monsterName = item.querySelector('.monster-name').textContent.toLowerCase();
+            const monsterElements = item.getAttribute('data-elements').toLowerCase();
 
-                // Si le nom contient les lettres tapées...
-                if (monsterName.includes(searchTerm)) {
-                    item.style.display = ''; // On affiche la case
-                    hasVisibleMonsters = true; // On signale qu'on a trouvé au moins 1 monstre
-                } else {
-                    item.style.display = 'none'; // Sinon, on cache la case
-                }
-            });
+            // 1. Est-ce que le nom correspond ?
+            const matchesName = monsterName.includes(searchTerm);
 
-            // Gestion du message "Aucun résultat"
-            if (hasVisibleMonsters) {
-                noResultsMessage.style.display = 'none';
+            // 2. Est-ce que l'élément correspond ? (Modification ici avec 'every')
+            let matchesElements = true;
+            if (checkedElements.length > 0) {
+                // 'every' force le monstre à posséder TOUS les éléments cochés
+                matchesElements = checkedElements.every(el => monsterElements.includes(el));
+            }
+
+            // Si le monstre valide le texte ET les éléments stricts, on l'affiche
+            if (matchesName && matchesElements) {
+                item.style.display = '';
+                hasVisibleMonsters = true;
             } else {
-                noResultsMessage.style.display = 'block';
-                searchTermDisplay.textContent = e.target.value; // Affiche ce qui a été tapé
+                item.style.display = 'none';
             }
         });
-    </script>
+
+        // Message "Aucun résultat"
+        if (hasVisibleMonsters) {
+            noResultsMessage.style.display = 'none';
+        } else {
+            noResultsMessage.style.display = 'block';
+            searchTermDisplay.textContent = searchInput.value;
+        }
+    }
+
+    // On déclenche le filtre si on tape du texte OU si on coche une case
+    searchInput.addEventListener('input', filterMonsters);
+    elementCheckboxes.forEach(cb => {
+        cb.addEventListener('change', filterMonsters);
+    });
+</script>
 </body>
 </html>

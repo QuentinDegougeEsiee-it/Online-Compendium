@@ -133,3 +133,75 @@ body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
 .btn-clear:hover {
     background-color: #c0392b;
 }
+
+/* --- MENU DES ELEMENTS --- */
+.filters-container {
+    max-width: 1200px;
+    margin: -10px auto 20px auto; /* Remonte le bouton pour le coller sous la barre */
+    padding: 0 20px;
+    display: flex;
+    justify-content: flex-start; /* Place le bouton à gauche */
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    background-color: #2c3e50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: background-color 0.3s;
+}
+
+.dropdown-btn:hover {
+    background-color: #1a252f;
+}
+
+.dropdown-content {
+    display: none; /* Caché par défaut */
+    position: absolute;
+    background-color: #fff;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 10; /* Pour passer par-dessus les monstres */
+    border-radius: 6px;
+    margin-top: 8px;
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+.dropdown-content.show {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dropdown-content label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #333;
+    font-weight: bold;
+}
+
+.dropdown-content input {
+    margin-right: 10px;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
+
+.dropdown-content img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    object-fit: contain;
+}
