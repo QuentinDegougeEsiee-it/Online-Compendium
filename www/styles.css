@@ -137,10 +137,12 @@ body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
 /* --- MENU DES ELEMENTS --- */
 .filters-container {
     max-width: 1200px;
-    margin: -10px auto 20px auto; /* Remonte le bouton pour le coller sous la barre */
+    margin: -10px auto 20px auto; 
     padding: 0 20px;
     display: flex;
-    justify-content: flex-start; /* Place le bouton à gauche */
+    justify-content: center; /* Centre les boutons sous la barre de recherche */
+    gap: 20px; /* Espace entre le bouton Element et le bouton Espèce */
+    flex-wrap: wrap; /* S'adapte sur téléphone */
 }
 
 .dropdown {
