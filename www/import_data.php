@@ -20,38 +20,32 @@ if ($monsters === null) {
 
 // 3. Préparer la requête SQL d'insertion
 // L'utilisation de "ON DUPLICATE KEY UPDATE" permet de relancer le script sans créer de doublons
-$sql = "INSERT INTO monsters (id, name, category, description) 
-        VALUES (:id, :name, :category, :description)
+$sql = "INSERT INTO monsters (id, name, category, description, elements) 
+        VALUES (:id, :name, :category, :description, :elements)
         ON DUPLICATE KEY UPDATE 
-        name = :name, category = :category, description = :description";
+        name = :name, category = :category, description = :description, elements = :elements";
 
 $stmt = $pdo->prepare($sql);
 
 $compteur = 0;
+echo "<h2>Démarrage de l'importation...</h2><ul>";
 
-echo "<h2>Démarrage de l'importation...</h2>";
-echo "<ul>";
-
-// 4. Parcourir les monstres et les insérer en base de données
 foreach ($monsters as $monster) {
     try {
-        // Exécution de la requête avec les données du JSON
         $stmt->execute([
             ':id'          => $monster['id'],
             ':name'        => $monster['name'],
-            ':category'     => $monster['species'] ?? 'Inconnu', // Valeur par défaut si vide
-            ':description' => $monster['description'] ?? 'Pas de description'
+            ':category'    => $monster['species'] ?? 'Inconnu', // ou 'species' si tu n'as pas renommé
+            ':description' => $monster['description'] ?? 'Pas de description',
+            // On transforme le tableau d'éléments ["fire", "water"] en texte "fire,water"
+            ':elements'    => isset($monster['elements']) ? implode(',', $monster['elements']) : ''
         ]);
-        
         echo "<li>✅ Inséré/Mis à jour : <strong>" . htmlspecialchars($monster['name']) . "</strong></li>";
         $compteur++;
-
     } catch (PDOException $e) {
-        // Gestion des erreurs pour un monstre spécifique
         echo "<li>❌ Erreur pour " . htmlspecialchars($monster['name']) . " : " . $e->getMessage() . "</li>";
     }
 }
-
 echo "</ul>";
 echo "<h3>🎉 Importation terminée avec succès ! $compteur monstres traités.</h3>";
 echo "<p><a href='index.php'>Retour à l'accueil</a></p>";
