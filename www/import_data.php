@@ -20,10 +20,10 @@ if ($monsters === null) {
 
 // 3. Préparer la requête SQL d'insertion
 // L'utilisation de "ON DUPLICATE KEY UPDATE" permet de relancer le script sans créer de doublons
-$sql = "INSERT INTO monsters (id, name, category, description, elements) 
-        VALUES (:id, :name, :category, :description, :elements)
+$sql = "INSERT INTO monsters (id, name, category, description, elements, type) 
+        VALUES (:id, :name, :category, :description, :elements, :type)
         ON DUPLICATE KEY UPDATE 
-        name = :name, category = :category, description = :description, elements = :elements";
+        name = :name, category = :category, description = :description, elements = :elements, type = :type";
 
 $stmt = $pdo->prepare($sql);
 
@@ -35,10 +35,10 @@ foreach ($monsters as $monster) {
         $stmt->execute([
             ':id'          => $monster['id'],
             ':name'        => $monster['name'],
-            ':category'    => $monster['species'] ?? 'Inconnu', // ou 'species' si tu n'as pas renommé
+            ':category'    => $monster['species'] ?? 'Inconnu', 
             ':description' => $monster['description'] ?? 'Pas de description',
-            // On transforme le tableau d'éléments ["fire", "water"] en texte "fire,water"
-            ':elements'    => isset($monster['elements']) ? implode(',', $monster['elements']) : ''
+            ':elements'    => isset($monster['elements']) ? implode(',', $monster['elements']) : '',
+            ':type'        => $monster['type'] ?? 'inconnu'
         ]);
         echo "<li>✅ Inséré/Mis à jour : <strong>" . htmlspecialchars($monster['name']) . "</strong></li>";
         $compteur++;

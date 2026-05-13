@@ -68,9 +68,9 @@ body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
 }
 
 .monster-icon-box img {
-    max-width: 55%; /* Réduit la taille de l'image à 55% de la boîte */
-    max-height: 100%;
-    object-fit: contain; /* Empêche l'image d'être déformée */
+    width: 75px;  
+    height: 75px; 
+    object-fit: contain; /* Empêche l'image de s'écraser si elle n'était pas carrée à l'origine */
 }
 
 /* --- BARRE DE RECHERCHE --- */

@@ -39,10 +39,10 @@ try {
             <div class="dropdown">
                 <button class="dropdown-btn" id="elementBtn">Elements ▼</button>
                 <div class="dropdown-content" id="elementDropdown">
-                    <label><input type="checkbox" value="fire"> <img src="assets/img/elements/fire.png" alt="Feu"> Feu</label>
-                    <label><input type="checkbox" value="water"> <img src="assets/img/elements/water.png" alt="Eau"> Eau</label>
-                    <label><input type="checkbox" value="thunder"> <img src="assets/img/elements/thunder.png" alt="Foudre"> Foudre</label>
-                    <label><input type="checkbox" value="ice"> <img src="assets/img/elements/ice.png" alt="Glace"> Glace</label>
+                    <label><input type="checkbox" value="fire"> <img src="assets/img/elements/fire.png" alt="Feu"> Fire</label>
+                    <label><input type="checkbox" value="water"> <img src="assets/img/elements/water.png" alt="Eau"> Water</label>
+                    <label><input type="checkbox" value="thunder"> <img src="assets/img/elements/thunder.png" alt="Foudre"> Thunder</label>
+                    <label><input type="checkbox" value="ice"> <img src="assets/img/elements/ice.png" alt="Glace"> Ice</label>
                     <label><input type="checkbox" value="dragon"> <img src="assets/img/elements/dragon.png" alt="Dragon"> Dragon</label>
                 </div>
             </div>
@@ -50,12 +50,20 @@ try {
             <div class="dropdown">
                 <button class="dropdown-btn" id="speciesBtn">Category ▼</button>
                 <div class="dropdown-content" id="speciesDropdown">
-                    <label><input type="checkbox" value="elder dragon"> Dragon Ancien</label>
-                    <label><input type="checkbox" value="flying wyvern"> Wyverne Volante</label>
-                    <label><input type="checkbox" value="brute wyvern"> Wyverne de Brute</label>
-                    <label><input type="checkbox" value="fanged wyvern"> Wyverne à Crocs</label>
-                    <label><input type="checkbox" value="bird wyvern"> Wyverne Rapace</label>
+                    <label><input type="checkbox" value="elder dragon"> Elder Dragon</label>
+                    <label><input type="checkbox" value="flying wyvern"> Flying Wyvern</label>
+                    <label><input type="checkbox" value="brute wyvern"> Brute Wyvern</label>
+                    <label><input type="checkbox" value="fanged wyvern"> Fanged Wyvern</label>
+                    <label><input type="checkbox" value="bird wyvern"> Bird Wyvern</label>
                     <label><input type="checkbox" value="herbivore"> Herbivore</label>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropdown-btn" id="typeBtn">Size ▼</button>
+                <div class="dropdown-content" id="typeDropdown">
+                    <label><input type="checkbox" value="large"> Large Monster</label>
+                    <label><input type="checkbox" value="small"> Small Monster</label>
                 </div>
             </div>
         </div>
@@ -63,13 +71,14 @@ try {
         <div class="monsters-grid" id="monstersGrid">
             <?php foreach ($monsters as $monster): ?>
                 <div class="monster-item" 
-                     data-elements="<?= htmlspecialchars($monster['elements']) ?>" 
-                     data-species="<?= htmlspecialchars($monster['category']) ?>">
+                     data-elements="<?= htmlspecialchars($monster['elements'] ?? '') ?>" 
+                     data-species="<?= htmlspecialchars($monster['category'] ?? '') ?>"
+                     data-type="<?= htmlspecialchars($monster['type'] ?? '') ?>">
                     
                     <a href="details.php?id=<?= $monster['id'] ?>">
                         <div class="monster-icon-box">
                             <?php 
-                            $nomBase = str_replace([' ', '-'], '_', $monster['name']);
+                            $nomBase = str_replace(' ', '_', $monster['name']);
                             $nomBase = str_replace("'", "", $nomBase);
                             if ($nomBase === "Silver_Rathian") $nomBase = "Silver_Rathalos";
                             if ($nomBase === "Kestodon") $nomBase = "Kestodon_Male";
@@ -96,7 +105,6 @@ try {
         <p id="noResults" style="display: none; text-align: center; width: 100%; margin-top: 20px;">
             Aucun monstre ne correspond à vos critères.
         </p>
-
     </main>
 
     <script>
@@ -113,9 +121,14 @@ try {
         const speciesDropdown = document.getElementById('speciesDropdown');
         const speciesCheckboxes = document.querySelectorAll('#speciesDropdown input[type="checkbox"]');
 
+        const typeBtn = document.getElementById('typeBtn');
+        const typeDropdown = document.getElementById('typeDropdown');
+        const typeCheckboxes = document.querySelectorAll('#typeDropdown input[type="checkbox"]');
+
         // Gestion de l'ouverture/fermeture des menus
         elementBtn.addEventListener('click', () => { elementDropdown.classList.toggle('show'); });
         speciesBtn.addEventListener('click', () => { speciesDropdown.classList.toggle('show'); });
+        typeBtn.addEventListener('click', () => { typeDropdown.classList.toggle('show'); });
 
         // Fonction de filtrage global
         function filterMonsters() {
@@ -123,6 +136,7 @@ try {
             
             const checkedElements = Array.from(elementCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
             const checkedSpecies = Array.from(speciesCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
+            const checkedTypes = Array.from(typeCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
 
             let hasVisibleMonsters = false;
 
@@ -130,24 +144,33 @@ try {
                 const monsterName = item.querySelector('.monster-name').textContent.toLowerCase();
                 const monsterElements = item.getAttribute('data-elements').toLowerCase();
                 const monsterSpecies = item.getAttribute('data-species').toLowerCase();
+                const monsterType = item.getAttribute('data-type').toLowerCase();
 
                 // 1. Nom
                 const matchesName = monsterName.includes(searchTerm);
 
-                // 2. Éléments (Logique ET / EVERY)
+                // 2. Éléments (Logique ET stricte)
                 let matchesElements = true;
                 if (checkedElements.length > 0) {
                     matchesElements = checkedElements.every(el => monsterElements.includes(el));
                 }
 
-                // 3. Espèces (Logique OU / SOME)
+                // 3. Espèces (Logique ET stricte)
                 let matchesSpecies = true;
                 if (checkedSpecies.length > 0) {
-                    matchesSpecies = checkedSpecies.some(sp => monsterSpecies.includes(sp));
+                    // On utilise 'every' : le monstre doit correspondre à TOUTES les espèces cochées
+                    matchesSpecies = checkedSpecies.every(sp => monsterSpecies.includes(sp));
                 }
 
-                // 4. Si le monstre valide les 3 filtres, on l'affiche
-                if (matchesName && matchesElements && matchesSpecies) {
+                // 4. Taille/Type (Logique ET stricte)
+                let matchesType = true;
+                if (checkedTypes.length > 0) {
+                    // On utilise 'every' : le monstre doit correspondre à TOUS les types cochés
+                    matchesType = checkedTypes.every(t => monsterType.includes(t));
+                }
+
+                // 5. Validation finale
+                if (matchesName && matchesElements && matchesSpecies && matchesType) {
                     item.style.display = '';
                     hasVisibleMonsters = true;
                 } else {
@@ -155,14 +178,14 @@ try {
                 }
             });
 
-            // Afficher ou cacher le message d'erreur
             noResultsMessage.style.display = hasVisibleMonsters ? 'none' : 'block';
         }
 
-        // Écouteurs d'événements (Quand on tape ou qu'on coche)
+        // Écouteurs d'événements
         searchInput.addEventListener('input', filterMonsters);
         elementCheckboxes.forEach(cb => cb.addEventListener('change', filterMonsters));
         speciesCheckboxes.forEach(cb => cb.addEventListener('change', filterMonsters));
+        typeCheckboxes.forEach(cb => cb.addEventListener('change', filterMonsters));
     </script>
 </body>
 </html>
