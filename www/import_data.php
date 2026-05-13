@@ -20,10 +20,10 @@ if ($monsters === null) {
 
 // 3. Préparer la requête SQL d'insertion
 // L'utilisation de "ON DUPLICATE KEY UPDATE" permet de relancer le script sans créer de doublons
-$sql = "INSERT INTO monsters (id, name, category, description, elements, type) 
-        VALUES (:id, :name, :category, :description, :elements, :type)
+$sql = "INSERT INTO monsters (id, name, category, description, elements, type, locations) 
+        VALUES (:id, :name, :category, :description, :elements, :type, :locations)
         ON DUPLICATE KEY UPDATE 
-        name = :name, category = :category, description = :description, elements = :elements, type = :type";
+        name = :name, category = :category, description = :description, elements = :elements, type = :type, locations = :locations";
 
 $stmt = $pdo->prepare($sql);
 
@@ -32,13 +32,25 @@ echo "<h2>Démarrage de l'importation...</h2><ul>";
 
 foreach ($monsters as $monster) {
     try {
+        // --- Extraction sécurisée des habitats ---
+        $locationsList = [];
+        if (isset($monster['locations']) && is_array($monster['locations'])) {
+            foreach ($monster['locations'] as $loc) {
+                // Si c'est un tableau, on prend le nom, sinon on prend la valeur directe
+                $locationsList[] = is_array($loc) ? $loc['name'] : $loc; 
+            }
+        }
+        $locationsStr = implode(',', $locationsList);
+
         $stmt->execute([
             ':id'          => $monster['id'],
             ':name'        => $monster['name'],
             ':category'    => $monster['species'] ?? 'Inconnu', 
             ':description' => $monster['description'] ?? 'Pas de description',
             ':elements'    => isset($monster['elements']) ? implode(',', $monster['elements']) : '',
-            ':type'        => $monster['type'] ?? 'inconnu'
+            ':type'        => $monster['type'] ?? 'inconnu',
+            // NOUVEAU : On injecte les habitats
+            ':locations'   => $locationsStr
         ]);
         echo "<li>✅ Inséré/Mis à jour : <strong>" . htmlspecialchars($monster['name']) . "</strong></li>";
         $compteur++;

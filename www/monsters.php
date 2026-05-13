@@ -66,6 +66,18 @@ try {
                     <label><input type="checkbox" value="small"> Small Monster</label>
                 </div>
             </div>
+
+            <div class="dropdown">
+                <button class="dropdown-btn" id="locationBtn">Biome ▼</button>
+                <div class="dropdown-content" id="locationDropdown">
+                    <label><input type="checkbox" value="ancient forest"> Ancient Forest</label>
+                    <label><input type="checkbox" value="wildspire waste"> Wildspire Waste</label>
+                    <label><input type="checkbox" value="coral highlands"> Coral Highlands</label>
+                    <label><input type="checkbox" value="rotten vale"> Rotten Vale</label>
+                    <label><input type="checkbox" value="elder's recess"> Elder's Recess</label>
+                    <label><input type="checkbox" value="hoarfrost reach"> Hoarfrost Reach</label>
+                </div>
+            </div>
         </div>
 
         <div class="monsters-grid" id="monstersGrid">
@@ -73,7 +85,8 @@ try {
                 <div class="monster-item" 
                      data-elements="<?= htmlspecialchars($monster['elements'] ?? '') ?>" 
                      data-species="<?= htmlspecialchars($monster['category'] ?? '') ?>"
-                     data-type="<?= htmlspecialchars($monster['type'] ?? '') ?>">
+                     data-type="<?= htmlspecialchars($monster['type'] ?? '') ?>"
+                     data-locations="<?= htmlspecialchars($monster['locations'] ?? '') ?>">
                     
                     <a href="details.php?id=<?= $monster['id'] ?>">
                         <div class="monster-icon-box">
@@ -82,6 +95,7 @@ try {
                             $nomBase = str_replace("'", "", $nomBase);
                             if ($nomBase === "Silver_Rathian") $nomBase = "Silver_Rathalos";
                             if ($nomBase === "Kestodon") $nomBase = "Kestodon_Male";
+                            if ($nomBase === "Nightshade_Paolomu") $nomBase = "Nightshade_Paolumu";
 
                             $cheminMHW = "assets/img/monsters/MHW-" . $nomBase . "_Icon.png";
                             $cheminMHWI = "assets/img/monsters/MHWI-" . $nomBase . "_Icon.png";
@@ -125,10 +139,16 @@ try {
         const typeDropdown = document.getElementById('typeDropdown');
         const typeCheckboxes = document.querySelectorAll('#typeDropdown input[type="checkbox"]');
 
+        // NOUVEAU : Habitats
+        const locationBtn = document.getElementById('locationBtn');
+        const locationDropdown = document.getElementById('locationDropdown');
+        const locationCheckboxes = document.querySelectorAll('#locationDropdown input[type="checkbox"]');
+
         // Gestion de l'ouverture/fermeture des menus
         elementBtn.addEventListener('click', () => { elementDropdown.classList.toggle('show'); });
         speciesBtn.addEventListener('click', () => { speciesDropdown.classList.toggle('show'); });
         typeBtn.addEventListener('click', () => { typeDropdown.classList.toggle('show'); });
+        locationBtn.addEventListener('click', () => { locationDropdown.classList.toggle('show'); });
 
         // Fonction de filtrage global
         function filterMonsters() {
@@ -137,6 +157,7 @@ try {
             const checkedElements = Array.from(elementCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
             const checkedSpecies = Array.from(speciesCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
             const checkedTypes = Array.from(typeCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
+            const checkedLocations = Array.from(locationCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
 
             let hasVisibleMonsters = false;
 
@@ -145,32 +166,38 @@ try {
                 const monsterElements = item.getAttribute('data-elements').toLowerCase();
                 const monsterSpecies = item.getAttribute('data-species').toLowerCase();
                 const monsterType = item.getAttribute('data-type').toLowerCase();
+                const monsterLocations = item.getAttribute('data-locations').toLowerCase();
 
                 // 1. Nom
                 const matchesName = monsterName.includes(searchTerm);
 
-                // 2. Éléments (Logique ET stricte)
+                // 2. Éléments
                 let matchesElements = true;
                 if (checkedElements.length > 0) {
                     matchesElements = checkedElements.every(el => monsterElements.includes(el));
                 }
 
-                // 3. Espèces (Logique ET stricte)
+                // 3. Espèces
                 let matchesSpecies = true;
                 if (checkedSpecies.length > 0) {
-                    // On utilise 'every' : le monstre doit correspondre à TOUTES les espèces cochées
                     matchesSpecies = checkedSpecies.every(sp => monsterSpecies.includes(sp));
                 }
 
-                // 4. Taille/Type (Logique ET stricte)
+                // 4. Taille/Type
                 let matchesType = true;
                 if (checkedTypes.length > 0) {
-                    // On utilise 'every' : le monstre doit correspondre à TOUS les types cochés
                     matchesType = checkedTypes.every(t => monsterType.includes(t));
                 }
 
-                // 5. Validation finale
-                if (matchesName && matchesElements && matchesSpecies && matchesType) {
+                // 5. Habitats (On repasse en logique "OU" avec 'some')
+                let matchesLocations = true;
+                if (checkedLocations.length > 0) {
+                    // .some() signifie : "Si le monstre possède AU MOINS UN des habitats cochés"
+                    matchesLocations = checkedLocations.some(loc => monsterLocations.includes(loc));
+                }
+
+                // 6. Validation finale avec les 5 critères
+                if (matchesName && matchesElements && matchesSpecies && matchesType && matchesLocations) {
                     item.style.display = '';
                     hasVisibleMonsters = true;
                 } else {
@@ -186,6 +213,7 @@ try {
         elementCheckboxes.forEach(cb => cb.addEventListener('change', filterMonsters));
         speciesCheckboxes.forEach(cb => cb.addEventListener('change', filterMonsters));
         typeCheckboxes.forEach(cb => cb.addEventListener('change', filterMonsters));
+        locationCheckboxes.forEach(cb => cb.addEventListener('change', filterMonsters));
     </script>
 </body>
 </html>
