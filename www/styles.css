@@ -1,0 +1,57 @@
+/* Mobile-first (1 colonne)  */
+body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+.container { display: flex; flex-direction: column; padding: 20px; }
+
+/* Desktop (plusieurs colonnes)  */
+@media (min-width: 768px) {
+    .container { flex-direction: row; flex-wrap: wrap; gap: 20px; }
+}
+
+/* --- LE CONTENEUR PRINCIPAL --- */
+.container {
+    max-width: 1200px; /* Largeur max pour ne pas que les cases s'étalent trop */
+    margin: 0 auto;    /* C'est CE réglage qui centre tout le bloc au milieu */
+    padding: 20px;
+    text-align: center; /* Centre aussi les titres <h2> s'il y en a */
+}
+
+/* --- LA GRILLE DES MONSTRES --- */
+.monsters-grid {
+    display: grid;
+    gap: 20px;
+    /* justify-content centre les colonnes si elles ne prennent pas toute la largeur */
+    justify-content: center; 
+    padding: 20px 0;
+    
+    /* Mobile : 2 colonnes par défaut pour plus de visibilité */
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* Tablette : 3 colonnes */
+@media (min-width: 768px) {
+    .monsters-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Desktop : tes 5 colonnes centrées */
+@media (min-width: 1024px) {
+    .monsters-grid {
+        /* On utilise 'auto' au lieu de '1fr' si on veut que les cases 
+           gardent une taille fixe et restent centrées même s'il y en a peu */
+        grid-template-columns: repeat(5, minmax(150px, 200px));
+    }
+}
+
+/* --- STYLE DES CASES --- */
+.monster-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    /* Pour que le texte à l'intérieur de la case soit centré */
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}

@@ -1,8 +1,0 @@
-/* Mobile-first (1 colonne)  */
-body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-.container { display: flex; flex-direction: column; padding: 20px; }
-
-/* Desktop (plusieurs colonnes)  */
-@media (min-width: 768px) {
-    .container { flex-direction: row; flex-wrap: wrap; gap: 20px; }
-}

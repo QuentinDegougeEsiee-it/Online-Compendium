@@ -1,48 +1,40 @@
-<?php
-// On inclut la connexion à la base de données
-require_once 'db_connect.php';
-
-// On prépare et exécute la requête pour récupérer tous les monstres
-try {
-    $sql = "SELECT * FROM monsters ORDER BY name ASC";
-    $stmt = $pdo->query($sql);
-    $monsters = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Erreur lors de la récupération des données : " . $e->getMessage());
-}
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compendium Monster Hunter</title>
+    <title>Compendium Monster Hunter - Accueil</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="site-header">
-        <h1>Compendium Monster Hunter</h1>
-        <p>Bienvenue sur l'encyclopédie de la Commission de Recherche</p>
+        <h1>Commission de Recherche</h1>
+        <p>Encyclopédie officielle des monstres</p>
     </header>
 
     <main class="container">
-        <h2>Liste des Monstres</h2>
-        
-        <div class="monster-grid">
-            <?php if (!empty($monsters)): ?>
-                <?php foreach ($monsters as $monster): ?>
-                    <article class="monster-card">
-                        <h3><?= htmlspecialchars($monster['name']) ?></h3>
-                        <p class="category">Espèce : <?= htmlspecialchars($monster['category']) ?></p>
-                        <p class="desc"><?= htmlspecialchars($monster['description']) ?></p>
-                        <a href="details.php?id=<?= $monster['id'] ?>" class="btn">Voir les détails</a>
+        <section class="category-selection">
+            <h2>Explorer par catégorie</h2>
+            
+            <div class="category-grid">
+                <a href="monsters.php?cat=large" class="category-link">
+                    <article class="category-card">
+                        <div class="category-icon">
+                            <img src="assets/img/monsters/large/rathalos.png" alt="Icone Rathalos" onerror="this.src='img/placeholder.png';">
+                        </div>
+                        <div class="category-info">
+                            <h3>Large Monsters</h3>
+                            <p>Découvrir les prédateurs apex</p>
+                        </div>
                     </article>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>Aucun monstre trouvé dans la base de données.</p>
-            <?php endif; ?>
-        </div>
+                </a>
+
+                </div>
+        </section>
     </main>
+
+    <footer class="site-footer">
+        <p>© 2026 - Projet EC Web - Monster Hunter Compendium</p>
+    </footer>
 </body>
 </html>

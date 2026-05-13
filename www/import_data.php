@@ -20,10 +20,10 @@ if ($monsters === null) {
 
 // 3. Préparer la requête SQL d'insertion
 // L'utilisation de "ON DUPLICATE KEY UPDATE" permet de relancer le script sans créer de doublons
-$sql = "INSERT INTO monsters (id, name, species, description) 
-        VALUES (:id, :name, :species, :description)
+$sql = "INSERT INTO monsters (id, name, category, description) 
+        VALUES (:id, :name, :category, :description)
         ON DUPLICATE KEY UPDATE 
-        name = :name, species = :species, description = :description";
+        name = :name, category = :category, description = :description";
 
 $stmt = $pdo->prepare($sql);
 
@@ -39,7 +39,7 @@ foreach ($monsters as $monster) {
         $stmt->execute([
             ':id'          => $monster['id'],
             ':name'        => $monster['name'],
-            ':species'     => $monster['species'] ?? 'Inconnu', // Valeur par défaut si vide
+            ':category'     => $monster['species'] ?? 'Inconnu', // Valeur par défaut si vide
             ':description' => $monster['description'] ?? 'Pas de description'
         ]);
         
