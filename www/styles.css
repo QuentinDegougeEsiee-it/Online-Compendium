@@ -207,3 +207,126 @@ body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
     margin-right: 10px;
     object-fit: contain;
 }
+
+/* --- MESSAGE AUCUN RESULTAT --- */
+.hidden-message {
+    display: none; /* Caché par défaut */
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* =========================================
+   PAGE DETAILS MONSTRE (details.php)
+   ========================================= */
+
+.monster-detail-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column; /* Sur mobile : image en haut, texte en bas */
+    align-items: center;
+    gap: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Sur écran PC/Tablette : Image à gauche, texte à droite */
+@media (min-width: 768px) {
+    .monster-detail-card {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+}
+
+.monster-detail-icon {
+    flex: 0 0 200px;
+    display: flex;
+    justify-content: center;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid #eee;
+}
+
+.monster-detail-icon img {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    object-fit: contain;
+}
+
+.monster-detail-info {
+    flex: 1;
+    text-align: left;
+    width: 100%;
+}
+
+.monster-detail-info h2 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 2rem;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.badges-container {
+    margin-bottom: 20px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: white;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+.species-badge { background-color: #34495e; }
+.type-badge { background-color: #e67e22; }
+
+.description-text {
+    line-height: 1.6;
+    color: #444;
+    font-size: 1.05rem;
+    margin-bottom: 25px;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+@media (min-width: 500px) {
+    .details-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.detail-block h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+    color: #2c3e50;
+}
+
+.detail-block p {
+    margin: 0;
+    color: #555;
+    font-style: italic;
+}
