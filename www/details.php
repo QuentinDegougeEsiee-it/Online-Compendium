@@ -54,9 +54,41 @@ if (!file_exists($imgFinale)) {
             </div>
 
             <div id="info" class="tab-content active">
-                <h3>Description Générale</h3>
-                <p><?= nl2br(htmlspecialchars($monster['description'])) ?></p>
-                </div>
+                <section class="info-block">
+                    <h3>Description </h3>
+                    <p><?= nl2br(htmlspecialchars($monster['description'])) ?></p>
+                </section>
+
+                <section class="info-block" style="margin-top: 25px;">
+                    <h3>Habitat</h3>
+                    <div class="locations-grid">
+                        <?php 
+                        if (!empty($monster['locations'])) {
+                            $locs = explode(',', $monster['locations']);
+                            foreach ($locs as $loc) {
+                                $locName = trim($loc);
+                                
+                                // Formatage du nom de fichier (ex: Ancient_Forest)
+                                $fileName = ucwords($locName);
+                                $fileName = str_replace("'", "", $fileName);
+                                $fileName = str_replace(' ', '_', $fileName);
+                                
+                                // Nom d'affichage (ex: Ancient Forest)
+                                $displayName = ucwords($locName);
+                                ?>
+                                <div class="loc-item">
+                                    <img src="assets/img/locations/<?= $fileName ?>.png" alt="<?= htmlspecialchars($displayName) ?>" class="loc-img">
+                                    <span class="loc-name"><?= htmlspecialchars($displayName) ?></span>
+                                </div>
+                                <?php
+                            }
+                        } else {
+                            echo "<em>UNKNOWN</em>";
+                        }
+                        ?>
+                    </div>
+                </section>
+            </div>
 
             <div id="fight" class="tab-content">
                 <h3>Stratégies de Combat</h3>
