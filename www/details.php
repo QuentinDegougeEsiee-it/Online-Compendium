@@ -1,48 +1,32 @@
 <?php
-// Connexion à la base de données
 require_once 'db_connect.php';
 
-// 1. On récupère l'ID envoyé dans l'URL
 $id = $_GET['id'] ?? null;
-
-// Si aucun ID n'est fourni, on arrête tout
-if (!$id) {
-    die("Aucun monstre sélectionné. <a href='monsters.php'>Retour au bestiaire</a>");
-}
+if (!$id) { header('Location: monsters.php'); exit; }
 
 try {
-    // 2. On prépare la requête pour chercher ce monstre précis
-    // On utilise :id pour se protéger des injections SQL !
     $sql = "SELECT * FROM monsters WHERE id = :id";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':id' => $id]);
-    
-    // On récupère la ligne du monstre
     $monster = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Si l'ID ne correspond à aucun monstre dans la base
-    if (!$monster) {
-        die("Monstre introuvable. <a href='monsters.php'>Retour au bestiaire</a>");
-    }
+    if (!$monster) { die("Monstre introuvable."); }
 } catch (PDOException $e) {
     die("Erreur : " . $e->getMessage());
 }
 
-// 3. Préparation de l'icône (On reprend la même logique sécurisée que la grille)
+// Logique d'icône identique au bestiaire
 $nomBase = str_replace(' ', '_', $monster['name']);
 $nomBase = str_replace("'", "", $nomBase);
 if ($nomBase === "Silver_Rathian") $nomBase = "Silver_Rathalos";
 if ($nomBase === "Kestodon") $nomBase = "Kestodon_Male";
 if ($nomBase === "Nightshade_Paolomu") $nomBase = "Nightshade_Paolumu";
 
-$cheminMHW = "assets/img/monsters/MHW-" . $nomBase . "_Icon.png";
-$cheminMHWI = "assets/img/monsters/MHWI-" . $nomBase . "_Icon.png";
-
-if (file_exists($cheminMHW)) {
-    $imgFinale = $cheminMHW;
-} elseif (file_exists($cheminMHWI)) {
-    $imgFinale = $cheminMHWI;
-} else {
+$imgFinale = "assets/img/monsters/MHW-" . $nomBase . "_Icon.png";
+if (!file_exists($imgFinale)) {
+    $imgFinale = "assets/img/monsters/MHWI-" . $nomBase . "_Icon.png";
+}
+if (!file_exists($imgFinale)) {
     $imgFinale = "assets/img/monsters/MHW-Rathalos_Icon.png"; 
 }
 ?>
@@ -52,56 +36,73 @@ if (file_exists($cheminMHW)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($monster['name']) ?> - Compendium</title>
-    <link rel="stylesheet" href="styles.css?v=4">
+    <title><?= htmlspecialchars($monster['name']) ?> - Détails</title>
+    <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
     <header class="site-header">
-        <h1>Fiche du Monstre</h1>
-        <nav>
-            <a href="monsters.php">Retour au bestiaire</a>
-        </nav>
+        <h1>Compendium de Recherche</h1>
+        <nav><a href="monsters.php">Retour au Bestiaire</a></nav>
     </header>
 
-    <main class="container">
-        <article class="monster-detail-card">
-            
-            <div class="monster-detail-icon">
-                <img src="<?= $imgFinale ?>" alt="Icône de <?= htmlspecialchars($monster['name']) ?>">
+    <main class="container-detail">
+        <section class="detail-main">
+            <div class="tabs-header">
+                <button class="tab-link active" data-tab="info">Information</button>
+                <button class="tab-link" data-tab="fight">Fight</button>
+                <button class="tab-link" data-tab="reward">Reward</button>
             </div>
 
-            <div class="monster-detail-info">
-                <h2><?= htmlspecialchars($monster['name']) ?></h2>
+            <div id="info" class="tab-content active">
+                <h3>Description Générale</h3>
+                <p><?= nl2br(htmlspecialchars($monster['description'])) ?></p>
+                </div>
+
+            <div id="fight" class="tab-content">
+                <h3>Stratégies de Combat</h3>
+                <p>Contenu à venir...</p>
+            </div>
+
+            <div id="reward" class="tab-content">
+                <h3>Récompenses de chasse</h3>
+                <p>Contenu à venir...</p>
+            </div>
+        </section>
+
+        <aside class="detail-sidebar">
+            <div class="monster-id-card">
+                <h2 class="monster-id-name"><strong><?= htmlspecialchars($monster['name']) ?></strong></h2>
                 
-                <div class="badges-container">
-                    <?php if (!empty($monster['category'])): ?>
-                        <span class="badge species-badge"><?= htmlspecialchars(ucfirst($monster['category'])) ?></span>
-                    <?php endif; ?>
+                <div class="monster-id-icon">
+                    <img src="<?= $imgFinale ?>" alt="Icone">
+                </div>
+
+                <div class="monster-id-stats">
+                    <p class="stat-line"><span>Size:</span> <?= htmlspecialchars(ucfirst($monster['type'])) ?></p>
+                    <p class="stat-line"><span>Category:</span> <?= htmlspecialchars(ucfirst($monster['category'])) ?></p>
                     
-                    <?php if (!empty($monster['type'])): ?>
-                        <span class="badge type-badge"><?= htmlspecialchars(ucfirst($monster['type'])) ?> Monster</span>
-                    <?php endif; ?>
-                </div>
-
-                <h3>Description</h3>
-                <p class="description-text">
-                    <?= nl2br(htmlspecialchars($monster['description'])) ?>
-                </p>
-
-                <div class="details-grid">
-                    <div class="detail-block">
-                        <h3>Éléments</h3>
-                        <p><?= !empty($monster['elements']) ? htmlspecialchars(ucfirst($monster['elements'])) : 'None' ?></p>
-                    </div>
-
-                    <div class="detail-block">
-                        <h3>Habitats principaux</h3>
-                        <p><?= !empty($monster['locations']) ? htmlspecialchars(ucfirst($monster['locations'])) : 'Unknown' ?></p>
+                    <div class="stat-line elements-line">
+                        <span>Elements:</span>
+                        <div class="elements-icons">
+                            <?php 
+                            if (!empty($monster['elements'])) {
+                                $elements = explode(',', $monster['elements']);
+                                foreach ($elements as $el) {
+                                    $el = trim(strtolower($el)); // Assure que fire, water, etc. soient en minuscules
+                                    // On affiche l'image correspondante
+                                    echo "<img src='assets/img/elements/{$el}.png' alt='{$el}' title='".ucfirst($el)."' class='el-icon'>";
+                                }
+                            } else {
+                                echo "<em>None</em>";
+                            }
+                            ?>
+                        </div>
                     </div>
                 </div>
-
             </div>
-        </article>
+        </aside>
     </main>
+
+    <script src="details.js"></script>
 </body>
 </html>

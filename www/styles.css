@@ -330,3 +330,153 @@ body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
     color: #555;
     font-style: italic;
 }
+/* --- LAYOUT PAGE DETAIL --- */
+.container-detail {
+    max-width: 1100px;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column; /* Mobile first */
+    gap: 30px;
+    padding: 0 20px;
+}
+
+@media (min-width: 900px) {
+    .container-detail {
+        flex-direction: row; /* Desktop : deux colonnes */
+        align-items: flex-start;
+    }
+}
+
+/* --- COLONNE GAUCHE (ONGLETS) --- */
+.detail-main {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabs-header {
+    display: flex;
+    background: #f4f4f4;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab-link {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: #666;
+    transition: 0.3s;
+}
+
+.tab-link.active {
+    background: #fff;
+    color: #2c3e50;
+    border-bottom: 3px solid #2c3e50;
+}
+
+.tab-content {
+    display: none;
+    padding: 25px;
+    text-align: left;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* --- COLONNE DROITE (CARTE) --- */
+.detail-sidebar {
+    width: 100%;
+}
+
+@media (min-width: 900px) {
+    .detail-sidebar {
+        width: 300px; /* Taille fixe à droite sur PC */
+    }
+}
+
+.monster-id-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.monster-id-name {
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-size: 1.5rem;
+}
+
+.monster-id-icon img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 15px;
+}
+
+.monster-id-stats {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    text-align: left;
+}
+
+.stat-line {
+    margin: 5px 0;
+    font-size: 0.95rem;
+}
+
+.stat-line span {
+    font-weight: bold;
+    color: #777;
+    width: 80px;
+    display: inline-block;
+}
+
+.monster-id-elements {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* --- ALIGNEMENT DES ELEMENTS DANS LA CARTE --- */
+.elements-line {
+    display: flex;
+    align-items: flex-start; /* Aligne le texte en haut pour que ce soit joli avec plusieurs lignes */
+    margin-top: 15px;
+}
+
+.elements-line span {
+    margin-top: 8px; /* Décale un peu le mot "Elements:" vers le bas pour l'aligner avec la première ligne d'icônes */
+    width: 80px; /* On garde la même largeur que "Size:" et "Category:" pour que tout soit aligné */
+    flex-shrink: 0; /* Empêche le texte de s'écraser */
+}
+
+.elements-icons {
+    display: grid;
+    grid-template-columns: repeat(2, max-content); /* Crée exactement 2 colonnes par ligne */
+    gap: 10px; /* L'espace entre les icônes (horizontal et vertical) */
+}
+
+.el-icon {
+    width: 40px; /* On grossit largement l'icône (au lieu de 25px) */
+    height: 40px;
+    object-fit: contain;
+    border-radius: 8px; /* Bords légèrement arrondis au lieu d'un cercle parfait, tu peux remettre 50% si tu préfères un cercle */
+    padding: 5px;
+}
+
+.elements-icons em {
+    margin-top: 8px; /* On donne au texte la même marge qu'au titre "Elements:" */
+    display: inline-block;
+    color: #777; /* Un petit gris discret pour faire plus propre */
+}
