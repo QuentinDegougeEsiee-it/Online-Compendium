@@ -12,33 +12,86 @@ try {
 
     if (!$monster) { die("Monstre introuvable."); }
 
-    // --- RÉCUPÉRATION DES FAIBLESSES (ÉLÉMENTS ET STATUTS) ---
+    // --- RÉCUPÉRATION COMPLÈTE : ÉLÉMENTS, AILMENTS, RÉSISTANCES ET REWARDS ---
     $jsonPath = '../db/mh_db_monsters.json';
     $elementalWeaknesses = [];
     $ailmentWeaknesses = [];
+    $elementalResistances = []; 
+    $ailmentResistances = [];   
+    $carveRewards = []; // Nouveau : Tiroir pour le dépeçage
+    $otherRewards = []; // Nouveau : Tiroir pour le reste
     
     if (file_exists($jsonPath)) {
         $allData = json_decode(file_get_contents($jsonPath), true);
         foreach ($allData as $m) {
             if ($m['id'] == $id) {
-                // Listes des clés pour le tri
                 $elementKeys = ['fire', 'water', 'thunder', 'ice', 'dragon'];
                 $ailmentKeys = ['poison', 'sleep', 'paralysis', 'blast', 'stun'];
                 
+                // 1. Tri des faiblesses
                 if (isset($m['weaknesses'])) {
+                    // ... (Garde ton code existant ici) ...
                     foreach ($m['weaknesses'] as $w) {
                         $cond = !empty($w['condition']) ? $w['condition'] : 'Général';
-                        
                         if (in_array($w['element'], $elementKeys)) {
-                            // C'est un élément
                             $elementalWeaknesses[$cond][] = $w;
                         } elseif (in_array($w['element'], $ailmentKeys)) {
-                            // C'est un ailment (statut)
                             $ailmentWeaknesses[$cond][] = $w;
                         }
                     }
                 }
+
+                // 2. Tri des résistances
+                if (isset($m['resistances'])) {
+                    // ... (Garde ton code existant ici) ...
+                    foreach ($m['resistances'] as $r) {
+                        $cond = !empty($r['condition']) ? $r['condition'] : 'Général';
+                        if (in_array($r['element'], $elementKeys)) {
+                            $elementalResistances[$cond][] = $r;
+                        } elseif (in_array($r['element'], $ailmentKeys)) {
+                            $ailmentResistances[$cond][] = $r;
+                        }
+                    }
+                }
+
+                // 3. NOUVEAU : Tri des Récompenses (Rewards)
+                if (!empty($m['rewards'])) {
+                    foreach ($m['rewards'] as $rew) {
+                        $itemName = $rew['item']['name'];
+                        foreach ($rew['conditions'] as $cond) {
+                            $entry = [
+                                'name' => $itemName,
+                                'chance' => $cond['chance'],
+                                'rank' => $cond['rank'],
+                                'type' => $cond['type'],
+                                'subtype' => $cond['subtype']
+                            ];
+                            
+                            // Si c'est du dépeçage (carve), on garde le 1er tiroir simple
+                            if ($cond['type'] === 'carve') {
+                                $carveRewards[] = $entry;
+                            } else {
+                                // Pour les autres, on crée des sous-tiroirs : [rang][type]
+                                $rank = strtolower($cond['rank']);
+                                $type = strtolower($cond['type']);
+                                $otherRewards[$rank][$type][] = $entry;
+                            }
+                        }
+                    }
+                }
                 break;
+            }
+        }
+    }
+    
+    // 4. On trie le dépeçage par probabilité
+    usort($carveRewards, function($a, $b) { return $b['chance'] <=> $a['chance']; });
+    
+    // 5. On trie chaque sous-tiroir des autres récompenses par probabilité
+    if (!empty($otherRewards)) {
+        foreach ($otherRewards as $rank => &$types) {
+            foreach ($types as $type => &$rewardsList) {
+                usort($rewardsList, function($a, $b) { return $b['chance'] <=> $a['chance']; });
             }
         }
     }
@@ -82,11 +135,11 @@ if (!file_exists($imgFinale)) { $imgFinale = "assets/img/monsters/MHW-Rathalos_I
 
             <div id="info" class="tab-content active">
                 <section class="info-block">
-                    <h3>Description Générale</h3>
+                    <h3>Description</h3>
                     <p><?= nl2br(htmlspecialchars($monster['description'])) ?></p>
                 </section>
-                <section class="info-block" style="margin-top: 25px;">
-                    <h3>Habitats & Écologie</h3>
+                <section class="info-block">
+                    <h3>Habitat</h3>
                     <div class="locations-grid">
                         <?php 
                         if (!empty($monster['locations'])) {
@@ -96,7 +149,7 @@ if (!file_exists($imgFinale)) { $imgFinale = "assets/img/monsters/MHW-Rathalos_I
                                 $f = str_replace([' ',"'"], ['_',''], ucwords($l));
                                 echo "<div class='loc-item'><img src='assets/img/locations/{$f}.png' class='loc-img'><span class='loc-name'>".ucwords($l)."</span></div>";
                             }
-                        } else { echo "<em>Aucun habitat répertorié.</em>"; }
+                        } else { echo "<em>UNKNOWN</em>"; }
                         ?>
                     </div>
                 </section>
@@ -107,18 +160,64 @@ if (!file_exists($imgFinale)) { $imgFinale = "assets/img/monsters/MHW-Rathalos_I
                     <h3>ELEMENTAL WEAKNESSES</h3>
                     <?php if (!empty($elementalWeaknesses)): ?>
                         <?php foreach ($elementalWeaknesses as $condition => $weaks): ?>
+                            <?php if ($condition !== 'Général'): ?><h4 class="weakness-condition"><?= htmlspecialchars(ucfirst($condition)) ?></h4><?php endif; ?>
+                            <div class="weakness-grid">
+                                <?php foreach ($weaks as $w): ?>
+                                    <div class="weakness-item">
+                                        <img src="assets/img/elements/<?= $w['element'] ?>.png" class="weakness-el-icon">
+                                        <div class="stars-container">
+                                            <?php for($i=0; $i < $w['stars']; $i++): ?><img src="assets/img/star.png" class="weakness-star"><?php endfor; ?>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?><p class="unknown-text"><em>Unknown</em></p><?php endif; ?>
+                </section>
+
+                <section class="fight-block">
+                    <h3>AILMENT WEAKNESSES</h3>
+                    <?php if (!empty($ailmentWeaknesses)): ?>
+                        <?php foreach ($ailmentWeaknesses as $condition => $weaks): ?>
+                            <?php if ($condition !== 'Général'): ?><h4 class="weakness-condition"><?= htmlspecialchars(ucfirst($condition)) ?></h4><?php endif; ?>
+                            <div class="weakness-grid">
+                                <?php foreach ($weaks as $w): ?>
+                                    <div class="weakness-item">
+                                        <img src="assets/img/elements/<?= $w['element'] ?>.png" class="weakness-el-icon">
+                                        <div class="stars-container">
+                                            <?php for($i=0; $i < $w['stars']; $i++): ?><img src="assets/img/star.png" class="weakness-star"><?php endfor; ?>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?><p class="unknown-text"><em>Unknown</em></p><?php endif; ?>
+                </section>
+
+                <hr class="fight-separator">
+
+                <section class="fight-block">
+                    <h3>ELEMENTAL RESISTANCES</h3>
+                    <?php if (!empty($elementalResistances)): ?>
+                        <?php foreach ($elementalResistances as $condition => $res): ?>
                             <?php if ($condition !== 'Général'): ?>
                                 <h4 class="weakness-condition"><?= htmlspecialchars(ucfirst($condition)) ?></h4>
                             <?php endif; ?>
 
                             <div class="weakness-grid">
-                                <?php foreach ($weaks as $w): ?>
+                                <?php foreach ($res as $r): ?>
                                     <div class="weakness-item">
-                                        <img src="assets/img/elements/<?= $w['element'] ?>.png" alt="<?= $w['element'] ?>" class="weakness-el-icon">
+                                        <img src="assets/img/elements/<?= $r['element'] ?>.png" class="weakness-el-icon">
                                         <div class="stars-container">
-                                            <?php for($i=0; $i < $w['stars']; $i++): ?>
-                                                <img src="assets/img/star.png" alt="star" class="weakness-star">
-                                            <?php endfor; ?>
+                                            <?php if (stripos($condition, 'immune') !== false || (isset($r['condition']) && stripos($r['condition'], 'immune') !== false)): ?>
+                                                <img src="assets/img/cross.png" alt="Immune" class="weakness-cross">
+                                            <?php else: ?>
+                                                <?php 
+                                                $stars = isset($r['stars']) ? $r['stars'] : 1; 
+                                                for($i=0; $i < $stars; $i++): ?>
+                                                    <img src="assets/img/star.png" alt="star" class="weakness-star">
+                                                <?php endfor; ?>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
@@ -129,22 +228,28 @@ if (!file_exists($imgFinale)) { $imgFinale = "assets/img/monsters/MHW-Rathalos_I
                     <?php endif; ?>
                 </section>
 
-                <section class="fight-block" style="margin-top: 40px;">
-                    <h3>AILMENT WEAKNESSES</h3>
-                    <?php if (!empty($ailmentWeaknesses)): ?>
-                        <?php foreach ($ailmentWeaknesses as $condition => $weaks): ?>
+                <section class="fight-block">
+                    <h3>AILMENT RESISTANCES</h3>
+                    <?php if (!empty($ailmentResistances)): ?>
+                        <?php foreach ($ailmentResistances as $condition => $res): ?>
                             <?php if ($condition !== 'Général'): ?>
                                 <h4 class="weakness-condition"><?= htmlspecialchars(ucfirst($condition)) ?></h4>
                             <?php endif; ?>
 
                             <div class="weakness-grid">
-                                <?php foreach ($weaks as $w): ?>
+                                <?php foreach ($res as $r): ?>
                                     <div class="weakness-item">
-                                        <img src="assets/img/elements/<?= $w['element'] ?>.png" alt="<?= $w['element'] ?>" class="weakness-el-icon">
+                                        <img src="assets/img/elements/<?= $r['element'] ?>.png" class="weakness-el-icon">
                                         <div class="stars-container">
-                                            <?php for($i=0; $i < $w['stars']; $i++): ?>
-                                                <img src="assets/img/star.png" alt="star" class="weakness-star">
-                                            <?php endfor; ?>
+                                            <?php if (stripos($condition, 'immune') !== false || (isset($r['condition']) && stripos($r['condition'], 'immune') !== false)): ?>
+                                                <img src="assets/img/cross.png" alt="Immune" class="weakness-cross">
+                                            <?php else: ?>
+                                                <?php 
+                                                $stars = isset($r['stars']) ? $r['stars'] : 1; 
+                                                for($i=0; $i < $stars; $i++): ?>
+                                                    <img src="assets/img/star.png" alt="star" class="weakness-star">
+                                                <?php endfor; ?>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
@@ -155,10 +260,98 @@ if (!file_exists($imgFinale)) { $imgFinale = "assets/img/monsters/MHW-Rathalos_I
                     <?php endif; ?>
                 </section>
             </div>
-
             <div id="reward" class="tab-content">
-                <h3>Récompenses de chasse</h3>
-                <p>Contenu à venir...</p>
+                
+                <section class="reward-block">
+                    <h3>CARVE REWARDS</h3>
+                    <?php if (!empty($carveRewards)): ?>
+                        <div class="reward-list">
+                            <?php foreach ($carveRewards as $r): ?>
+                                <div class="reward-row">
+                                    <div class="reward-info">
+                                        <span class="reward-name"><?= htmlspecialchars($r['name']) ?></span>
+                                        <span class="reward-meta">
+                                            <?= ucfirst($r['rank']) ?> Rank 
+                                            <?= !empty($r['subtype']) ? '- ' . ucfirst($r['subtype']) : '' ?>
+                                        </span>
+                                    </div>
+                                    <div class="reward-stars">
+                                        <?php 
+                                        $c = $r['chance'];
+                                        $stars = ($c >= 40) ? 5 : (($c >= 25) ? 4 : (($c >= 15) ? 3 : (($c >= 6) ? 2 : 1)));
+                                        for ($i = 0; $i < $stars; $i++): ?>
+                                            <img src="assets/img/star.png" class="weakness-star">
+                                        <?php endfor; ?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else: ?>
+                        <p class="unknown-text"><em>Aucune donnée de dépeçage disponible.</em></p>
+                    <?php endif; ?>
+                </section>
+
+                <hr class="fight-separator">
+
+                <section class="reward-block">
+                    <h3>OTHER REWARDS</h3>
+                    <?php if (!empty($otherRewards)): ?>
+                        <?php 
+                        // Ordre forcé pour l'affichage des rangs
+                        $rankOrder = ['low', 'high', 'master'];
+                        
+                        // Beaux noms pour les catégories
+                        $typeNames = [
+                            'reward' => 'Quest Reward',
+                            'investigation' => 'Investigation',
+                            'wound' => 'Wound / Break',
+                            'palico' => 'Palico',
+                            'shiny' => 'Dropped (Shiny)',
+                            'plunderblade' => 'Plunderblade',
+                            'track' => 'Tracks'
+                        ];
+
+                        foreach ($rankOrder as $r): 
+                            // S'il n'y a pas de récompense pour ce rang, on passe au suivant
+                            if (!isset($otherRewards[$r])) continue;
+                        ?>
+                            <h4 class="reward-rank-title"><?= ucfirst($r) ?> Rank</h4>
+                            
+                            <?php foreach ($otherRewards[$r] as $t => $rewardsList): ?>
+                                
+                                <h5 class="reward-type-title">
+                                    <?= isset($typeNames[$t]) ? $typeNames[$t] : ucfirst($t) ?>
+                                </h5>
+
+                                <div class="reward-list">
+                                    <?php foreach ($rewardsList as $rw): ?>
+                                        <div class="reward-row">
+                                            <div class="reward-info">
+                                                <span class="reward-name"><?= htmlspecialchars($rw['name']) ?></span>
+                                                <span class="reward-meta">
+                                                    <?= !empty($rw['subtype']) ? htmlspecialchars(ucfirst($rw['subtype'])) : 'General' ?> 
+                                                    - <?= $rw['chance'] ?>%
+                                                </span>
+                                            </div>
+                                            <div class="reward-stars">
+                                                <?php 
+                                                $c = $rw['chance'];
+                                                $stars = ($c >= 40) ? 5 : (($c >= 25) ? 4 : (($c >= 15) ? 3 : (($c >= 6) ? 2 : 1)));
+                                                for ($i = 0; $i < $stars; $i++): ?>
+                                                    <img src="assets/img/star.png" class="weakness-star">
+                                                <?php endfor; ?>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                                
+                            <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p class="unknown-text"><em>Aucune autre récompense disponible.</em></p>
+                    <?php endif; ?>
+                </section>
+
             </div>
         </section>
 

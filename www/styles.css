@@ -552,9 +552,10 @@ body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
 .stars-container {
     display: flex;
     justify-content: center;
+    align-items: center;
+    min-height: 20px; /* Assure un alignement constant que ce soit des étoiles ou du texte */
     gap: 2px;
 }
-
 .weakness-star {
     width: 15px; /* Ajuste la taille de ton étoile ici */
     height: 15px;
@@ -580,4 +581,135 @@ body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
     font-size: 1.1rem;
     margin-top: 15px;
     letter-spacing: 1px;
+}
+/* --- TEXTES DE RÉSISTANCE (Remplace les étoiles) --- */
+.resist-text {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #7f8c8d; /* Un gris neutre pour les résistances classiques */
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+}
+
+.immune-text {
+    color: #e74c3c; /* Un rouge vif pour marquer l'immunité totale ! */
+}
+
+/* --- CROIX ROUGE D'IMMUNITÉ --- */
+.weakness-cross {
+    width: 15px; /* Même taille que .weakness-star */
+    height: 15px;
+    object-fit: contain;
+}
+
+/* --- ESPACEMENTS AUTOMATIQUES DES BLOCS (Onglets Info & Fight) --- */
+
+/* Dès qu'un info-block suit un autre info-block, on l'écarte de 25px */
+.info-block + .info-block {
+    margin-top: 25px;
+}
+
+/* Dès qu'un fight-block suit un autre fight-block, on l'écarte de 40px */
+.fight-block + .fight-block {
+    margin-top: 40px;
+}
+
+/* Si un fight-block suit directement notre séparateur (VS), on ne met 
+   pas de marge car le séparateur a déjà une grande marge de 60px */
+.fight-separator + .fight-block {
+    margin-top: 0;
+}
+
+/* --- SÉPARATEUR ENTRE FAIBLESSES ET RÉSISTANCES --- */
+.fight-separator {
+    border: none;
+    height: 2px;
+    background-color: #dcdde1; /* Couleur gris clair pour la ligne */
+    margin: 50px 0; /* Ajoute un grand espace au-dessus et en dessous */
+    position: relative;
+    overflow: visible;
+}
+
+/* Le petit macaron "VS" stylisé au milieu de la ligne */
+.fight-separator::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff; /* Même couleur que le fond de la page */
+    padding: 0 15px;
+    color: #a4b0be;
+    font-weight: bold;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+}
+
+/* --- ONGLET REWARD --- */
+.reward-block h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.reward-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espace entre chaque ligne de récompense */
+}
+
+.reward-row {
+    display: flex;
+    justify-content: space-between; /* Pousse le texte à gauche et les étoiles à droite */
+    align-items: center;
+    background: #fdfdfd;
+    padding: 12px 15px;
+    border-radius: 6px;
+    border: 1px solid #eee;
+    transition: background 0.2s;
+}
+
+.reward-row:hover {
+    background: #f1f4f8; /* Petit effet au survol de la souris */
+}
+
+.reward-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.reward-name {
+    font-weight: bold;
+    color: #333;
+    font-size: 1.05rem;
+}
+
+.reward-meta {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    margin-top: 4px;
+}
+
+.reward-stars {
+    display: flex;
+    gap: 2px;
+}
+/* --- SOUS-TITRES DE L'ONGLET REWARD --- */
+.reward-rank-title {
+    color: #e67e22; /* Orange Monster Hunter */
+    font-size: 1.3rem;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #e67e22;
+    padding-bottom: 5px;
+}
+
+.reward-type-title {
+    color: #34495e;
+    font-size: 1.05rem;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-left: 4px solid #34495e; /* Petit liseré sur le côté pour le style */
 }
