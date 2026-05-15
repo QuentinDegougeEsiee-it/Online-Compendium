@@ -428,7 +428,7 @@ body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
 }
 
 .stat-line {
-    margin: 5px 0;
+    margin: 25px 0;
     font-size: 0.95rem;
 }
 
@@ -452,7 +452,7 @@ body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
 .elements-line {
     display: flex;
     align-items: flex-start; /* Aligne le texte en haut pour que ce soit joli avec plusieurs lignes */
-    margin-top: 15px;
+    margin-top: 25px;
 }
 
 .elements-line span {
@@ -526,4 +526,58 @@ body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
     font-weight: bold;
     color: #2c3e50;
     line-height: 1.2;
+}
+
+/* --- SECTION WEAKNESS (ONGLET FIGHT) --- */
+.weakness-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.weakness-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px;
+}
+
+.weakness-el-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+}
+
+.stars-container {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+}
+
+.weakness-star {
+    width: 15px; /* Ajuste la taille de ton étoile ici */
+    height: 15px;
+}
+/* --- SOUS-TITRE DES CONDITIONS DE FAIBLESSE --- */
+.weakness-condition {
+    color: #e67e22; /* Un orange pour bien détacher la condition */
+    margin-top: 25px;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+    border-bottom: 1px dashed #ddd;
+    padding-bottom: 5px;
+}
+
+/* Si la grille suit directement un sous-titre, on réduit un peu l'espace au-dessus */
+.weakness-condition + .weakness-grid {
+    margin-top: 10px;
+}
+
+/* --- TEXTE UNKNOWN --- */
+.unknown-text {
+    color: #95a5a6;
+    font-size: 1.1rem;
+    margin-top: 15px;
+    letter-spacing: 1px;
 }

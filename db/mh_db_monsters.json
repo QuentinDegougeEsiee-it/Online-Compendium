@@ -9458,17 +9458,7 @@
         ],
         "weaknesses": [
             {
-                "element": "dragon",
-                "stars": 3,
-                "condition": "Elderseal"
-            },
-            {
-                "element": "ice",
-                "stars": 2,
-                "condition": null
-            },
-            {
-                "element": "thunder",
+                "element": "fire",
                 "stars": 2,
                 "condition": null
             },
@@ -9478,13 +9468,43 @@
                 "condition": null
             },
             {
-                "element": "fire",
+                "element": "thunder",
+                "stars": 2,
+                "condition": null
+            },
+            {
+                "element": "ice",
                 "stars": 2,
                 "condition": null
             },
             {
                 "element": "dragon",
-                "stars": 2,
+                "stars": 3,
+                "condition": null
+            },
+            {
+                "element": "poison",
+                "stars": 3,
+                "condition": null
+            },
+            {
+                "element": "sleep",
+                "stars": 1,
+                "condition": null
+            },
+            {
+                "element": "paralysis",
+                "stars": 1,
+                "condition": null
+            },
+            {
+                "element": "blast",
+                "stars": 3,
+                "condition": null
+            },
+            {
+                "element": "stun",
+                "stars": 1,
                 "condition": null
             }
         ],
