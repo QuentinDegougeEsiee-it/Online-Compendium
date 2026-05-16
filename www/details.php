@@ -119,10 +119,9 @@ if (!file_exists($imgFinale)) { $imgFinale = "assets/img/monsters/MHW-Rathalos_I
     <link rel="stylesheet" href="styles.css?v=<?= time() ?>">
 </head>
 <body>
-    <header class="site-header">
-        <h1>Compendium de Recherche</h1>
-        <nav><a href="monsters.php">Retour au Bestiaire</a></nav>
-    </header>
+    <?php
+require_once 'partials/header.php';
+?>
 
     <main class="container-detail">
         <section class="detail-main">
@@ -171,7 +170,7 @@ if (!file_exists($imgFinale)) { $imgFinale = "assets/img/monsters/MHW-Rathalos_I
                                 <?php endforeach; ?>
                             </div>
                         <?php endforeach; ?>
-                    <?php else: ?><p class="unknown-text"><em>Unknown</em></p><?php endif; ?>
+                    <?php else: ?><p class="unknown-text"><em>NONE</em></p><?php endif; ?>
                 </section>
 
                 <section class="fight-block">
@@ -190,7 +189,7 @@ if (!file_exists($imgFinale)) { $imgFinale = "assets/img/monsters/MHW-Rathalos_I
                                 <?php endforeach; ?>
                             </div>
                         <?php endforeach; ?>
-                    <?php else: ?><p class="unknown-text"><em>Unknown</em></p><?php endif; ?>
+                    <?php else: ?><p class="unknown-text"><em>NONE</em></p><?php endif; ?>
                 </section>
 
                 <hr class="fight-separator">
@@ -223,7 +222,7 @@ if (!file_exists($imgFinale)) { $imgFinale = "assets/img/monsters/MHW-Rathalos_I
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <p class="unknown-text"><em>Unknown</em></p>
+                        <p class="unknown-text"><em>NONE</em></p>
                     <?php endif; ?>
                 </section>
 
@@ -255,7 +254,7 @@ if (!file_exists($imgFinale)) { $imgFinale = "assets/img/monsters/MHW-Rathalos_I
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <p class="unknown-text"><em>Unknown</em></p>
+                        <p class="unknown-text"><em>NONE</em></p>
                     <?php endif; ?>
                 </section>
             </div>
@@ -302,18 +301,19 @@ if (!file_exists($imgFinale)) { $imgFinale = "assets/img/monsters/MHW-Rathalos_I
                                         <div class="reward-row">
                                             <div class="reward-info">
                                                 <span class="reward-name"><?= htmlspecialchars($rw['name']) ?></span>
-                                                <span class="reward-meta">
-                                                    <?= !empty($rw['subtype']) ? htmlspecialchars(ucfirst($rw['subtype'])) : 'General' ?> 
-                                                    - <?= $rw['chance'] ?>%
-                                                </span>
+                                                <span class="reward-chance"><?= $rw['chance'] ?>%</span>
                                             </div>
-                                            <div class="reward-stars">
-                                                <?php 
-                                                $c = $rw['chance'];
-                                                $stars = ($c >= 40) ? 5 : (($c >= 25) ? 4 : (($c >= 15) ? 3 : (($c >= 6) ? 2 : 1)));
-                                                for ($i = 0; $i < $stars; $i++): ?>
-                                                    <img src="assets/img/star.png" class="weakness-star">
-                                                <?php endfor; ?>
+                                            
+                                            <div class="reward-meta-container">
+                                                <span class="reward-meta"><?= !empty($rw['subtype']) ? htmlspecialchars(ucfirst($rw['subtype'])) : 'General' ?></span>
+                                                <div class="reward-stars">
+                                                    <?php 
+                                                    $c = $rw['chance'];
+                                                    $stars = ($c >= 40) ? 5 : (($c >= 25) ? 4 : (($c >= 15) ? 3 : (($c >= 6) ? 2 : 1)));
+                                                    for ($i = 0; $i < $stars; $i++): ?>
+                                                        <img src="assets/img/star.png" class="weakness-star">
+                                                    <?php endfor; ?>
+                                                </div>
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
@@ -355,4 +355,7 @@ if (!file_exists($imgFinale)) { $imgFinale = "assets/img/monsters/MHW-Rathalos_I
 
     <script src="details.js"></script>
 </body>
+<?php
+require_once 'partials/footer.php';
+?>
 </html>

@@ -12,22 +12,10 @@ try {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des Monstres - Compendium</title>
-    <link rel="stylesheet" href="styles.css?v=<?= time() ?>">
-</head>
-<body>
-    <header class="site-header">
-        <h1>Bestiary</h1>
-        <nav>
-            <a href="index.php">Retour à l'accueil</a>
-        </nav>
-    </header>
-
+<?php
+// Inclusion de l'en-tête global
+require_once 'partials/header.php';
+?>
     <main class="container">
         <div class="search-container">
             <div class="search-form">
@@ -122,5 +110,7 @@ try {
     </main>
 
     <script src="Search.js?v=1"></script>
-</body>
-</html>
+<?php
+// Inclusion du pied de page global
+require_once 'partials/footer.php';
+?>

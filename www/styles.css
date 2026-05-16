@@ -58,19 +58,37 @@ h1, h2, h3, p { margin: 0; }
     background-color: #381f03; 
     border-bottom: 3px solid #804808; /* Assorti aux bordures du panneau */
     padding: 15px 30px; 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
+
 .header-nav-container { 
-    max-width: 1200px; 
-    margin: 0 auto; 
+    /* On retire le max-width: 1200px et le margin: 0 auto pour que ça prenne tout l'écran */
     display: flex; 
-    justify-content: space-between; 
+    justify-content: space-between; /* Pousse les liens à l'extrême gauche, le logo à l'extrême droite */
     align-items: center; 
     width: 100%;
 }
-.nav-logo, .site-header h1 { 
+
+/* Style de la nouvelle zone de navigation à gauche */
+.header-nav-left {
+    display: flex;
+    gap: 25px; /* Espace parfait entre "Home" et "Bestiary" */
+}
+
+.header-nav-left a {
+    color: #ecf0f1; 
+    text-decoration: none; 
+    font-size: 1.15rem; 
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    transition: color 0.2s; 
+}
+
+.header-nav-left a:hover { 
+    color: #f1c40f; /* Devient jaune au survol */
+}
+
+/* Le titre du site (Logo) */
+.nav-logo { 
     color: #f1c40f; 
     font-size: 1.5rem; 
     font-weight: bold; 
@@ -78,16 +96,10 @@ h1, h2, h3, p { margin: 0; }
     text-transform: uppercase; 
     letter-spacing: 1px; 
 }
-.site-header nav a, .main-nav a { 
-    color: #ecf0f1; 
-    text-decoration: none; 
-    font-size: 1.1rem; 
-    margin-left: 20px;
-    transition: color 0.2s; 
+.nav-logo:hover {
+    color: #fff;
 }
-.site-header nav a:hover, .main-nav a:hover { 
-    color: #f1c40f; 
-}
+
 .site-footer { 
     background-color: #1a1a1a; 
     color: #7f8c8d; 
@@ -283,53 +295,282 @@ h1, h2, h3, p { margin: 0; }
 /* ========================================== */
 /* 5. PAGE DÉTAILS (DETAILS.PHP) - PARCHEMIN  */
 /* ========================================== */
-.monster-details-main { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; align-items: flex-start; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-.monster-card { flex: 2; min-width: 300px; background-color: #f7e1b5; border-radius: 8px; box-shadow: 0 20px 40px rgba(0,0,0,0.8); padding: 30px; color: #4a3424; }
-.detail-sidebar { flex: 1; min-width: 250px; }
 
-.details-header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #8c6e5a; padding-bottom: 15px;}
-.details-monster-name { color: #4a3424; font-size: 2.5rem; text-transform: uppercase; font-family: 'Georgia', serif; }
-.details-species { color: #7f6e5a; font-size: 1.2rem; font-style: italic;}
+/* On réutilise l'aspect du grand parchemin central pour la page détails */
+.container-detail {
+    max-width: 1200px;
+    width: 100%; 
+    margin: 0 auto 20px auto; 
+    padding: 40px 30px;
+    background-color: #c5b38f; 
+    color: #1a1a1a; 
+    flex: 1; 
+    border-left: 3px solid #804808; 
+    border-right: 3px solid #804808;
+    border-bottom: 3px solid #804808;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
+    box-sizing: border-box;
+    
+    /* MODIFIÉ : On plaque tout en haut ! */
+    display: flex;
+    flex-wrap: wrap; /* On enlève le wrap-reverse */
+    gap: 40px;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-content: flex-start; /* Force les blocs à rester collés au plafond */
+}
 
-/* Sidebar */
-.monster-id-card { background-color: #f7e1b5; border: 3px solid #804808; box-shadow: 0 15px 30px rgba(0,0,0,0.6); color: #4a3424; border-radius: 8px; padding: 20px; text-align: center;}
-.monster-id-name { color: #4a3424; border-bottom: 2px solid #8c6e5a; padding-bottom: 10px; font-family: 'Georgia', serif;}
-.monster-id-icon img { max-width: 120px; margin: 15px 0; }
-.stat-line { text-align: left; border-bottom: 1px dashed #c0a080; padding: 8px 0;}
-.stat-line span, .elements-line span { color: #7f6e5a; font-weight: bold; }
-.elements-line { text-align: left; padding: 8px 0; }
-.el-icon { width: 25px; vertical-align: middle; margin-right: 5px; }
+/* NOUVEAU : On gère l'ordre sur mobile proprement */
+@media (max-width: 850px) {
+    .container-detail {
+        flex-direction: column-reverse; /* Sur petit écran, la sidebar passera au-dessus */
+    }
+    .detail-sidebar {
+        position: static; /* Annule l'effet qui suit l'écran sur mobile */
+    }
+}
+/* Colonne de gauche (Onglets et Infos) */
+.detail-main {
+    flex: 2;
+    min-width: 300px;
+    text-align: left; /* On aligne le texte à gauche pour faciliter la lecture */
+}
 
-/* Onglets */
-.tabs { display: flex; gap: 10px; border-bottom: 2px solid #8c6e5a; margin-bottom: 20px; justify-content: center; flex-wrap: wrap;}
-.tab-link { background: transparent; border: none; font-size: 1.2rem; padding: 10px 20px; cursor: pointer; color: #a17f65; font-family: 'Georgia', serif; font-weight: bold; transition: color 0.2s;}
-.tab-link:hover { color: #6e4e37; }
-.tab-link.active { background-color: #f7f1e3; color: #4a3424; border-radius: 8px 8px 0 0; border: 3px solid #804808; border-bottom: 2px solid #f7f1e3; margin-bottom: -2px; }
+/* Colonne de droite (Sidebar du monstre) */
+.detail-sidebar {
+    flex: 1;
+    min-width: 280px;
+    max-width: 350px;
+}
+
+/* En-tête des onglets */
+.tabs-header { 
+    display: flex; 
+    gap: 10px; 
+    border-bottom: 3px solid #804808; 
+    margin-bottom: 20px; 
+    justify-content: center; 
+    flex-wrap: wrap;
+}
+
+.tab-link { 
+    background: transparent; 
+    border: none; 
+    font-size: 1.2rem; 
+    padding: 10px 20px; 
+    cursor: pointer; 
+    color: #8c7f6f; 
+    font-family: 'Georgia', serif; 
+    font-weight: bold; 
+    transition: color 0.2s;
+}
+.tab-link:hover { color: #804808; }
+
+.tab-link.active { 
+    background-color: #f7f1e3; /* Parchemin clair */
+    color: #4a3424; 
+    border-radius: 8px 8px 0 0; 
+    border: 3px solid #804808; 
+    border-bottom: 3px solid #f7f1e3; /* Efface la ligne en dessous pour fusionner avec le contenu */
+    margin-bottom: -3px; 
+}
 
 .tab-content { display: none; }
-.tab-content.active { display: block; }
+.tab-content.active { display: block; animation: fadeIn 0.3s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* Panneaux centraux */
-.fight-block, .reward-block { background-color: #f7f1e3; border: 3px solid #804808; border-radius: 8px; padding: 20px; margin-bottom: 30px; box-shadow: inset 0 0 15px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.3); }
-.fight-block h3, .reward-block h3 { font-family: 'Georgia', serif; color: #4a3424; border-bottom: 2px solid #a17f65; padding-bottom: 10px; margin-bottom: 15px;}
+/* Panneaux de contenu (Info, Fight, Reward) */
+.info-block, .fight-block, .reward-block { 
+    background-color: #f7f1e3; 
+    border: 3px solid #804808; 
+    border-radius: 8px; 
+    padding: 25px; 
+    margin-bottom: 30px; 
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.05), 0 5px 15px rgba(0,0,0,0.1); 
+}
 
-/* Faiblesses */
-.weakness-condition { color: #4a3424 !important; font-size: 1.1rem; margin-top: 15px; margin-bottom: 10px; text-decoration: underline;}
-.weakness-grid { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;}
-.weakness-item { display: flex; flex-direction: column; align-items: center; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 5px; border: 1px solid #c0a080;}
-.weakness-el-icon { width: 30px; margin-bottom: 5px;}
-.weakness-star, .weakness-cross { width: 15px; }
+.info-block h3, .fight-block h3, .reward-block h3 { 
+    font-family: 'Georgia', serif; 
+    color: #4a3424; 
+    border-bottom: 2px solid #c0a080; 
+    padding-bottom: 10px; 
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+/* Amélioration de la lisibilité pour la description */
+.info-block p {
+    font-size: 1.2rem; /* Augmente la taille de la police */
+    line-height: 1.6; /* Aère l'espace entre les lignes pour un effet "livre" */
+    color: #2c1e16; /* Un brun très sombre pour un contraste parfait */
+    margin-bottom: 15px; /* Laisse un peu d'espace si jamais il y a plusieurs paragraphes */
+}
 
+/* La Sidebar (ID Card) */
+.monster-id-card { 
+    background-color: #f7f1e3; 
+    border: 3px solid #804808; 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2); 
+    color: #4a3424; 
+    border-radius: 8px; 
+    padding: 25px; 
+    text-align: center;
+    position: sticky; /* Astuce : la carte suivra l'écran quand on descend ! */
+    top: 20px; 
+}
+
+.monster-id-name { 
+    color: #4a3424; 
+    border-bottom: 2px solid #c0a080; 
+    padding-bottom: 15px; 
+    font-family: 'Georgia', serif;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+}
+
+.monster-id-icon img { max-width: 150px; margin: 20px 0; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3)); }
+
+.monster-id-stats { text-align: left; }
+.monster-id-stats { text-align: left; }
+
+/* On grossit le texte des statistiques (Size, Category...) */
+.stat-line { 
+    border-bottom: 1px dashed #c0a080; 
+    padding: 15px 0; /* Un peu plus d'espace vertical */
+    font-size: 1.25rem; /* Police plus grande */
+}
+.stat-line span, .elements-line span { 
+    color: #804808; 
+    font-weight: bold; 
+}
+
+/* On grossit le texte "Elements:" */
+.elements-line { 
+    padding: 15px 0; 
+    font-size: 1.25rem; /* Police plus grande */
+}
+.elements-icons { 
+    margin-top: 12px; 
+    display: flex; 
+    gap: 8px; /* Un peu plus d'espace entre les icônes */
+    flex-wrap: wrap; 
+}
+
+/* On agrandit les icônes d'éléments */
+.el-icon { 
+    width: 52px; /* Icônes beaucoup plus visibles (au lieu de 30px) */
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2)); /* Ajoute un joli petit relief */
+}
+
+/* Faiblesses et Résistances */
+.weakness-condition { 
+    color: #804808 !important; 
+    font-size: 1.2rem; 
+    margin-top: 20px; 
+    margin-bottom: 10px; 
+    font-weight: bold; 
+}
+
+.weakness-grid { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 20px; /* Un peu plus d'espace entre les éléments */
+    margin-bottom: 20px; 
+}
+
+.weakness-item { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    
+    /* MODIFIÉ : On rend le fond transparent et on enlève les bordures/ombres */
+    background: transparent; 
+    padding: 5px; 
+    border: none; 
+    min-width: 50px; 
+    box-shadow: none; 
+}
+
+.weakness-el-icon { 
+    width: 35px; 
+    margin-bottom: 8px; 
+    
+    /* NOUVEAU : On ajoute une petite ombre directement sur l'icône pour la faire ressortir du parchemin */
+    filter: drop-shadow(0 3px 4px rgba(0,0,0,0.3)); 
+}
+
+.weakness-star, .weakness-cross { 
+    width: 18px; 
+    /* Petite ombre sur les étoiles aussi pour la cohérence */
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.4));
+}
+
+.stars-container { 
+    display: flex; 
+    gap: 2px; 
+}
 /* Séparateur VS */
-.fight-separator { border: none; border-top: 3px solid #8c6e5a; margin: 40px 0; position: relative; overflow: visible;}
-.fight-separator::after { content: "VS"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #f7f1e3; padding: 0 15px; color: #8c6e5a; font-weight: bold; font-family: 'Georgia', serif;}
+.fight-separator { border: none; border-top: 3px solid #804808; margin: 50px 0; position: relative; overflow: visible; }
+.fight-separator::after { content: "VS"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #f7f1e3; padding: 0 20px; color: #804808; font-weight: bold; font-family: 'Georgia', serif; font-size: 1.5rem; }
 
 /* Récompenses */
-.reward-rank-title { color: #4a3424 !important; font-size: 1.4rem; font-family: 'Georgia', serif; margin-top: 30px; border-bottom: 2px solid #8c6e5a; padding-bottom: 5px;}
-.reward-type-title { color: #6e4e37 !important; font-size: 1.1rem; margin-top: 15px; margin-bottom: 10px; font-style: italic; border-left: 3px solid #6e4e37; padding-left: 10px;}
-.reward-list { display: flex; flex-direction: column; gap: 10px; }
-.reward-row { display: flex; justify-content: space-between; align-items: center; background-color: #fdfaf3; border: 2px solid #a17f65; padding: 12px 15px; border-radius: 6px; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); transition: background 0.2s, transform 0.2s; }
-.reward-row:hover { background: #fff; transform: translateY(-2px); }
-.reward-name { color: #3d2b1f; font-weight: bold;}
-.reward-meta { color: #8c7f6f; font-size: 0.85rem;}
-.unknown-text { color: #8c7f6f !important; font-style: italic;}
+.reward-rank-title { color: #4a3424 !important; font-size: 1.6rem; font-family: 'Georgia', serif; margin-top: 40px; border-bottom: 3px solid #804808; padding-bottom: 5px; }
+.reward-type-title { color: #804808 !important; font-size: 1.2rem; margin-top: 20px; margin-bottom: 15px; font-style: italic; border-left: 4px solid #804808; padding-left: 10px; }
+.reward-list { display: flex; flex-direction: column; gap: 5px; } /* Moins d'espace pour un effet "liste" */
+
+/* Le nouveau design sans boîte blanche, style ligne de livre */
+.reward-row { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    background-color: transparent; /* Fond transparent */
+    border-bottom: 1px dashed #c0a080; /* Ligne pointillée style vieux papier */
+    padding: 10px 5px; 
+    transition: background 0.2s; 
+}
+
+/* Léger survol pour savoir où on regarde */
+.reward-row:hover { 
+    background-color: rgba(128, 72, 8, 0.05); 
+}
+
+/* Côté Gauche */
+.reward-info { display: flex; align-items: center; gap: 15px; }
+.reward-name { color: #1a1a1a; font-weight: bold; font-size: 1.15rem; }
+.reward-chance { color: #804808; font-weight: bold; font-size: 1rem; }
+
+/* Côté Droit */
+.reward-meta-container { display: flex; align-items: center; gap: 15px; }
+.reward-meta { color: #8c7f6f; font-size: 0.95rem; font-style: italic; }
+
+.unknown-text { color: #8c7f6f !important; font-style: italic; }
+/* Habitats / Locations */
+.locations-grid { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 25px; /* Un peu plus d'espace pour aérer */
+}
+
+.loc-item { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center; 
+    width: 100px; 
+    /* On a supprimé le fond blanc, la bordure, et l'ombre du conteneur ! */
+}
+
+.loc-img { 
+    width: 110px; 
+    height: auto; 
+    object-fit: contain; 
+    margin-bottom: 10px; 
+    /* On a supprimé le border-radius et la bordure marron ! */
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); /* Petite ombre sur l'icône elle-même */
+}
+
+.loc-name { 
+    color: #4a3424; 
+    font-weight: bold; 
+    font-size: 0.95rem; 
+}
