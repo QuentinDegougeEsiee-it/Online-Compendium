@@ -20,11 +20,38 @@ const locationBtn = document.getElementById('locationBtn');
 const locationDropdown = document.getElementById('locationDropdown');
 const locationCheckboxes = document.querySelectorAll('#locationDropdown input[type="checkbox"]');
 
-// Gestion de l'ouverture/fermeture des menus
-elementBtn.addEventListener('click', () => { elementDropdown.classList.toggle('show'); });
-speciesBtn.addEventListener('click', () => { speciesDropdown.classList.toggle('show'); });
-typeBtn.addEventListener('click', () => { typeDropdown.classList.toggle('show'); });
-locationBtn.addEventListener('click', () => { locationDropdown.classList.toggle('show'); });
+// --- NOUVEAU : Gestion de l'ouverture/fermeture des menus (Un seul à la fois) ---
+const allDropdowns = [elementDropdown, speciesDropdown, typeDropdown, locationDropdown];
+
+function toggleDropdown(event, targetDropdown) {
+    event.stopPropagation(); // Empêche le clic de déclencher la fermeture globale
+    
+    // 1. On ferme tous les autres menus
+    allDropdowns.forEach(dropdown => {
+        if (dropdown !== targetDropdown) {
+            dropdown.classList.remove('show');
+        }
+    });
+    
+    // 2. On ouvre ou ferme le menu cliqué
+    targetDropdown.classList.toggle('show');
+}
+
+// On attache la nouvelle fonction aux boutons
+elementBtn.addEventListener('click', (e) => toggleDropdown(e, elementDropdown));
+speciesBtn.addEventListener('click', (e) => toggleDropdown(e, speciesDropdown));
+typeBtn.addEventListener('click', (e) => toggleDropdown(e, typeDropdown));
+locationBtn.addEventListener('click', (e) => toggleDropdown(e, locationDropdown));
+
+// BONUS UX : Fermer les menus si on clique n'importe où ailleurs sur la page
+document.addEventListener('click', () => {
+    allDropdowns.forEach(dropdown => dropdown.classList.remove('show'));
+});
+
+// Sécurité : Ne pas fermer le menu si on clique à l'intérieur (pour cocher une case)
+allDropdowns.forEach(dropdown => {
+    dropdown.addEventListener('click', (e) => e.stopPropagation());
+});
 
 // Fonction de filtrage global
 function filterMonsters() {

@@ -1,46 +1,54 @@
 /* ========================================== */
 /* 1. BASES ET RESET                          */
 /* ========================================== */
+
+html {
+    height: 100%;
+}
+
 body {
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #0f141c; /* Couleur sombre de secours */
+    background-color: #0f141c; 
+    
+    /* LE SECRET EST ICI : On transforme le body en colonne étirable ! */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    
     overflow-y: scroll;
     background-image: url('assets/img/backgrounds/map_background.png'); 
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Reste figée pendant le défilement */
+    background-attachment: fixed; 
     color: #ecf0f1;
 }
-h1, h2, h3, p { margin: 0; }
 
+h1, h2, h3, p { margin: 0; }
 /* LE PANNEAU CENTRAL (BESTIAIRE) */
 .container {
     max-width: 1200px;
     width: 100%; 
     
-    /* MODIFIÉ : Marge de 50px en bas pour laisser voir la carte sous le parchemin */
-    margin: 0 auto 50px auto; 
+    /* MODIFIÉ : Marge de 20px en bas pour frôler le footer (au lieu de 50px) */
+    margin: 0 auto 20px auto; 
     
     padding: 40px 30px;
     text-align: center;
     background-color: #c5b38f; 
     color: #1a1a1a; 
     
-    /* MODIFIÉ : Bordures à gauche, à droite ET en bas */
+    /* NOUVEAU : On réactive l'élastique pour pousser jusqu'au footer */
+    flex: 1; 
+    
     border-left: 3px solid #804808; 
     border-right: 3px solid #804808;
     border-bottom: 3px solid #804808;
-    
-    /* NOUVEAU : Coins arrondis de 15px uniquement en bas (le haut reste droit) */
     border-radius: 0 0 15px 15px;
     
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8); /* L'ombre est accentuée vers le bas */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
     box-sizing: border-box;
-    
-    /* Hauteur minimale de sécurité pour garder un beau cadre même s'il n'y a qu'un seul monstre */
-    min-height: 60vh;
 }
 
 /* ========================================== */
@@ -86,14 +94,22 @@ h1, h2, h3, p { margin: 0; }
     text-align: center; 
     padding: 20px; 
     font-size: 0.9rem; 
-    border-top: 3px solid #804808; /* Assorti aux bordures du panneau */
-    margin-top: 40px;
+    border-top: 3px solid #804808; 
+    margin-top: auto; 
+    margin-bottom: 0; 
 }
 
 /* ========================================== */
 /* 3. PAGE D'ACCUEIL (INDEX.PHP)              */
 /* ========================================== */
-.home-main { min-height: calc(100vh - 130px); display: flex; justify-content: center; align-items: center; padding: 0; }
+.home-main { 
+    flex: 1; /* Permet à la zone principale de s'étirer */
+    display: flex; 
+    justify-content: center; 
+    align-items: stretch; /* Permet au cadre intérieur de suivre l'étirement */
+    padding: 0; 
+}
+
 .home-content-wrapper { 
     text-align: center; 
     display: flex; 
@@ -102,15 +118,19 @@ h1, h2, h3, p { margin: 0; }
     gap: 40px; 
     width: 100%; 
     max-width: 1200px; 
-    min-height: calc(100vh - 140px); 
     padding: 50px 30px;
     
-    /* MODIFICATION : Application du fond et des bords à l'accueil */
     background-color: #c5b38f; 
+    
     border-left: 3px solid #804808; 
     border-right: 3px solid #804808;
+    border-bottom: 3px solid #804808;
+    border-radius: 0 0 15px 15px;
     
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
+    /* MODIFIÉ : Marge de 20px en bas pour l'accueil aussi */
+    margin-bottom: 20px;
+    
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
     box-sizing: border-box;
 }
 .home-title { 
@@ -122,13 +142,13 @@ h1, h2, h3, p { margin: 0; }
     margin: 0; 
     text-shadow: 1px 1px 0px rgba(255,255,255,0.4); 
 }
-.logo-container { width: 100%; max-width: 550px; }
+.logo-container { width: 100%; max-width: 650px; }
 .mhwi-logo-large { max-width: 100%; height: auto; }
-.monster-nav-card { display: block; text-decoration: none; width: 100%; max-width: 400px; background-color: #1c2630; border: 3px solid #804808; border-radius: 10px; overflow: hidden; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; box-shadow: 0 8px 16px rgba(0,0,0,0.5); }
+.monster-nav-card { display: block; text-decoration: none; width: 100%; max-width: 400px; background-color: #f7e1b5; border: 3px solid #804808; border-radius: 10px; overflow: hidden; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; box-shadow: 0 8px 16px rgba(0,0,0,0.5); }
 .monster-nav-card:hover { transform: translateY(-5px); border-color: #f1c40f; box-shadow: 0 12px 24px rgba(0,0,0,0.7); }
 .card-inner { padding: 25px; display: flex; flex-direction: column; align-items: center; gap: 15px; }
 .card-monster-img { max-width: 70%; height: auto; width: 180px; filter: drop-shadow(0 5px 8px rgba(0,0,0,0.5)); }
-.card-text { font-family: 'Georgia', serif; color: #ecf0f1; font-size: 1.8rem; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
+.card-text { font-family: 'Georgia', serif; color: #000000; font-size: 1.8rem; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
 
 /* ========================================== */
 /* 4. PAGE BESTIAIRE (MONSTERS.PHP)           */
@@ -206,6 +226,12 @@ h1, h2, h3, p { margin: 0; }
     padding: 5px;
     border-radius: 4px;
     transition: background 0.2s;
+}
+/* Taille des icônes d'éléments dans les filtres */
+.dropdown-content label img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
 }
 .dropdown-content label:hover { 
     background-color: rgba(128, 72, 8, 0.1); /* Léger fond brun au survol des cases */

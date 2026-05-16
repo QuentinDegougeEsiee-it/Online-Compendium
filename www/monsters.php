@@ -31,7 +31,7 @@ try {
     <main class="container">
         <div class="search-container">
             <div class="search-form">
-                <input type="text" id="searchInput" placeholder="Rechercher un monstre en temps réel..." autocomplete="off">
+                <input type="text" id="searchInput" placeholder="Search for a monster ..." autocomplete="off">
             </div>
         </div>
 
