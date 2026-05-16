@@ -18,11 +18,11 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des Monstres - Compendium</title>
-    <link rel="stylesheet" href="styles.css?v=3">
+    <link rel="stylesheet" href="styles.css?v=<?= time() ?>">
 </head>
 <body>
     <header class="site-header">
-        <h1>Bestiaire Officiel</h1>
+        <h1>Bestiary</h1>
         <nav>
             <a href="index.php">Retour à l'accueil</a>
         </nav>

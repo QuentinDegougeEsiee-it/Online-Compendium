@@ -116,7 +116,7 @@ if (!file_exists($imgFinale)) { $imgFinale = "assets/img/monsters/MHW-Rathalos_I
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($monster['name']) ?> - Fight</title>
-    <link rel="stylesheet" href="styles.css?v=6">
+    <link rel="stylesheet" href="styles.css?v=<?= time() ?>">
 </head>
 <body>
     <header class="site-header">

@@ -1,40 +1,28 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compendium Monster Hunter - Accueil</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header class="site-header">
-        <h1>Commission de Recherche</h1>
-        <p>Encyclopédie officielle des monstres</p>
-    </header>
+<?php
+// On inclut les partials standards (header/footer) pour garder la cohérence du site
+require_once 'partials/header.php';
+?>
 
-    <main class="container">
-        <section class="category-selection">
-            <h2>Explorer par catégorie</h2>
-            
-            <div class="category-grid">
-                <a href="monsters.php?cat=large" class="category-link">
-                    <article class="category-card">
-                        <div class="category-icon">
-                            <img src="assets/img/monsters/large/rathalos.png" alt="Icone Rathalos" onerror="this.src='img/placeholder.png';">
-                        </div>
-                        <div class="category-info">
-                            <h3>Large Monsters</h3>
-                            <p>Découvrir les prédateurs apex</p>
-                        </div>
-                    </article>
-                </a>
+<main class="home-main">
+    <div class="home-content-wrapper">
 
-                </div>
-        </section>
-    </main>
+        <h1 class="home-title">Online Compendium</h1>
 
-    <footer class="site-footer">
-        <p>© 2026 - Projet EC Web - Monster Hunter Compendium</p>
-    </footer>
-</body>
-</html>
+        <div class="logo-container">
+            <img src="assets/img/logos/mhwi_logo_full.png" alt="Monster Hunter World: Iceborne Logo" class="mhwi-logo-large">
+        </div>
+
+        <a href="monsters.php" class="monster-nav-card">
+            <div class="card-inner">
+                <img src="assets/img/monsters/rathalos_home.png" alt="Rathalos - Monsters Section" class="card-monster-img">
+                
+                <span class="card-text">MONSTERS</span>
+            </div>
+        </a>
+
+    </div>
+</main>
+
+<?php
+require_once 'partials/footer.php';
+?>

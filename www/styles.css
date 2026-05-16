@@ -1,715 +1,309 @@
-/* Mobile-first (1 colonne)  */
-body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-.container { display: flex; flex-direction: column; padding: 20px; }
-
-/* Desktop (plusieurs colonnes)  */
-@media (min-width: 768px) {
-    .container { flex-direction: row; flex-wrap: wrap; gap: 20px; }
-}
-
-/* --- LE CONTENEUR PRINCIPAL --- */
-.container {
-    max-width: 1200px; /* Largeur max pour ne pas que les cases s'étalent trop */
-    margin: 0 auto;    /* C'est CE réglage qui centre tout le bloc au milieu */
-    padding: 20px;
-    text-align: center; /* Centre aussi les titres <h2> s'il y en a */
-}
-
-/* --- LA GRILLE DES MONSTRES --- */
-.monsters-grid {
-    display: grid;
-    gap: 20px;
-    /* justify-content centre les colonnes si elles ne prennent pas toute la largeur */
-    justify-content: center; 
-    padding: 20px 0;
-    
-    /* Mobile : 2 colonnes par défaut pour plus de visibilité */
-    grid-template-columns: repeat(2, 1fr);
-}
-
-/* Tablette : 3 colonnes */
-@media (min-width: 768px) {
-    .monsters-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-/* Desktop : tes 5 colonnes centrées */
-@media (min-width: 1024px) {
-    .monsters-grid {
-        /* On utilise 'auto' au lieu de '1fr' si on veut que les cases 
-           gardent une taille fixe et restent centrées même s'il y en a peu */
-        grid-template-columns: repeat(5, minmax(150px, 200px));
-    }
-}
-
-/* --- STYLE DES CASES --- */
-.monster-item {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    /* Pour que le texte à l'intérieur de la case soit centré */
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-/* --- STYLE DE LA BOITE ET DE L'ICONE --- */
-.monster-icon-box {
-    width: 100%;
-    height: 80px; /* Fixe la hauteur de la zone de l'image (tu peux ajuster ce chiffre) */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
-    overflow: hidden; /* Empêche tout élément de sortir de cette boîte */
-}
-
-.monster-icon-box img {
-    width: 75px;  
-    height: 75px; 
-    object-fit: contain; /* Empêche l'image de s'écraser si elle n'était pas carrée à l'origine */
-}
-
-/* --- BARRE DE RECHERCHE --- */
-.search-container {
-    margin-bottom: 30px;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-
-.search-form {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap; /* Permet aux boutons de passer à la ligne sur petit écran */
-    justify-content: center;
-}
-
-.search-form input {
-    padding: 12px 25px; 
-    font-size: 1rem;
-    border: 2px solid #ddd;
-    
-    
-    border-radius: 50px; 
-    
-    width: 400px; 
-    max-width: 100%;
-    outline: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
-}
-
-.search-form input:focus {
-    border-color: #2c3e50;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-}
-
-.search-form button, .btn-clear {
-    padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #2c3e50;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.3s;
-    display: inline-flex;
-    align-items: center;
-}
-
-.search-form button:hover {
-    background-color: #1a252f;
-}
-
-.btn-clear {
-    background-color: #e74c3c;
-}
-
-.btn-clear:hover {
-    background-color: #c0392b;
-}
-
-/* --- MENU DES ELEMENTS --- */
-.filters-container {
-    max-width: 1200px;
-    margin: -10px auto 20px auto; 
-    padding: 0 20px;
-    display: flex;
-    justify-content: center; /* Centre les boutons sous la barre de recherche */
-    gap: 20px; /* Espace entre le bouton Element et le bouton Espèce */
-    flex-wrap: wrap; /* S'adapte sur téléphone */
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-btn {
-    background-color: #2c3e50;
-    color: white;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: background-color 0.3s;
-}
-
-.dropdown-btn:hover {
-    background-color: #1a252f;
-}
-
-.dropdown-content {
-    display: none; /* Caché par défaut */
-    position: absolute;
-    background-color: #fff;
-    min-width: 180px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 10; /* Pour passer par-dessus les monstres */
-    border-radius: 6px;
-    margin-top: 8px;
-    padding: 15px;
-    border: 1px solid #ddd;
-}
-
-.dropdown-content.show {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.dropdown-content label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-size: 0.95rem;
-    color: #333;
-    font-weight: bold;
-}
-
-.dropdown-content input {
-    margin-right: 10px;
-    cursor: pointer;
-    width: 16px;
-    height: 16px;
-}
-
-.dropdown-content img {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-    object-fit: contain;
-}
-
-/* --- MESSAGE AUCUN RESULTAT --- */
-.hidden-message {
-    display: none; /* Caché par défaut */
-    text-align: center;
-    width: 100%;
-    margin-top: 20px;
-    font-size: 1.1rem;
-    color: #555;
-}
-
-/* =========================================
-   PAGE DETAILS MONSTRE (details.php)
-   ========================================= */
-
-.monster-detail-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 30px;
-    display: flex;
-    flex-direction: column; /* Sur mobile : image en haut, texte en bas */
-    align-items: center;
-    gap: 30px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-/* Sur écran PC/Tablette : Image à gauche, texte à droite */
-@media (min-width: 768px) {
-    .monster-detail-card {
-        flex-direction: row;
-        align-items: flex-start;
-    }
-}
-
-.monster-detail-icon {
-    flex: 0 0 200px;
-    display: flex;
-    justify-content: center;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    padding: 20px;
-    border: 1px solid #eee;
-}
-
-.monster-detail-icon img {
-    width: 100%;
-    max-width: 150px;
-    height: auto;
-    object-fit: contain;
-}
-
-.monster-detail-info {
-    flex: 1;
-    text-align: left;
-    width: 100%;
-}
-
-.monster-detail-info h2 {
-    margin-top: 0;
-    color: #2c3e50;
-    font-size: 2rem;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-}
-
-.badges-container {
-    margin-bottom: 20px;
-}
-
-.badge {
-    display: inline-block;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: white;
-    margin-right: 8px;
-    margin-bottom: 8px;
-}
-
-.species-badge { background-color: #34495e; }
-.type-badge { background-color: #e67e22; }
-
-.description-text {
-    line-height: 1.6;
-    color: #444;
-    font-size: 1.05rem;
-    margin-bottom: 25px;
-}
-
-.details-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
-    background-color: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #eee;
-}
-
-@media (min-width: 500px) {
-    .details-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-.detail-block h3 {
-    margin-top: 0;
-    margin-bottom: 5px;
-    font-size: 1.1rem;
-    color: #2c3e50;
-}
-
-.detail-block p {
+/* ========================================== */
+/* 1. BASES ET RESET                          */
+/* ========================================== */
+body {
     margin: 0;
-    color: #555;
-    font-style: italic;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #0f141c; /* Couleur sombre de secours */
+    overflow-y: scroll;
+    background-image: url('assets/img/backgrounds/map_background.png'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Reste figée pendant le défilement */
+    color: #ecf0f1;
 }
-/* --- LAYOUT PAGE DETAIL --- */
-.container-detail {
-    max-width: 1100px;
-    margin: 30px auto;
+h1, h2, h3, p { margin: 0; }
+
+/* LE PANNEAU CENTRAL (BESTIAIRE) */
+.container {
+    max-width: 1200px;
+    width: 100%; 
+    
+    /* MODIFIÉ : Marge de 50px en bas pour laisser voir la carte sous le parchemin */
+    margin: 0 auto 50px auto; 
+    
+    padding: 40px 30px;
+    text-align: center;
+    background-color: #c5b38f; 
+    color: #1a1a1a; 
+    
+    /* MODIFIÉ : Bordures à gauche, à droite ET en bas */
+    border-left: 3px solid #804808; 
+    border-right: 3px solid #804808;
+    border-bottom: 3px solid #804808;
+    
+    /* NOUVEAU : Coins arrondis de 15px uniquement en bas (le haut reste droit) */
+    border-radius: 0 0 15px 15px;
+    
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8); /* L'ombre est accentuée vers le bas */
+    box-sizing: border-box;
+    
+    /* Hauteur minimale de sécurité pour garder un beau cadre même s'il n'y a qu'un seul monstre */
+    min-height: 60vh;
+}
+
+/* ========================================== */
+/* 2. HEADER ET FOOTER GLOBAUX                */
+/* ========================================== */
+.site-header { 
+    background-color: #381f03; 
+    border-bottom: 3px solid #804808; /* Assorti aux bordures du panneau */
+    padding: 15px 30px; 
     display: flex;
-    flex-direction: column; /* Mobile first */
-    gap: 30px;
-    padding: 0 20px;
+    justify-content: space-between;
+    align-items: center;
 }
-
-@media (min-width: 900px) {
-    .container-detail {
-        flex-direction: row; /* Desktop : deux colonnes */
-        align-items: flex-start;
-    }
-}
-
-/* --- COLONNE GAUCHE (ONGLETS) --- */
-.detail-main {
-    flex: 1;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.tabs-header {
-    display: flex;
-    background: #f4f4f4;
-    border-bottom: 1px solid #ddd;
-}
-
-.tab-link {
-    flex: 1;
-    padding: 15px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-weight: bold;
-    color: #666;
-    transition: 0.3s;
-}
-
-.tab-link.active {
-    background: #fff;
-    color: #2c3e50;
-    border-bottom: 3px solid #2c3e50;
-}
-
-.tab-content {
-    display: none;
-    padding: 25px;
-    text-align: left;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-/* --- COLONNE DROITE (CARTE) --- */
-.detail-sidebar {
+.header-nav-container { 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
     width: 100%;
 }
-
-@media (min-width: 900px) {
-    .detail-sidebar {
-        width: 300px; /* Taille fixe à droite sur PC */
-    }
+.nav-logo, .site-header h1 { 
+    color: #f1c40f; 
+    font-size: 1.5rem; 
+    font-weight: bold; 
+    text-decoration: none; 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
 }
-
-.monster-id-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+.site-header nav a, .main-nav a { 
+    color: #ecf0f1; 
+    text-decoration: none; 
+    font-size: 1.1rem; 
+    margin-left: 20px;
+    transition: color 0.2s; 
 }
-
-.monster-id-name {
-    margin-bottom: 15px;
-    color: #2c3e50;
-    font-size: 1.5rem;
+.site-header nav a:hover, .main-nav a:hover { 
+    color: #f1c40f; 
 }
-
-.monster-id-icon img {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 15px;
-}
-
-.monster-id-stats {
-    border-top: 1px solid #eee;
-    padding-top: 15px;
-    text-align: left;
-}
-
-.stat-line {
-    margin: 25px 0;
-    font-size: 0.95rem;
-}
-
-.stat-line span {
-    font-weight: bold;
-    color: #777;
-    width: 80px;
-    display: inline-block;
-}
-
-.monster-id-elements {
-    margin-top: 15px;
-    padding-top: 10px;
-    border-top: 1px solid #eee;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-/* --- ALIGNEMENT DES ELEMENTS DANS LA CARTE --- */
-.elements-line {
-    display: flex;
-    align-items: flex-start; /* Aligne le texte en haut pour que ce soit joli avec plusieurs lignes */
-    margin-top: 25px;
-}
-
-.elements-line span {
-    margin-top: 8px; /* Décale un peu le mot "Elements:" vers le bas pour l'aligner avec la première ligne d'icônes */
-    width: 80px; /* On garde la même largeur que "Size:" et "Category:" pour que tout soit aligné */
-    flex-shrink: 0; /* Empêche le texte de s'écraser */
-}
-
-.elements-icons {
-    display: grid;
-    grid-template-columns: repeat(2, max-content); /* Crée exactement 2 colonnes par ligne */
-    gap: 10px; /* L'espace entre les icônes (horizontal et vertical) */
-}
-
-.el-icon {
-    width: 40px; /* On grossit largement l'icône (au lieu de 25px) */
-    height: 40px;
-    object-fit: contain;
-    border-radius: 8px; /* Bords légèrement arrondis au lieu d'un cercle parfait, tu peux remettre 50% si tu préfères un cercle */
-    padding: 5px;
-}
-
-.elements-icons em {
-    margin-top: 8px; /* On donne au texte la même marge qu'au titre "Elements:" */
-    display: inline-block;
-    color: #777; /* Un petit gris discret pour faire plus propre */
-}
-
-.info-block h3 {
-    color: #2c3e50;
-    border-left: 4px solid #2c3e50;
-    padding-left: 10px;
-    margin-bottom: 10px;
-}
-
-.info-block p {
-    line-height: 1.6;
-    color: #444;
-}
-
-/* --- GRILLE DES HABITATS (LOCATIONS) --- */
-.locations-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
-    margin-top: 15px;
-    justify-content: flex-start;
-}
-
-.loc-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    width: 100px; /* Largeur fixe pour que les noms s'alignent bien sous les images */
-}
-
-.loc-img {
-    width: 100px; /* On grossit l'image (anciennement 50px) */
-    height: auto;
-    object-fit: contain;
-    /* On retire l'effet "case" (bordure et ombre) */
-    border: none;
-    box-shadow: none;
-    border-radius: 0;
-}
-
-.loc-name {
-    margin-top: 8px;
-    font-size: 0.85rem;
-    font-weight: bold;
-    color: #2c3e50;
-    line-height: 1.2;
-}
-
-/* --- SECTION WEAKNESS (ONGLET FIGHT) --- */
-.weakness-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    margin-top: 20px;
-}
-
-.weakness-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 60px;
-}
-
-.weakness-el-icon {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 8px;
-}
-
-.stars-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 20px; /* Assure un alignement constant que ce soit des étoiles ou du texte */
-    gap: 2px;
-}
-.weakness-star {
-    width: 15px; /* Ajuste la taille de ton étoile ici */
-    height: 15px;
-}
-/* --- SOUS-TITRE DES CONDITIONS DE FAIBLESSE --- */
-.weakness-condition {
-    color: #e67e22; /* Un orange pour bien détacher la condition */
-    margin-top: 25px;
-    margin-bottom: 5px;
-    font-size: 1.1rem;
-    border-bottom: 1px dashed #ddd;
-    padding-bottom: 5px;
-}
-
-/* Si la grille suit directement un sous-titre, on réduit un peu l'espace au-dessus */
-.weakness-condition + .weakness-grid {
-    margin-top: 10px;
-}
-
-/* --- TEXTE UNKNOWN --- */
-.unknown-text {
-    color: #95a5a6;
-    font-size: 1.1rem;
-    margin-top: 15px;
-    letter-spacing: 1px;
-}
-/* --- TEXTES DE RÉSISTANCE (Remplace les étoiles) --- */
-.resist-text {
-    font-size: 0.75rem;
-    font-weight: bold;
-    color: #7f8c8d; /* Un gris neutre pour les résistances classiques */
-    letter-spacing: 0.5px;
-    margin-top: 2px;
-}
-
-.immune-text {
-    color: #e74c3c; /* Un rouge vif pour marquer l'immunité totale ! */
-}
-
-/* --- CROIX ROUGE D'IMMUNITÉ --- */
-.weakness-cross {
-    width: 15px; /* Même taille que .weakness-star */
-    height: 15px;
-    object-fit: contain;
-}
-
-/* --- ESPACEMENTS AUTOMATIQUES DES BLOCS (Onglets Info & Fight) --- */
-
-/* Dès qu'un info-block suit un autre info-block, on l'écarte de 25px */
-.info-block + .info-block {
-    margin-top: 25px;
-}
-
-/* Dès qu'un fight-block suit un autre fight-block, on l'écarte de 40px */
-.fight-block + .fight-block {
+.site-footer { 
+    background-color: #1a1a1a; 
+    color: #7f8c8d; 
+    text-align: center; 
+    padding: 20px; 
+    font-size: 0.9rem; 
+    border-top: 3px solid #804808; /* Assorti aux bordures du panneau */
     margin-top: 40px;
 }
 
-/* Si un fight-block suit directement notre séparateur (VS), on ne met 
-   pas de marge car le séparateur a déjà une grande marge de 60px */
-.fight-separator + .fight-block {
-    margin-top: 0;
+/* ========================================== */
+/* 3. PAGE D'ACCUEIL (INDEX.PHP)              */
+/* ========================================== */
+.home-main { min-height: calc(100vh - 130px); display: flex; justify-content: center; align-items: center; padding: 0; }
+.home-content-wrapper { 
+    text-align: center; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 40px; 
+    width: 100%; 
+    max-width: 1200px; 
+    min-height: calc(100vh - 140px); 
+    padding: 50px 30px;
+    
+    /* MODIFICATION : Application du fond et des bords à l'accueil */
+    background-color: #c5b38f; 
+    border-left: 3px solid #804808; 
+    border-right: 3px solid #804808;
+    
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
+    box-sizing: border-box;
 }
-
-/* --- SÉPARATEUR ENTRE FAIBLESSES ET RÉSISTANCES --- */
-.fight-separator {
-    border: none;
-    height: 2px;
-    background-color: #dcdde1; /* Couleur gris clair pour la ligne */
-    margin: 50px 0; /* Ajoute un grand espace au-dessus et en dessous */
-    position: relative;
-    overflow: visible;
+.home-title { 
+    font-family: 'Georgia', serif; 
+    color: #804808; /* Changé en brun foncé pour ressortir magnifiquement sur le fond sable */
+    font-size: 3.5rem; 
+    text-transform: uppercase; 
+    letter-spacing: 3px; 
+    margin: 0; 
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.4); 
 }
+.logo-container { width: 100%; max-width: 550px; }
+.mhwi-logo-large { max-width: 100%; height: auto; }
+.monster-nav-card { display: block; text-decoration: none; width: 100%; max-width: 400px; background-color: #1c2630; border: 3px solid #804808; border-radius: 10px; overflow: hidden; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; box-shadow: 0 8px 16px rgba(0,0,0,0.5); }
+.monster-nav-card:hover { transform: translateY(-5px); border-color: #f1c40f; box-shadow: 0 12px 24px rgba(0,0,0,0.7); }
+.card-inner { padding: 25px; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+.card-monster-img { max-width: 70%; height: auto; width: 180px; filter: drop-shadow(0 5px 8px rgba(0,0,0,0.5)); }
+.card-text { font-family: 'Georgia', serif; color: #ecf0f1; font-size: 1.8rem; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
 
-/* Le petit macaron "VS" stylisé au milieu de la ligne */
-.fight-separator::after {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #fff; /* Même couleur que le fond de la page */
-    padding: 0 15px;
-    color: #a4b0be;
+/* ========================================== */
+/* 4. PAGE BESTIAIRE (MONSTERS.PHP)           */
+/* ========================================== */
+.search-container { margin-bottom: 20px; display: flex; justify-content: center;}
+.search-form { width: 100%; max-width: 500px; }
+
+/* La barre de recherche style Parchemin */
+.search-form input { 
+    padding: 12px 20px; width: 100%; 
+    border-radius: 25px; 
+    border: 3px solid #804808; /* Grosse bordure bois/cuir */
+    background-color: #f7f1e3; /* Fond parchemin clair */
+    color: #4a3424; /* Texte brun foncé */
+    font-size: 1.1rem; 
+    font-family: 'Georgia', serif;
     font-weight: bold;
-    font-size: 0.9rem;
-    letter-spacing: 2px;
+    outline: none; 
+    box-sizing: border-box;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); /* Effet de profondeur intérieur */
+}
+.search-form input::placeholder { color: #8c7f6f; font-style: italic; font-weight: normal; }
+.search-form input:focus { background-color: #fff; border-color: #4a3424; }
+
+/* Conteneur des boutons de filtres */
+.filters-container { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 30px; }
+.dropdown { position: relative; display: inline-block; }
+
+/* Les boutons de tri style "Onglets de grimoire" */
+.dropdown-btn { 
+    background-color: #f7e1b5; /* Couleur sable/parchemin */
+    color: #4a3424; /* Texte brun foncé */
+    padding: 10px 20px; 
+    border: 2px solid #804808; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-size: 1.1rem; 
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+.dropdown-btn:hover { 
+    background-color: #fdfaf3; /* S'éclaircit au survol */
+    transform: translateY(-2px); /* Se soulève légèrement */
 }
 
-/* --- ONGLET REWARD --- */
-.reward-block h3 {
-    color: #2c3e50;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
+/* Le menu déroulant style Parchemin */
+.dropdown-content { 
+    display: none; 
+    position: absolute; 
+    background-color: #f7f1e3; /* Fond parchemin clair */
+    min-width: 200px; 
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5); 
+    z-index: 10; 
+    text-align: left; 
+    padding: 15px; 
+    max-height: 250px; 
+    overflow-y: auto; 
+    border: 3px solid #804808; 
+    border-radius: 8px;
 }
+.dropdown-content.show { display: block; }
 
-.reward-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Espace entre chaque ligne de récompense */
-}
-
-.reward-row {
-    display: flex;
-    justify-content: space-between; /* Pousse le texte à gauche et les étoiles à droite */
-    align-items: center;
-    background: #fdfdfd;
-    padding: 12px 15px;
-    border-radius: 6px;
-    border: 1px solid #eee;
+/* Les options à cocher à l'intérieur du menu */
+.dropdown-content label { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    margin-bottom: 8px; 
+    color: #4a3424; /* Texte brun */
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
     transition: background 0.2s;
 }
-
-.reward-row:hover {
-    background: #f1f4f8; /* Petit effet au survol de la souris */
+.dropdown-content label:hover { 
+    background-color: rgba(128, 72, 8, 0.1); /* Léger fond brun au survol des cases */
 }
 
-.reward-info {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
+.monsters-grid { 
+    display: grid; gap: 20px; justify-content: center; 
+    grid-template-columns: repeat(2, 1fr); 
 }
+@media (min-width: 768px) { .monsters-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 1024px) { .monsters-grid { grid-template-columns: repeat(5, 1fr); } }
 
-.reward-name {
-    font-weight: bold;
-    color: #333;
-    font-size: 1.05rem;
+.monster-item { 
+    background-color: #f7e1b5; border-radius: 10px; padding: 15px; 
+    text-align: center; border: 2px solid #804808; text-decoration: none;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    transition: transform 0.2s, border-color 0.2s; 
 }
+/* Enlève le soulignement sur les liens et les noms des monstres */
+.monster-item a {
+    text-decoration: none;
+}
+.monster-item:hover { transform: translateY(-5px); border-color: #f1c40f; }
 
-.reward-meta {
-    font-size: 0.85rem;
-    color: #7f8c8d;
-    margin-top: 4px;
+.monster-icon { 
+    width: 70px;         
+    height: 70px;        
+    object-fit: contain; 
+    margin-bottom: 10px; 
 }
+.monster-item img {
+    max-width: 70px;
+    max-height: 70px;
+    height: auto;
+    object-fit: contain;
+}
+.monster-name { 
+    font-size: 1.3rem; 
+    color: #1a1a1a; /* Noir profond */
+    font-weight: bold; 
+}
+.monster-species { 
+    font-size: 0.9rem; 
+    color: #4a3424; /* Brun foncé au lieu du gris clair */
+    margin-top: 5px; 
+}
+.hidden-message { display: none; color: #e74c3c; font-size: 1.2rem; margin-top: 20px;}
 
-.reward-stars {
-    display: flex;
-    gap: 2px;
-}
-/* --- SOUS-TITRES DE L'ONGLET REWARD --- */
-.reward-rank-title {
-    color: #e67e22; /* Orange Monster Hunter */
-    font-size: 1.3rem;
-    margin-top: 40px;
-    margin-bottom: 15px;
-    border-bottom: 2px solid #e67e22;
-    padding-bottom: 5px;
-}
+/* ========================================== */
+/* 5. PAGE DÉTAILS (DETAILS.PHP) - PARCHEMIN  */
+/* ========================================== */
+.monster-details-main { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; align-items: flex-start; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+.monster-card { flex: 2; min-width: 300px; background-color: #f7e1b5; border-radius: 8px; box-shadow: 0 20px 40px rgba(0,0,0,0.8); padding: 30px; color: #4a3424; }
+.detail-sidebar { flex: 1; min-width: 250px; }
 
-.reward-type-title {
-    color: #34495e;
-    font-size: 1.05rem;
-    margin-top: 25px;
-    margin-bottom: 10px;
-    padding-left: 10px;
-    border-left: 4px solid #34495e; /* Petit liseré sur le côté pour le style */
-}
+.details-header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #8c6e5a; padding-bottom: 15px;}
+.details-monster-name { color: #4a3424; font-size: 2.5rem; text-transform: uppercase; font-family: 'Georgia', serif; }
+.details-species { color: #7f6e5a; font-size: 1.2rem; font-style: italic;}
+
+/* Sidebar */
+.monster-id-card { background-color: #f7e1b5; border: 3px solid #804808; box-shadow: 0 15px 30px rgba(0,0,0,0.6); color: #4a3424; border-radius: 8px; padding: 20px; text-align: center;}
+.monster-id-name { color: #4a3424; border-bottom: 2px solid #8c6e5a; padding-bottom: 10px; font-family: 'Georgia', serif;}
+.monster-id-icon img { max-width: 120px; margin: 15px 0; }
+.stat-line { text-align: left; border-bottom: 1px dashed #c0a080; padding: 8px 0;}
+.stat-line span, .elements-line span { color: #7f6e5a; font-weight: bold; }
+.elements-line { text-align: left; padding: 8px 0; }
+.el-icon { width: 25px; vertical-align: middle; margin-right: 5px; }
+
+/* Onglets */
+.tabs { display: flex; gap: 10px; border-bottom: 2px solid #8c6e5a; margin-bottom: 20px; justify-content: center; flex-wrap: wrap;}
+.tab-link { background: transparent; border: none; font-size: 1.2rem; padding: 10px 20px; cursor: pointer; color: #a17f65; font-family: 'Georgia', serif; font-weight: bold; transition: color 0.2s;}
+.tab-link:hover { color: #6e4e37; }
+.tab-link.active { background-color: #f7f1e3; color: #4a3424; border-radius: 8px 8px 0 0; border: 3px solid #804808; border-bottom: 2px solid #f7f1e3; margin-bottom: -2px; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Panneaux centraux */
+.fight-block, .reward-block { background-color: #f7f1e3; border: 3px solid #804808; border-radius: 8px; padding: 20px; margin-bottom: 30px; box-shadow: inset 0 0 15px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.3); }
+.fight-block h3, .reward-block h3 { font-family: 'Georgia', serif; color: #4a3424; border-bottom: 2px solid #a17f65; padding-bottom: 10px; margin-bottom: 15px;}
+
+/* Faiblesses */
+.weakness-condition { color: #4a3424 !important; font-size: 1.1rem; margin-top: 15px; margin-bottom: 10px; text-decoration: underline;}
+.weakness-grid { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;}
+.weakness-item { display: flex; flex-direction: column; align-items: center; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 5px; border: 1px solid #c0a080;}
+.weakness-el-icon { width: 30px; margin-bottom: 5px;}
+.weakness-star, .weakness-cross { width: 15px; }
+
+/* Séparateur VS */
+.fight-separator { border: none; border-top: 3px solid #8c6e5a; margin: 40px 0; position: relative; overflow: visible;}
+.fight-separator::after { content: "VS"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #f7f1e3; padding: 0 15px; color: #8c6e5a; font-weight: bold; font-family: 'Georgia', serif;}
+
+/* Récompenses */
+.reward-rank-title { color: #4a3424 !important; font-size: 1.4rem; font-family: 'Georgia', serif; margin-top: 30px; border-bottom: 2px solid #8c6e5a; padding-bottom: 5px;}
+.reward-type-title { color: #6e4e37 !important; font-size: 1.1rem; margin-top: 15px; margin-bottom: 10px; font-style: italic; border-left: 3px solid #6e4e37; padding-left: 10px;}
+.reward-list { display: flex; flex-direction: column; gap: 10px; }
+.reward-row { display: flex; justify-content: space-between; align-items: center; background-color: #fdfaf3; border: 2px solid #a17f65; padding: 12px 15px; border-radius: 6px; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); transition: background 0.2s, transform 0.2s; }
+.reward-row:hover { background: #fff; transform: translateY(-2px); }
+.reward-name { color: #3d2b1f; font-weight: bold;}
+.reward-meta { color: #8c7f6f; font-size: 0.85rem;}
+.unknown-text { color: #8c7f6f !important; font-style: italic;}
