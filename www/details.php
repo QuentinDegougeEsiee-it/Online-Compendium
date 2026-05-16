@@ -18,8 +18,7 @@ try {
     $ailmentWeaknesses = [];
     $elementalResistances = []; 
     $ailmentResistances = [];   
-    $carveRewards = []; // Nouveau : Tiroir pour le dépeçage
-    $otherRewards = []; // Nouveau : Tiroir pour le reste
+    $unifiedRewards = []; // Tiroir unique classé par : [rang][méthode_obtention][]
     
     if (file_exists($jsonPath)) {
         $allData = json_decode(file_get_contents($jsonPath), true);
@@ -30,7 +29,6 @@ try {
                 
                 // 1. Tri des faiblesses
                 if (isset($m['weaknesses'])) {
-                    // ... (Garde ton code existant ici) ...
                     foreach ($m['weaknesses'] as $w) {
                         $cond = !empty($w['condition']) ? $w['condition'] : 'Général';
                         if (in_array($w['element'], $elementKeys)) {
@@ -43,7 +41,6 @@ try {
 
                 // 2. Tri des résistances
                 if (isset($m['resistances'])) {
-                    // ... (Garde ton code existant ici) ...
                     foreach ($m['resistances'] as $r) {
                         $cond = !empty($r['condition']) ? $r['condition'] : 'Général';
                         if (in_array($r['element'], $elementKeys)) {
@@ -54,7 +51,7 @@ try {
                     }
                 }
 
-                // 3. NOUVEAU : Tri des Récompenses (Rewards)
+                // 3. Unification de TOUTES les récompenses par Rang puis par Méthode
                 if (!empty($m['rewards'])) {
                     foreach ($m['rewards'] as $rew) {
                         $itemName = $rew['item']['name'];
@@ -62,20 +59,16 @@ try {
                             $entry = [
                                 'name' => $itemName,
                                 'chance' => $cond['chance'],
-                                'rank' => $cond['rank'],
-                                'type' => $cond['type'],
-                                'subtype' => $cond['subtype']
+                                'rank' => strtolower($cond['rank']),
+                                'type' => strtolower($cond['type']),
+                                'subtype' => $cond['subtype'] // Morceau à casser si nécessaire (ex: Head, Tail, Wings)
                             ];
                             
-                            // Si c'est du dépeçage (carve), on garde le 1er tiroir simple
-                            if ($cond['type'] === 'carve') {
-                                $carveRewards[] = $entry;
-                            } else {
-                                // Pour les autres, on crée des sous-tiroirs : [rang][type]
-                                $rank = strtolower($cond['rank']);
-                                $type = strtolower($cond['type']);
-                                $otherRewards[$rank][$type][] = $entry;
-                            }
+                            $rank = $entry['rank'];
+                            $type = $entry['type'];
+                            
+                            // On stocke directement dans l'arborescence [rang][méthode]
+                            $unifiedRewards[$rank][$type][] = $entry;
                         }
                     }
                 }
@@ -84,8 +77,14 @@ try {
         }
     }
     
-    // 4. On trie le dépeçage par probabilité
-    usort($carveRewards, function($a, $b) { return $b['chance'] <=> $a['chance']; });
+    // 4. Tri de chaque sous-catégorie par probabilité décroissante (du plus probable au moins probable)
+    if (!empty($unifiedRewards)) {
+        foreach ($unifiedRewards as $rank => &$types) {
+            foreach ($types as $type => &$rewardsList) {
+                usort($rewardsList, function($a, $b) { return $b['chance'] <=> $a['chance']; });
+            }
+        }
+    }   
     
     // 5. On trie chaque sous-tiroir des autres récompenses par probabilité
     if (!empty($otherRewards)) {
@@ -260,65 +259,40 @@ if (!file_exists($imgFinale)) { $imgFinale = "assets/img/monsters/MHW-Rathalos_I
                     <?php endif; ?>
                 </section>
             </div>
+            
             <div id="reward" class="tab-content">
-                
                 <section class="reward-block">
-                    <h3>CARVE REWARDS</h3>
-                    <?php if (!empty($carveRewards)): ?>
-                        <div class="reward-list">
-                            <?php foreach ($carveRewards as $r): ?>
-                                <div class="reward-row">
-                                    <div class="reward-info">
-                                        <span class="reward-name"><?= htmlspecialchars($r['name']) ?></span>
-                                        <span class="reward-meta">
-                                            <?= ucfirst($r['rank']) ?> Rank 
-                                            <?= !empty($r['subtype']) ? '- ' . ucfirst($r['subtype']) : '' ?>
-                                        </span>
-                                    </div>
-                                    <div class="reward-stars">
-                                        <?php 
-                                        $c = $r['chance'];
-                                        $stars = ($c >= 40) ? 5 : (($c >= 25) ? 4 : (($c >= 15) ? 3 : (($c >= 6) ? 2 : 1)));
-                                        for ($i = 0; $i < $stars; $i++): ?>
-                                            <img src="assets/img/star.png" class="weakness-star">
-                                        <?php endfor; ?>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php else: ?>
-                        <p class="unknown-text"><em>Aucune donnée de dépeçage disponible.</em></p>
-                    <?php endif; ?>
-                </section>
-
-                <hr class="fight-separator">
-
-                <section class="reward-block">
-                    <h3>OTHER REWARDS</h3>
-                    <?php if (!empty($otherRewards)): ?>
+                    <h3>MONSTER REWARDS</h3>
+                    <?php if (!empty($unifiedRewards)): ?>
                         <?php 
-                        // Ordre forcé pour l'affichage des rangs
+                        // Ordre d'affichage des rangs
                         $rankOrder = ['low', 'high', 'master'];
                         
-                        // Beaux noms pour les catégories
+                        // Ordre logique d'affichage des méthodes demandé (Dépeçage, Quête, Investigation, Brisure...)
+                        $customTypeOrder = ['carve', 'reward', 'investigation', 'wound', 'palico', 'shiny', 'plunderblade', 'track'];
+                        
+                        // Correspondance propre pour les titres
                         $typeNames = [
-                            'reward' => 'Quest Reward',
-                            'investigation' => 'Investigation',
-                            'wound' => 'Wound / Break',
-                            'palico' => 'Palico',
-                            'shiny' => 'Dropped (Shiny)',
-                            'plunderblade' => 'Plunderblade',
-                            'track' => 'Tracks'
+                            'carve' => 'Carve Rewards ',
+                            'reward' => 'Quest Rewards ',
+                            'investigation' => 'Investigation Rewards',
+                            'wound' => 'Wound / Break Rewards ',
+                            'palico' => 'Palico Rewards',
+                            'shiny' => 'Dropped Items ',
+                            'plunderblade' => 'Plunderblade Rewards',
+                            'track' => 'Track Rewards'
                         ];
 
                         foreach ($rankOrder as $r): 
-                            // S'il n'y a pas de récompense pour ce rang, on passe au suivant
-                            if (!isset($otherRewards[$r])) continue;
+                            if (!isset($unifiedRewards[$r])) continue;
                         ?>
                             <h4 class="reward-rank-title"><?= ucfirst($r) ?> Rank</h4>
                             
-                            <?php foreach ($otherRewards[$r] as $t => $rewardsList): ?>
-                                
+                            <?php 
+                            foreach ($customTypeOrder as $t):
+                                if (!isset($unifiedRewards[$r][$t])) continue;
+                                $rewardsList = $unifiedRewards[$r][$t];
+                            ?>
                                 <h5 class="reward-type-title">
                                     <?= isset($typeNames[$t]) ? $typeNames[$t] : ucfirst($t) ?>
                                 </h5>
@@ -348,10 +322,9 @@ if (!file_exists($imgFinale)) { $imgFinale = "assets/img/monsters/MHW-Rathalos_I
                             <?php endforeach; ?>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <p class="unknown-text"><em>Aucune autre récompense disponible.</em></p>
+                        <p class="unknown-text"><em>Aucune donnée de récompense disponible pour ce monstre.</em></p>
                     <?php endif; ?>
                 </section>
-
             </div>
         </section>
 
