@@ -25,4 +25,14 @@ document.addEventListener('DOMContentLoaded', function() {
             targetTab.click(); // Simule un clic pour ouvrir l'onglet instantanément
         }
     }
+    // Gestion de la confirmation de suppression des notes
+    const deleteForms = document.querySelectorAll('.delete-note-form');
+    deleteForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            if (!confirm('Delete this note?')) {
+                e.preventDefault(); // Annule l'envoi si l'utilisateur clique sur "Annuler"
+            }
+        });
+    });
 });
+

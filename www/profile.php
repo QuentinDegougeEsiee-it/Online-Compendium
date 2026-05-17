@@ -142,7 +142,7 @@ if (empty($user['avatar']) || !file_exists($avatarPath)) {
 <body>
     <?php require_once 'partials/header.php'; ?>
 
-    <main class="container-detail" style="margin-top: 30px;">
+    <main class="container-detail profile-main-margin">
         
         <section class="detail-main">
             <div class="info-block">
@@ -152,7 +152,7 @@ if (empty($user['avatar']) || !file_exists($avatarPath)) {
                 <?php if ($success): ?><div class="alert success"><?= htmlspecialchars($success) ?></div><?php endif; ?>
 
                 <h4 class="reward-type-title">Identity & Emblem</h4>
-                <form method="POST" action="profile.php" enctype="multipart/form-data" class="auth-form" style="margin-bottom: 40px;">
+                <form method="POST" action="profile.php" enctype="multipart/form-data" class="auth-form form-spaced">
                     <input type="hidden" name="action" value="update_profile">
                     
                     <div class="form-group">
@@ -162,11 +162,11 @@ if (empty($user['avatar']) || !file_exists($avatarPath)) {
 
                     <div class="form-group">
                         <label for="avatar">Upload Profile Icon (Avatar)</label>
-                        <input type="file" id="avatar" name="avatar" accept="image/*" style="border: 2px dashed #804808; background: #f7f1e3; padding: 10px;">
-                        <small style="color: #4a3424; font-style: italic; display:block; margin-top:5px;">Allowed formats: PNG, JPG, GIF (Max 2MB)</small>
+                        <input type="file" id="avatar" name="avatar" accept="image/*" class="file-upload-input">
+                        <small class="file-upload-hint">Allowed formats: PNG, JPG, GIF (Max 2MB)</small>
                     </div>
 
-                    <button type="submit" class="dropdown-btn" style="padding: 10px 20px;">Update Guild Card</button>
+                    <button type="submit" class="dropdown-btn btn-padded">Update Guild Card</button>
                 </form>
 
                 <h4 class="reward-type-title">Security & Credentials</h4>
@@ -188,28 +188,28 @@ if (empty($user['avatar']) || !file_exists($avatarPath)) {
                         <input type="password" id="confirm_password" name="confirm_password" required>
                     </div>
 
-                    <button type="submit" class="dropdown-btn" style="padding: 10px 20px;">Change Password</button>
+                    <button type="submit" class="dropdown-btn btn-padded">Change Password</button>
                 </form>
             </div>
         </section>
 
         <aside class="detail-sidebar">
-            <div class="monster-id-card" style="background-color: #f2e6cb; border: 4px double #804808;">
-                <h2 class="monster-id-name" style="font-size:1.5rem; letter-spacing:1px;">OFFICIAL GUILD CARD</h2>
+            <div class="monster-id-card guild-card-special">
+                <h2 class="monster-id-name guild-card-title">OFFICIAL GUILD CARD</h2>
                 
                 <div class="monster-id-icon">
-                    <img src="<?= $avatarPath ?>" alt="Hunter Avatar" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid #804808; background:#fff;">
+                    <img src="<?= $avatarPath ?>" alt="Hunter Avatar" class="guild-card-avatar">
                 </div>
 
                 <div class="monster-id-stats">
-                    <p class="stat-line" style="text-align:center; font-size:1.4rem; font-family:'Georgia',serif; color:#4a3424;">
+                    <p class="stat-line guild-card-name">
                         <strong><?= htmlspecialchars($user['username']) ?></strong>
                     </p>
                     <p class="stat-line"><span>Rank:</span> Official Hunter</p>
                     <p class="stat-line"><span>Status:</span> Active Member</p>
-                    <p class="stat-line" style="border-bottom:none;">
+                    <p class="stat-line borderless-stat">
                         <span>Registered on:</span><br>
-                        <small style="font-size:1rem; color:#2c1e16;"><?= date('F d, Y \a\t H:i', strtotime($user['created_at'])) ?></small>
+                        <small class="guild-card-date"><?= date('F d, Y \a\t H:i', strtotime($user['created_at'])) ?></small>
                     </p>
                 </div>
             </div>

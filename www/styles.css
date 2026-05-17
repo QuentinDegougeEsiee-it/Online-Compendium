@@ -811,3 +811,247 @@ h1, h2, h3, p { margin: 0; }
     margin-right: 4px; /* Espace entre l'image et la flèche du menu */
     background-color: #fff;
 }
+
+/* ========================================== */
+/* NETTOYAGE CLASSES INLINE (PROFILE & NOTES) */
+/* ========================================== */
+
+/* Profil */
+.profile-main-margin { margin-top: 30px; }
+.form-spaced { margin-bottom: 40px; }
+.file-upload-input { border: 2px dashed #804808; background: #f7f1e3; padding: 10px; }
+.file-upload-hint { color: #4a3424; font-style: italic; display: block; margin-top: 5px; }
+.btn-padded { padding: 10px 20px; }
+
+.guild-card-special { background-color: #f2e6cb; border: 4px double #804808; }
+.guild-card-title { font-size: 1.5rem; letter-spacing: 1px; }
+.guild-card-avatar { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid #804808; background: #fff; }
+.guild-card-name { text-align: center; font-size: 1.4rem; font-family: 'Georgia', serif; color: #4a3424; }
+.borderless-stat { border-bottom: none; }
+.guild-card-date { font-size: 1rem; color: #2c1e16; }
+
+/* Boutons d'annulation et suppression */
+.btn-cancel { background: #e74c3c !important; color: white !important; border-color: #c0392b !important; }
+.auth-form .btn-cancel { padding: 9px 15px; text-decoration: none; display: inline-block; }
+
+/* Notes de Chasse */
+.textarea-styled { width: 100%; border: 2px solid #804808; background: #f7f1e3; border-radius: 5px; padding: 10px; box-sizing: border-box; }
+.notes-list-container { display: flex; flex-direction: column; gap: 15px; margin-top: 15px; }
+.note-block-margin { margin-bottom: 0; }
+.note-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #c0a080; padding-bottom: 5px; margin-bottom: 10px; }
+.note-title { font-family: 'Georgia', serif; color: #4a3424; font-size: 1.2rem; margin: 0; flex: 1; }
+.note-date { font-size: 0.85rem; color: #8c7f6f; font-style: italic; }
+.note-content { font-size: 1.05rem; color: #2c1e16; line-height: 1.5; margin-bottom: 15px; }
+.note-actions { display: flex; gap: 10px; justify-content: flex-end; }
+.note-actions form { margin: 0; }
+.note-btn { font-size: 0.85rem; padding: 4px 10px; cursor: pointer; }
+
+/* ========================================== */
+/* 7. L'ARMURERIE (WEAPONS)                   */
+/* ========================================== */
+
+/* --- Page d'accueil de l'armurerie --- */
+.armory-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.armory-title {
+    text-align: center;
+    font-size: 2rem;
+    font-family: 'Georgia', serif;
+    color: #4a3424;
+}
+
+.armory-subtitle {
+    text-align: center;
+    font-style: italic;
+    color: #8c7f6f;
+    margin-bottom: 30px;
+}
+
+.weapons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.weapon-type-card {
+    background-color: #fcf0d4;
+    border: 2px solid #804808;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: #4a3424;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.weapon-type-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    background-color: #f8efb9;
+    border-color: #f1c40f;
+}
+
+.weapon-type-icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 15px;
+    object-fit: contain;
+}
+
+.weapon-type-name {
+    font-family: 'Georgia', serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* --- Page de l'arbre des armes --- */
+.weapon-tree-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.weapon-tree-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #804808;
+    padding-bottom: 20px;
+}
+
+.weapon-tree-header img {
+    width: 50px;
+    height: 50px;
+}
+
+.weapon-tree-header h3 {
+    margin: 0;
+    font-size: 2rem;
+    border: none;
+}
+
+.back-to-armory {
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.weapon-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.weapon-item {
+    background-color: #f2e6cb;
+    border: 1px solid #c0a080;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    gap: 20px;
+}
+
+.weapon-item-icon {
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    border: 1px solid #804808;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.weapon-item-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.weapon-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed #c0a080;
+    padding-bottom: 5px;
+}
+
+.weapon-item-name {
+    font-family: 'Georgia', serif;
+    font-size: 1.3rem;
+    color: #4a3424;
+    font-weight: bold;
+    margin: 0;
+}
+
+.weapon-item-stats {
+    display: flex;
+    gap: 20px;
+    font-size: 0.95rem;
+    color: #2c1e16;
+}
+
+/* La barre magique de Tranchant (Sharpness) */
+.sharpness-label {
+    font-size: 0.85rem;
+    color: #8c7f6f;
+    margin-top: 5px;
+}
+
+.sharpness-container {
+    display: flex;
+    width: 150px;
+    height: 10px;
+    background-color: #333;
+    border: 1px solid #111;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.sharpness-segment {
+    height: 100%;
+}
+
+/* Style pour le rang textuel des armes */
+.weapon-rarity-text {
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    color: #804808;
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* Style pour les icônes d'éléments dans la liste des armes */
+.weapon-item-elements {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.element-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.weapon-element-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* Rend les éléments "Cachés" (Hidden) légèrement grisés/transparents */
+.element-hidden {
+    opacity: 0.6;
+}

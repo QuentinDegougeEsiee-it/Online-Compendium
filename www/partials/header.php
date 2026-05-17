@@ -43,6 +43,7 @@ if (isset($_SESSION['user_id'])) {
             <nav class="header-nav-left">
                 <a href="index.php">Home</a>
                 <a href="monsters.php">Bestiary</a>
+                <a href="weapons.php">Armory</a> </nav>
             </nav>
             
             <a href="index.php" class="nav-logo">Online Compendium</a>
@@ -69,20 +70,6 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </header>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const userBtn = document.querySelector('.user-dropdown-btn');
-        const userContent = document.querySelector('.user-dropdown-content');
-        
-        if (userBtn && userContent) {
-            userBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                userContent.classList.toggle('show');
-            });
-            
-            document.addEventListener('click', function() {
-                userContent.classList.remove('show');
-            });
-        }
-    });
-    </script>
+    <script src="header.js"></script>
+</body>
+</html>

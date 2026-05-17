@@ -366,7 +366,7 @@ require_once 'partials/header.php';
 
                         <?php if ($noteToEdit): ?>
                             <h4 class="reward-type-title">Edit your Note</h4>
-                            <form method="POST" action="note_actions.php" class="auth-form" style="margin-bottom: 40px;">
+                            <form method="POST" action="note_actions.php" class="auth-form form-spaced">
                                 <input type="hidden" name="action" value="update">
                                 <input type="hidden" name="monster_id" value="<?= $id ?>">
                                 <input type="hidden" name="note_id" value="<?= $noteToEdit['id'] ?>">
@@ -377,14 +377,14 @@ require_once 'partials/header.php';
                                 </div>
                                 <div class="form-group">
                                     <label>Strategy / Notes</label>
-                                    <textarea name="content" rows="4" style="width:100%; border:2px solid #804808; background:#f7f1e3; border-radius:5px; padding:10px; box-sizing:border-box;" required><?= htmlspecialchars($noteToEdit['content']) ?></textarea>
+                                    <textarea name="content" rows="4" class="textarea-styled" required><?= htmlspecialchars($noteToEdit['content']) ?></textarea>
                                 </div>
-                                <button type="submit" class="dropdown-btn" style="padding: 10px 20px;">Update Note</button>
-                                <a href="details.php?id=<?= $id ?>#notes-tab" class="auth-btn" style="background:#e74c3c; color:white !important; border-color:#c0392b; padding:9px 15px;">Cancel</a>
+                                <button type="submit" class="dropdown-btn btn-padded">Update Note</button>
+                                <a href="details.php?id=<?= $id ?>#notes-tab" class="auth-btn btn-cancel">Cancel</a>
                             </form>
                         <?php else: ?>
                             <h4 class="reward-type-title">Add a New Hunting Note</h4>
-                            <form method="POST" action="note_actions.php" class="auth-form" style="margin-bottom: 40px;">
+                            <form method="POST" action="note_actions.php" class="auth-form form-spaced">
                                 <input type="hidden" name="action" value="create">
                                 <input type="hidden" name="monster_id" value="<?= $id ?>">
                                 
@@ -394,9 +394,9 @@ require_once 'partials/header.php';
                                 </div>
                                 <div class="form-group">
                                     <label>Strategy / Notes</label>
-                                    <textarea name="content" placeholder="Write your hunting build or monster pattern observation here..." rows="3" style="width:100%; border:2px solid #804808; background:#f7f1e3; border-radius:5px; padding:10px; box-sizing:border-box;" required></textarea>
+                                    <textarea name="content" placeholder="Write your hunting build or monster pattern observation here..." rows="3" class="textarea-styled" required></textarea>
                                 </div>
-                                <button type="submit" class="dropdown-btn" style="padding: 10px 20px;">Save Note</button>
+                                <button type="submit" class="dropdown-btn btn-padded">Save Note</button>
                             </form>
                         <?php endif; ?>
 
@@ -404,27 +404,27 @@ require_once 'partials/header.php';
                         <?php if (empty($hunterNotes)): ?>
                             <p class="unknown-text"><em>No notes recorded yet for this monster.</em></p>
                         <?php else: ?>
-                            <div style="display:flex; flex-direction:column; gap:15px; margin-top:15px;">
+                            <div class="notes-list-container">
                                 <?php foreach ($hunterNotes as $note): ?>
-                                    <div class="condition-block" style="margin-bottom:0;">
-                                        <div style="display:flex; justify-content:between; align-items:center; border-bottom:1px solid #c0a080; padding-bottom:5px; margin-bottom:10px;">
-                                            <h5 style="font-family:'Georgia',serif; color:#4a3424; font-size:1.2rem; margin:0; flex:1;">
+                                    <div class="condition-block note-block-margin">
+                                        <div class="note-header">
+                                            <h5 class="note-title">
                                                 <?= htmlspecialchars($note['title']) ?>
                                             </h5>
-                                            <span style="font-size:0.85rem; color:#8c7f6f; font-style:italic;">
+                                            <span class="note-date">
                                                 <?= date('M d, Y', strtotime($note['created_at'])) ?>
                                             </span>
                                         </div>
-                                        <p style="font-size:1.05rem; color:#2c1e16; line-height:1.5; margin-bottom:15px;"><?= nl2br(htmlspecialchars($note['content'])) ?></p>
+                                        <p class="note-content"><?= nl2br(htmlspecialchars($note['content'])) ?></p>
                                         
-                                        <div style="display:flex; gap:10px; justify-content:flex-end;">
-                                            <a href="details.php?id=<?= $id ?>&edit_note=<?= $note['id'] ?>#notes-tab" class="auth-btn" style="font-size:0.85rem; padding:4px 10px;">Edit</a>
+                                        <div class="note-actions">
+                                            <a href="details.php?id=<?= $id ?>&edit_note=<?= $note['id'] ?>#notes-tab" class="auth-btn note-btn">Edit</a>
                                             
-                                            <form method="POST" action="note_actions.php" onsubmit="return confirm('Delete this note?');" style="margin:0;">
+                                            <form method="POST" action="note_actions.php" class="delete-note-form">
                                                 <input type="hidden" name="action" value="delete">
                                                 <input type="hidden" name="monster_id" value="<?= $id ?>">
                                                 <input type="hidden" name="note_id" value="<?= $note['id'] ?>">
-                                                <button type="submit" class="auth-btn" style="background:#e74c3c; color:white !important; border-color:#c0392b; font-size:0.85rem; padding:4px 10px; cursor:pointer;">Delete</button>
+                                                <button type="submit" class="auth-btn btn-cancel note-btn">Delete</button>
                                             </form>
                                         </div>
                                     </div>
