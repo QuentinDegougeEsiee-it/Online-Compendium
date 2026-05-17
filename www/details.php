@@ -158,16 +158,18 @@ require_once 'partials/header.php';
                     <h3>ELEMENTAL WEAKNESSES</h3>
                     <?php if (!empty($elementalWeaknesses)): ?>
                         <?php foreach ($elementalWeaknesses as $condition => $weaks): ?>
-                            <?php if ($condition !== 'Général'): ?><h4 class="weakness-condition"><?= htmlspecialchars(ucfirst($condition)) ?></h4><?php endif; ?>
-                            <div class="weakness-grid">
-                                <?php foreach ($weaks as $w): ?>
-                                    <div class="weakness-item">
-                                        <img src="assets/img/elements/<?= $w['element'] ?>.png" class="weakness-el-icon">
-                                        <div class="stars-container">
-                                            <?php for($i=0; $i < $w['stars']; $i++): ?><img src="assets/img/star.png" class="weakness-star"><?php endfor; ?>
+                            <div class="condition-block">
+                                <?php if ($condition !== 'Général'): ?><h4 class="weakness-condition"><?= htmlspecialchars(ucfirst($condition)) ?></h4><?php endif; ?>
+                                <div class="weakness-grid">
+                                    <?php foreach ($weaks as $w): ?>
+                                        <div class="weakness-item">
+                                            <img src="assets/img/elements/<?= $w['element'] ?>.png" class="weakness-el-icon">
+                                            <div class="stars-container">
+                                                <?php for($i=0; $i < $w['stars']; $i++): ?><img src="assets/img/star.png" class="weakness-star"><?php endfor; ?>
+                                            </div>
                                         </div>
-                                    </div>
-                                <?php endforeach; ?>
+                                    <?php endforeach; ?>
+                                </div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?><p class="unknown-text"><em>NONE</em></p><?php endif; ?>
@@ -177,16 +179,18 @@ require_once 'partials/header.php';
                     <h3>AILMENT WEAKNESSES</h3>
                     <?php if (!empty($ailmentWeaknesses)): ?>
                         <?php foreach ($ailmentWeaknesses as $condition => $weaks): ?>
-                            <?php if ($condition !== 'Général'): ?><h4 class="weakness-condition"><?= htmlspecialchars(ucfirst($condition)) ?></h4><?php endif; ?>
-                            <div class="weakness-grid">
-                                <?php foreach ($weaks as $w): ?>
-                                    <div class="weakness-item">
-                                        <img src="assets/img/elements/<?= $w['element'] ?>.png" class="weakness-el-icon">
-                                        <div class="stars-container">
-                                            <?php for($i=0; $i < $w['stars']; $i++): ?><img src="assets/img/star.png" class="weakness-star"><?php endfor; ?>
+                            <div class="condition-block">
+                                <?php if ($condition !== 'Général'): ?><h4 class="weakness-condition"><?= htmlspecialchars(ucfirst($condition)) ?></h4><?php endif; ?>
+                                <div class="weakness-grid">
+                                    <?php foreach ($weaks as $w): ?>
+                                        <div class="weakness-item">
+                                            <img src="assets/img/elements/<?= $w['element'] ?>.png" class="weakness-el-icon">
+                                            <div class="stars-container">
+                                                <?php for($i=0; $i < $w['stars']; $i++): ?><img src="assets/img/star.png" class="weakness-star"><?php endfor; ?>
+                                            </div>
                                         </div>
-                                    </div>
-                                <?php endforeach; ?>
+                                    <?php endforeach; ?>
+                                </div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?><p class="unknown-text"><em>NONE</em></p><?php endif; ?>
@@ -198,27 +202,29 @@ require_once 'partials/header.php';
                     <h3>ELEMENTAL RESISTANCES</h3>
                     <?php if (!empty($elementalResistances)): ?>
                         <?php foreach ($elementalResistances as $condition => $res): ?>
-                            <?php if ($condition !== 'Général'): ?>
-                                <h4 class="weakness-condition"><?= htmlspecialchars(ucfirst($condition)) ?></h4>
-                            <?php endif; ?>
+                            <div class="condition-block">
+                                <?php if ($condition !== 'Général'): ?>
+                                    <h4 class="weakness-condition"><?= htmlspecialchars(ucfirst($condition)) ?></h4>
+                                <?php endif; ?>
 
-                            <div class="weakness-grid">
-                                <?php foreach ($res as $r): ?>
-                                    <div class="weakness-item">
-                                        <img src="assets/img/elements/<?= $r['element'] ?>.png" class="weakness-el-icon">
-                                        <div class="stars-container">
-                                            <?php if (stripos($condition, 'immune') !== false || (isset($r['condition']) && stripos($r['condition'], 'immune') !== false)): ?>
-                                                <img src="assets/img/cross.png" alt="Immune" class="weakness-cross">
-                                            <?php else: ?>
-                                                <?php 
-                                                $stars = isset($r['stars']) ? $r['stars'] : 1; 
-                                                for($i=0; $i < $stars; $i++): ?>
-                                                    <img src="assets/img/star.png" alt="star" class="weakness-star">
-                                                <?php endfor; ?>
-                                            <?php endif; ?>
+                                <div class="weakness-grid">
+                                    <?php foreach ($res as $r): ?>
+                                        <div class="weakness-item">
+                                            <img src="assets/img/elements/<?= $r['element'] ?>.png" class="weakness-el-icon">
+                                            <div class="stars-container">
+                                                <?php if (stripos($condition, 'immune') !== false || (isset($r['condition']) && stripos($r['condition'], 'immune') !== false)): ?>
+                                                    <img src="assets/img/cross.png" alt="Immune" class="weakness-cross">
+                                                <?php else: ?>
+                                                    <?php 
+                                                    $stars = isset($r['stars']) ? $r['stars'] : 1; 
+                                                    for($i=0; $i < $stars; $i++): ?>
+                                                        <img src="assets/img/star.png" alt="star" class="weakness-star">
+                                                    <?php endfor; ?>
+                                                <?php endif; ?>
+                                            </div>
                                         </div>
-                                    </div>
-                                <?php endforeach; ?>
+                                    <?php endforeach; ?>
+                                </div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
@@ -230,27 +236,29 @@ require_once 'partials/header.php';
                     <h3>AILMENT RESISTANCES</h3>
                     <?php if (!empty($ailmentResistances)): ?>
                         <?php foreach ($ailmentResistances as $condition => $res): ?>
-                            <?php if ($condition !== 'Général'): ?>
-                                <h4 class="weakness-condition"><?= htmlspecialchars(ucfirst($condition)) ?></h4>
-                            <?php endif; ?>
+                            <div class="condition-block">
+                                <?php if ($condition !== 'Général'): ?>
+                                    <h4 class="weakness-condition"><?= htmlspecialchars(ucfirst($condition)) ?></h4>
+                                <?php endif; ?>
 
-                            <div class="weakness-grid">
-                                <?php foreach ($res as $r): ?>
-                                    <div class="weakness-item">
-                                        <img src="assets/img/elements/<?= $r['element'] ?>.png" class="weakness-el-icon">
-                                        <div class="stars-container">
-                                            <?php if (stripos($condition, 'immune') !== false || (isset($r['condition']) && stripos($r['condition'], 'immune') !== false)): ?>
-                                                <img src="assets/img/cross.png" alt="Immune" class="weakness-cross">
-                                            <?php else: ?>
-                                                <?php 
-                                                $stars = isset($r['stars']) ? $r['stars'] : 1; 
-                                                for($i=0; $i < $stars; $i++): ?>
-                                                    <img src="assets/img/star.png" alt="star" class="weakness-star">
-                                                <?php endfor; ?>
-                                            <?php endif; ?>
+                                <div class="weakness-grid">
+                                    <?php foreach ($res as $r): ?>
+                                        <div class="weakness-item">
+                                            <img src="assets/img/elements/<?= $r['element'] ?>.png" class="weakness-el-icon">
+                                            <div class="stars-container">
+                                                <?php if (stripos($condition, 'immune') !== false || (isset($r['condition']) && stripos($r['condition'], 'immune') !== false)): ?>
+                                                    <img src="assets/img/cross.png" alt="Immune" class="weakness-cross">
+                                                <?php else: ?>
+                                                    <?php 
+                                                    $stars = isset($r['stars']) ? $r['stars'] : 1; 
+                                                    for($i=0; $i < $stars; $i++): ?>
+                                                        <img src="assets/img/star.png" alt="star" class="weakness-star">
+                                                    <?php endfor; ?>
+                                                <?php endif; ?>
+                                            </div>
                                         </div>
-                                    </div>
-                                <?php endforeach; ?>
+                                    <?php endforeach; ?>
+                                </div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>

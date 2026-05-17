@@ -163,6 +163,48 @@ h1, h2, h3, p { margin: 0; }
 .card-monster-img { max-width: 70%; height: auto; width: 180px; filter: drop-shadow(0 5px 8px rgba(0,0,0,0.5)); }
 .card-text { font-family: 'Georgia', serif; color: #000000; font-size: 1.8rem; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
 
+/* Le menu utilisateur à droite */
+.header-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1; /* NOUVEAU : Force la zone à prendre un espace égal à celle de gauche */
+    justify-content: flex-end; /* NOUVEAU : Plaque le texte et le bouton tout à droite */
+}
+
+.user-greeting {
+    color: #c5b38f;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+.auth-btn {
+    color: #4a3424 !important; /* Texte marron */
+    background-color: #f7e1b5; /* Fond parchemin */
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 2px solid #804808;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.auth-btn:hover {
+    background-color: #f1c40f;
+    transform: translateY(-2px);
+    color: #1a1a1a !important;
+}
+
+.logout-btn {
+    background-color: #e74c3c;
+    color: #fff !important;
+    border-color: #c0392b;
+}
+.logout-btn:hover {
+    background-color: #c0392b;
+}
 /* ========================================== */
 /* 4. PAGE BESTIAIRE (MONSTERS.PHP)           */
 /* ========================================== */
@@ -369,11 +411,11 @@ h1, h2, h3, p { margin: 0; }
 .tab-link:hover { color: #804808; }
 
 .tab-link.active { 
-    background-color: #f7f1e3; /* Parchemin clair */
+    background-color: #f7e1b5; /* Parchemin clair */
     color: #4a3424; 
     border-radius: 8px 8px 0 0; 
     border: 3px solid #804808; 
-    border-bottom: 3px solid #f7f1e3; /* Efface la ligne en dessous pour fusionner avec le contenu */
+    border-bottom: 3px solid #f7e1b5; /* Efface la ligne en dessous pour fusionner avec le contenu */
     margin-bottom: -3px; 
 }
 
@@ -383,7 +425,7 @@ h1, h2, h3, p { margin: 0; }
 
 /* Panneaux de contenu (Info, Fight, Reward) */
 .info-block, .fight-block, .reward-block { 
-    background-color: #f7f1e3; 
+    background-color: #f7e1b5; 
     border: 3px solid #804808; 
     border-radius: 8px; 
     padding: 25px; 
@@ -409,7 +451,7 @@ h1, h2, h3, p { margin: 0; }
 
 /* La Sidebar (ID Card) */
 .monster-id-card { 
-    background-color: #f7f1e3; 
+    background-color: #f7e1b5; 
     border: 3px solid #804808; 
     box-shadow: 0 10px 20px rgba(0,0,0,0.2); 
     color: #4a3424; 
@@ -576,48 +618,32 @@ h1, h2, h3, p { margin: 0; }
     font-size: 0.95rem; 
 }
 
-/* Le menu utilisateur à droite */
-.header-nav-right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex: 1; /* NOUVEAU : Force la zone à prendre un espace égal à celle de gauche */
-    justify-content: flex-end; /* NOUVEAU : Plaque le texte et le bouton tout à droite */
+/* NOUVEAU : Sous-cadre pour séparer les conditions (Ice active, Dragon active...) */
+.condition-block {
+    background-color: rgba(128, 72, 8, 0.05); /* Un fond brun très léger pour se détacher du parchemin */
+    border: 1px dashed #c0a080; /* Une bordure pointillée style "notes rajoutées" */
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); /* Très légère profondeur intérieure */
 }
 
-.user-greeting {
-    color: #c5b38f;
-    font-family: 'Georgia', serif;
-    font-style: italic;
-    font-size: 1.1rem;
+/* Ajustements pour que le texte rentre parfaitement dans le sous-cadre */
+.condition-block .weakness-condition {
+    margin-top: 0; /* Enlève la marge du haut pour coller au bord du cadre */
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(192, 160, 128, 0.4); /* Petite ligne sous le nom de la condition */
+    padding-bottom: 8px;
+    display: inline-block; /* Permet à la ligne de ne pas prendre toute la largeur si on préfère */
+    width: 100%;
 }
 
-.auth-btn {
-    color: #4a3424 !important; /* Texte marron */
-    background-color: #f7e1b5; /* Fond parchemin */
-    padding: 6px 12px;
-    border-radius: 4px;
-    border: 2px solid #804808;
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: bold;
-    transition: background-color 0.2s, transform 0.2s;
+/* On retire la marge basse de la grille d'icônes car le padding du cadre s'en charge */
+.condition-block .weakness-grid {
+    margin-bottom: 0;
 }
 
-.auth-btn:hover {
-    background-color: #f1c40f;
-    transform: translateY(-2px);
-    color: #1a1a1a !important;
-}
 
-.logout-btn {
-    background-color: #e74c3c;
-    color: #fff !important;
-    border-color: #c0392b;
-}
-.logout-btn:hover {
-    background-color: #c0392b;
-}
 /* ========================================== */
 /* 6. FORMULAIRES D'AUTHENTIFICATION          */
 /* ========================================== */
