@@ -415,9 +415,7 @@ require_once 'partials/header.php';
                                                 <?= date('M d, Y', strtotime($note['created_at'])) ?>
                                             </span>
                                         </div>
-                                        <p style="font-size:1.05rem; color:#2c1e16; line-height:1.5; white-space:pre-wrap; margin-bottom:15px;">
-                                            <?= htmlspecialchars($note['content']) ?>
-                                        </p>
+                                        <p style="font-size:1.05rem; color:#2c1e16; line-height:1.5; margin-bottom:15px;"><?= nl2br(htmlspecialchars($note['content'])) ?></p>
                                         
                                         <div style="display:flex; gap:10px; justify-content:flex-end;">
                                             <a href="details.php?id=<?= $id ?>&edit_note=<?= $note['id'] ?>#notes-tab" class="auth-btn" style="font-size:0.85rem; padding:4px 10px;">Edit</a>

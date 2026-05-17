@@ -1,5 +1,4 @@
 <?php
-// On active les sessions PHP tout en haut du fichier (OBLIGATOIRE)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -25,8 +24,15 @@ if (session_status() === PHP_SESSION_NONE) {
 
             <nav class="header-nav-right">
                 <?php if(isset($_SESSION['user_id'])): ?>
-                    <span class="user-greeting">Hunter <?= htmlspecialchars($_SESSION['username']) ?></span>
-                    <a href="logout.php" class="auth-btn logout-btn">Logout</a>
+                    <div class="dropdown user-dropdown">
+                        <button class="dropdown-btn user-dropdown-btn">
+                            Hunter <?= htmlspecialchars($_SESSION['username']) ?> ▾
+                        </button>
+                        <div class="dropdown-content user-dropdown-content">
+                            <a href="profile.php">Profile</a>
+                            <a href="logout.php" class="dropdown-logout">Logout</a>
+                        </div>
+                    </div>
                 <?php else: ?>
                     <a href="login.php" class="auth-btn">Login</a>
                     <a href="register.php" class="auth-btn">Register</a>
@@ -35,3 +41,22 @@ if (session_status() === PHP_SESSION_NONE) {
             
         </div>
     </header>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const userBtn = document.querySelector('.user-dropdown-btn');
+        const userContent = document.querySelector('.user-dropdown-content');
+        
+        if (userBtn && userContent) {
+            userBtn.addEventListener('click', function(e) {
+                e.stopPropagation(); // Empêche la fermeture immédiate
+                userContent.classList.toggle('show');
+            });
+            
+            // Ferme le menu si on clique n'importe où ailleurs sur l'écran
+            document.addEventListener('click', function() {
+                userContent.classList.remove('show');
+            });
+        }
+    });
+    </script>

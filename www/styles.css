@@ -66,6 +66,7 @@ h1, h2, h3, p { margin: 0; }
     justify-content: space-between; /* Pousse les liens à l'extrême gauche, le logo à l'extrême droite */
     align-items: center; 
     width: 100%;
+    position: relative;
 }
 
 /* Style de la nouvelle zone de navigation à gauche */
@@ -96,6 +97,9 @@ h1, h2, h3, p { margin: 0; }
     text-decoration: none; 
     text-transform: uppercase; 
     letter-spacing: 1px; 
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 .nav-logo:hover {
     color: #fff;
@@ -111,6 +115,56 @@ h1, h2, h3, p { margin: 0; }
     margin-top: auto; 
     margin-bottom: 0; 
 }
+/* ========================================== */
+/* CONFIGURATION MENU DÉROULANT USER          */
+/* ========================================== */
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Aligne le menu parchemin sur le bord droit pour éviter qu'il sorte de l'écran */
+.user-dropdown-content {
+    right: 0;
+    left: auto;
+    min-width: 160px;
+    padding: 5px 0;
+}
+
+.user-dropdown-content a {
+    display: block;
+    color: #4a3424 !important; /* Texte brun foncé */
+    padding: 10px 20px;
+    text-decoration: none;
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+    text-align: left;
+    transition: background-color 0.2s;
+}
+
+.user-dropdown-content a:hover {
+    background-color: rgba(128, 72, 8, 0.1); /* Léger survol brun */
+    color: #804808 !important;
+}
+
+/* Ligne pointillée de séparation et style pour le bouton Logout */
+.user-dropdown-content .dropdown-logout {
+    border-top: 1px dashed #c0a080;
+    color: #c0392b !important; /* Texte rouge */
+}
+
+.user-dropdown-content .dropdown-logout:hover {
+    background-color: rgba(231, 76, 60, 0.1); /* Survol rouge très léger */
+    color: #c0392b !important;
+}
+/* Ajustement de la taille du bouton pour qu'il ne déforme pas le header */
+.user-dropdown-btn {
+    padding: 6px 12px; /* Même rembourrage que tes boutons Login/Register */
+    font-size: 0.95rem; /* Police plus petite */
+    font-family: 'Arial', sans-serif; /* Pour correspondre aux autres liens du header */
+    margin: 0;
+}
+
 
 /* ========================================== */
 /* 3. PAGE D'ACCUEIL (INDEX.PHP)              */
@@ -724,4 +778,15 @@ h1, h2, h3, p { margin: 0; }
     background-color: #abebc6;
     color: #27ae60;
     border: 1px solid #2ecc71;
+}
+
+/* Force la même hauteur et le même alignement pour les liens d'auth et le bouton dropdown */
+.auth-btn, .user-dropdown-btn {
+    box-sizing: border-box; /* S'assure que les bordures sont incluses dans la taille */
+    height: 36px; /* On impose une hauteur stricte et identique pour tous */
+    display: inline-flex; /* Permet de centrer parfaitement le texte à l'intérieur */
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
 }
