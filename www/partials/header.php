@@ -2,6 +2,31 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// NOUVEAU : On récupère l'avatar mis à jour de l'utilisateur connecté
+$headerAvatar = 'assets/img/monsters/MHW-Rathalos_Icon.png'; // Icône par défaut si pas d'avatar
+if (isset($_SESSION['user_id'])) {
+    // On s'assure d'avoir accès à la connexion PDO de la base de données
+    if (!isset($pdo)) {
+        if (file_exists('db_connect.php')) {
+            require_once 'db_connect.php';
+        } elseif (file_exists('db.php')) {
+            require_once 'db.php';
+        }
+    }
+    
+    if (isset($pdo)) {
+        $stmt = $pdo->prepare("SELECT avatar FROM users WHERE id = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        $u = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($u && !empty($u['avatar'])) {
+            $checkPath = 'assets/img/avatars/' . $u['avatar'];
+            if (file_exists($checkPath)) {
+                $headerAvatar = $checkPath;
+            }
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +51,9 @@ if (session_status() === PHP_SESSION_NONE) {
                 <?php if(isset($_SESSION['user_id'])): ?>
                     <div class="dropdown user-dropdown">
                         <button class="dropdown-btn user-dropdown-btn">
-                            Hunter <?= htmlspecialchars($_SESSION['username']) ?> ▾
+                            Hunter <?= htmlspecialchars($_SESSION['username']) ?>
+                            <img src="<?= $headerAvatar ?>" class="header-avatar" alt="Avatar">
+                            ▾
                         </button>
                         <div class="dropdown-content user-dropdown-content">
                             <a href="profile.php">Profile</a>
@@ -49,11 +76,10 @@ if (session_status() === PHP_SESSION_NONE) {
         
         if (userBtn && userContent) {
             userBtn.addEventListener('click', function(e) {
-                e.stopPropagation(); // Empêche la fermeture immédiate
+                e.stopPropagation();
                 userContent.classList.toggle('show');
             });
             
-            // Ferme le menu si on clique n'importe où ailleurs sur l'écran
             document.addEventListener('click', function() {
                 userContent.classList.remove('show');
             });

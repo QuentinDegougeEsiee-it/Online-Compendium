@@ -790,3 +790,24 @@ h1, h2, h3, p { margin: 0; }
     margin: 0;
     font-family: 'Arial', sans-serif;
 }
+
+/* Style pour le champ input file du profil */
+.auth-form input[type="file"] {
+    cursor: pointer;
+}
+.auth-form input[type="file"]:hover {
+    background-color: #fff !important;
+    border-color: #f1c40f !important;
+}
+
+/* Petite photo de profil ronde insérée dans le bouton du header */
+.header-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%; /* Rend l'image parfaitement circulaire */
+    object-fit: cover; /* Évite de déformer l'image */
+    border: 1.5px solid #804808; /* Fine bordure boisée assortie au thème */
+    margin-left: 8px; /* Espace entre le pseudo et l'image */
+    margin-right: 4px; /* Espace entre l'image et la flèche du menu */
+    background-color: #fff;
+}
