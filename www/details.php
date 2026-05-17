@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once 'db_connect.php';
 
 $id = $_GET['id'] ?? null;
@@ -94,6 +97,13 @@ try {
             }
         }
     }
+    // --- READ : Récupération des notes du chasseur connecté pour ce monstre ---
+    $hunterNotes = [];
+    if (isset($_SESSION['user_id'])) {
+        $notesStmt = $pdo->prepare("SELECT * FROM hunter_notes WHERE user_id = ? AND monster_id = ? ORDER BY created_at DESC");
+        $notesStmt->execute([$_SESSION['user_id'], $id]);
+        $hunterNotes = $notesStmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 } catch (PDOException $e) {
     die("Erreur : " . $e->getMessage());
 }
@@ -129,6 +139,7 @@ require_once 'partials/header.php';
                 <button class="tab-link active" data-tab="info">Information</button>
                 <button class="tab-link" data-tab="fight">Fight</button>
                 <button class="tab-link" data-tab="reward">Reward</button>
+                <button class="tab-link" data-tab="notes" id="notes-tab">My Notes</button>
             </div>
 
             <div id="info" class="tab-content active">
@@ -331,6 +342,98 @@ require_once 'partials/header.php';
                         <?php endforeach; ?>
                     <?php else: ?>
                         <p class="unknown-text"><em>Aucune donnée de récompense disponible pour ce monstre.</em></p>
+                    <?php endif; ?>
+                </section>
+            </div>
+
+            <div id="notes" class="tab-content">
+                <section class="reward-block">
+                    <h3>HUNTING LOG & STRATEGIES</h3>
+
+                    <?php if (!isset($_SESSION['user_id'])): ?>
+                        <p class="unknown-text"><em>Please log in to read or write hunting notes for this monster.</em></p>
+                    <?php else: ?>
+                        
+                        <?php 
+                        $editNoteId = $_GET['edit_note'] ?? null;
+                        $noteToEdit = null;
+                        if ($editNoteId) {
+                            foreach ($hunterNotes as $n) {
+                                if ($n['id'] == $editNoteId) { $noteToEdit = $n; break; }
+                            }
+                        }
+                        ?>
+
+                        <?php if ($noteToEdit): ?>
+                            <h4 class="reward-type-title">Edit your Note</h4>
+                            <form method="POST" action="note_actions.php" class="auth-form" style="margin-bottom: 40px;">
+                                <input type="hidden" name="action" value="update">
+                                <input type="hidden" name="monster_id" value="<?= $id ?>">
+                                <input type="hidden" name="note_id" value="<?= $noteToEdit['id'] ?>">
+                                
+                                <div class="form-group">
+                                    <label>Note Title</label>
+                                    <input type="text" name="title" value="<?= htmlspecialchars($noteToEdit['title']) ?>" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Strategy / Notes</label>
+                                    <textarea name="content" rows="4" style="width:100%; border:2px solid #804808; background:#f7f1e3; border-radius:5px; padding:10px; box-sizing:border-box;" required><?= htmlspecialchars($noteToEdit['content']) ?></textarea>
+                                </div>
+                                <button type="submit" class="dropdown-btn" style="padding: 10px 20px;">Update Note</button>
+                                <a href="details.php?id=<?= $id ?>#notes-tab" class="auth-btn" style="background:#e74c3c; color:white !important; border-color:#c0392b; padding:9px 15px;">Cancel</a>
+                            </form>
+                        <?php else: ?>
+                            <h4 class="reward-type-title">Add a New Hunting Note</h4>
+                            <form method="POST" action="note_actions.php" class="auth-form" style="margin-bottom: 40px;">
+                                <input type="hidden" name="action" value="create">
+                                <input type="hidden" name="monster_id" value="<?= $id ?>">
+                                
+                                <div class="form-group">
+                                    <label>Note Title</label>
+                                    <input type="text" name="title" placeholder="e.g., Ice Armor Phase Counter" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Strategy / Notes</label>
+                                    <textarea name="content" placeholder="Write your hunting build or monster pattern observation here..." rows="3" style="width:100%; border:2px solid #804808; background:#f7f1e3; border-radius:5px; padding:10px; box-sizing:border-box;" required></textarea>
+                                </div>
+                                <button type="submit" class="dropdown-btn" style="padding: 10px 20px;">Save Note</button>
+                            </form>
+                        <?php endif; ?>
+
+                        <h4 class="reward-rank-title">Your Saved Notes</h4>
+                        <?php if (empty($hunterNotes)): ?>
+                            <p class="unknown-text"><em>No notes recorded yet for this monster.</em></p>
+                        <?php else: ?>
+                            <div style="display:flex; flex-direction:column; gap:15px; margin-top:15px;">
+                                <?php foreach ($hunterNotes as $note): ?>
+                                    <div class="condition-block" style="margin-bottom:0;">
+                                        <div style="display:flex; justify-content:between; align-items:center; border-bottom:1px solid #c0a080; padding-bottom:5px; margin-bottom:10px;">
+                                            <h5 style="font-family:'Georgia',serif; color:#4a3424; font-size:1.2rem; margin:0; flex:1;">
+                                                <?= htmlspecialchars($note['title']) ?>
+                                            </h5>
+                                            <span style="font-size:0.85rem; color:#8c7f6f; font-style:italic;">
+                                                <?= date('M d, Y', strtotime($note['created_at'])) ?>
+                                            </span>
+                                        </div>
+                                        <p style="font-size:1.05rem; color:#2c1e16; line-height:1.5; white-space:pre-wrap; margin-bottom:15px;">
+                                            <?= htmlspecialchars($note['content']) ?>
+                                        </p>
+                                        
+                                        <div style="display:flex; gap:10px; justify-content:flex-end;">
+                                            <a href="details.php?id=<?= $id ?>&edit_note=<?= $note['id'] ?>#notes-tab" class="auth-btn" style="font-size:0.85rem; padding:4px 10px;">Edit</a>
+                                            
+                                            <form method="POST" action="note_actions.php" onsubmit="return confirm('Delete this note?');" style="margin:0;">
+                                                <input type="hidden" name="action" value="delete">
+                                                <input type="hidden" name="monster_id" value="<?= $id ?>">
+                                                <input type="hidden" name="note_id" value="<?= $note['id'] ?>">
+                                                <button type="submit" class="auth-btn" style="background:#e74c3c; color:white !important; border-color:#c0392b; font-size:0.85rem; padding:4px 10px; cursor:pointer;">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+
                     <?php endif; ?>
                 </section>
             </div>
