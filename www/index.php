@@ -12,13 +12,19 @@ require_once 'partials/header.php';
             <img src="assets/img/logos/mhwi_logo_full.png" alt="Monster Hunter World: Iceborne Logo" class="mhwi-logo-large">
         </div>
 
-        <a href="monsters.php" class="monster-nav-card">
-            <div class="card-inner">
-                <img src="assets/img/monsters/rathalos_home.png" alt="Rathalos - Monsters Section" class="card-monster-img">
-                
-                <span class="card-text">MONSTERS</span>
-            </div>
-        </a>
+        <div class="home-nav-links-container">
+            
+            <a href="monsters.php" class="home-hub-card">
+                <img src="assets/img/monsters/rathalos_home.png" alt="Monsters Section" class="home-hub-img">
+                <span class="home-hub-text">MONSTERS</span>
+            </a>
+
+            <a href="weapons.php" class="home-hub-card">
+                <img src="https://assets.mhw-db.com/weapons/insect-glaive/icons/d686e3c4e9a394c8975893256bdba3ac.07b48cc26c9cc82a6b77252bc303c3c4ac58eb1d.png" alt="Weapons Section" class="home-hub-img weapon-logo-clean">
+                <span class="home-hub-text">WEAPONS</span>
+            </a>
+
+        </div>
 
     </div>
 </main>

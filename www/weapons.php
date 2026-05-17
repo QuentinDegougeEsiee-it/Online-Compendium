@@ -46,7 +46,7 @@ if (file_exists($jsonPath)) {
     <?php require_once 'partials/header.php'; ?>
 
     <main class="container-detail profile-main-margin">
-        <section class="info-block armory-container">
+        <section class="detail-main armory-container">
             <h3 class="armory-title">THE ARMORY</h3>
             <p class="armory-subtitle">Select a weapon class to view the full forging tree and stats.</p>
             

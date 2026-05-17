@@ -44,7 +44,7 @@ if (file_exists($jsonPath)) {
     <?php require_once 'partials/header.php'; ?>
 
     <main class="container-detail profile-main-margin">
-        <section class="info-block weapon-tree-container">
+        <section class="detail-main weapon-tree-container">
             
             <div class="weapon-tree-header">
                 <img src="<?= htmlspecialchars($typeIcon) ?>" alt="Icon">
@@ -63,7 +63,9 @@ if (file_exists($jsonPath)) {
                             <div class="weapon-item-details">
                                 <div class="weapon-item-header">
                                     <h4 class="weapon-item-name"><?= htmlspecialchars($w['name']) ?></h4>
-                                    <span class="weapon-rarity-text">Rank: <?= $w['rarity'] ?? 1 ?> star</span>
+                                    <span class="weapon-rarity-text">
+                                        Rank: <?= $w['rarity'] ?? 1 ?> <img src="assets/img/star.png" alt="star" class="weapon-inline-star">
+                                    </span>
                                 </div>
                                 
                                 <div class="weapon-item-stats">
