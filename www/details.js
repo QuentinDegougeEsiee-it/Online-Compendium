@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const tabs = document.querySelectorAll('.tab-link');
     const contents = document.querySelectorAll('.tab-content');
 
+    // La logique de clic sur les onglets
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
             const target = tab.getAttribute('data-tab');
@@ -15,4 +16,13 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById(target).classList.add('active');
         });
     });
+
+    // NOUVEAU : Réouverture automatique de l'onglet si l'URL le demande
+    if (window.location.hash) {
+        // Cherche le bouton qui correspond à l'ancre de l'URL (ex: #notes-tab)
+        const targetTab = document.querySelector(window.location.hash);
+        if (targetTab) {
+            targetTab.click(); // Simule un clic pour ouvrir l'onglet instantanément
+        }
+    }
 });
