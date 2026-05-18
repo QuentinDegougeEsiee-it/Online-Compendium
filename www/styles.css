@@ -1157,3 +1157,55 @@ h1, h2, h3, p { margin: 0; }
     vertical-align: -2px; /* Ajuste finement la hauteur pour s'aligner avec les lettres */
     margin-left: 2px;
 }
+
+/* ========================================== */
+/* ALIGNEMENT FILTRES & TRI DE L'ARMURERIE    */
+/* ========================================== */
+
+.filters-sort-container {
+    display: flex !important;
+    justify-content: space-between !important; /* Filtres à gauche, Tri à droite extrême */
+    align-items: center !important;
+    gap: 15px !important;
+    flex-wrap: wrap !important;
+    margin-bottom: 30px !important;
+    width: 100% !important;
+}
+
+.filters-left-side {
+    display: flex !important;
+    gap: 15px !important;
+    flex-wrap: wrap !important;
+}
+
+.sort-right-side {
+    margin-left: auto !important; /* Sécurité supplémentaire pour pousser à droite */
+}
+
+/* Style dédié aux boutons d'options de tri */
+.sort-option {
+    display: block !important;
+    width: 100% !important;
+    background: transparent !important;
+    border: none !important;
+    color: #4a3424 !important;
+    padding: 10px 15px !important;
+    text-align: left !important;
+    font-family: 'Georgia', serif !important;
+    font-weight: bold !important;
+    font-size: 1rem !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s !important;
+    box-sizing: border-box !important;
+}
+
+.sort-option:hover {
+    background-color: rgba(128, 72, 8, 0.1) !important;
+    color: #804808 !important;
+}
+
+/* Aligne le volet déroulant sur le bord droit pour éviter qu'il sorte du parchemin */
+.alignment-right {
+    right: 0 !important;
+    left: auto !important;
+}

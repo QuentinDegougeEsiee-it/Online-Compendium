@@ -59,36 +59,54 @@ if (file_exists($jsonPath)) {
                 </div>
             </div>
 
-            <div class="filters-container">
-                <div class="dropdown">
-                    <button class="dropdown-btn" id="rankFilterBtn">Rank ▾</button>
-                    <div class="dropdown-content" id="rankFilterContent">
-                        <?php for($i=1; $i<=12; $i++): ?>
-                            <label><input type="checkbox" class="rank-checkbox" value="<?= $i ?>"> Rank <?= $i ?></label>
-                        <?php endfor; ?>
+            <div class="filters-sort-container">
+                
+                <div class="filters-left-side">
+                    <div class="dropdown">
+                        <button class="dropdown-btn" id="rankFilterBtn">Rank ▾</button>
+                        <div class="dropdown-content" id="rankFilterContent">
+                            <?php for($i=1; $i<=12; $i++): ?>
+                                <label><input type="checkbox" class="rank-checkbox" value="<?= $i ?>"> Rank <?= $i ?></label>
+                            <?php endfor; ?>
+                        </div>
+                    </div>
+
+                    <div class="dropdown">
+                        <button class="dropdown-btn" id="elementFilterBtn">Element ▾</button>
+                        <div class="dropdown-content" id="elementFilterContent">
+                            <?php 
+                            $availableElements = ['fire', 'water', 'thunder', 'ice', 'dragon', 'poison', 'paralysis', 'sleep', 'blast'];
+                            foreach($availableElements as $el): ?>
+                                <label>
+                                    <input type="checkbox" class="element-checkbox" value="<?= $el ?>"> 
+                                    <img src="assets/img/elements/<?= $el ?>.png" alt="<?= $el ?>"> <?= ucfirst($el) ?>
+                                </label>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
 
-                <div class="dropdown">
-                    <button class="dropdown-btn" id="elementFilterBtn">Element ▾</button>
-                    <div class="dropdown-content" id="elementFilterContent">
-                        <?php 
-                        $availableElements = ['fire', 'water', 'thunder', 'ice', 'dragon', 'poison', 'paralysis', 'sleep', 'blast'];
-                        foreach($availableElements as $el): ?>
-                            <label>
-                                <input type="checkbox" class="element-checkbox" value="<?= $el ?>"> 
-                                <img src="assets/img/elements/<?= $el ?>.png" alt="<?= $el ?>"> <?= ucfirst($el) ?>
-                            </label>
-                        <?php endforeach; ?>
+                <div class="sort-right-side">
+                    <div class="dropdown">
+                        <button class="dropdown-btn" id="sortBtn">Sort by ▾</button>
+                        <div class="dropdown-content alignment-right" id="sortContent">
+                            <button type="button" class="sort-option" data-sort="attack-desc">Attack: Desc.</button>
+                            <button type="button" class="sort-option" data-sort="attack-asc">Attack: Asc.</button>
+                            <button type="button" class="sort-option" data-sort="rank-desc">Rank: Desc.</button>
+                            <button type="button" class="sort-option" data-sort="rank-asc">Rank: Asc.</button>
+                            <button type="button" class="sort-option" data-sort="sharpness-desc">Sharpness: Desc.</button>
+                            <button type="button" class="sort-option" data-sort="sharpness-asc">Sharpness: Asc.</button>
+                            <button type="button" class="sort-option" data-sort="element-asc">Element</button>
+                        </div>
                     </div>
                 </div>
+
             </div>
 
             <div class="weapon-list-container">
                 <?php if (!empty($weapons)): ?>
                     <?php foreach ($weapons as $w): ?>
                         <?php 
-                            // Préparation des données pour le Javascript
                             $wRarity = $w['rarity'] ?? 1;
                             $wNameLower = strtolower($w['name']);
                             $elArray = [];
@@ -98,9 +116,15 @@ if (file_exists($jsonPath)) {
                                 }
                             }
                             $elString = implode(',', $elArray);
+
+                            // CALCUL DE LA SHARPNESS TOTALE (Somme des segments de la jauge)
+                            $sharpnessTotal = 0;
+                            if (!empty($w['durability']) && in_array($w['damageType'], ['sever', 'blunt'])) {
+                                $sharpnessTotal = array_sum($w['durability'][0]);
+                            }
                         ?>
                         
-                        <div class="weapon-item" data-name="<?= htmlspecialchars($wNameLower) ?>" data-rarity="<?= $wRarity ?>" data-elements="<?= htmlspecialchars($elString) ?>">
+                        <div class="weapon-item" data-name="<?= htmlspecialchars($wNameLower) ?>" data-rarity="<?= $wRarity ?>" data-elements="<?= htmlspecialchars($elString) ?>" data-attack="<?= intval($w['attack']['display'] ?? 0) ?>" data-sharpness="<?= $sharpnessTotal ?>">
                             <?php $wIcon = $w['assets']['icon'] ?? $typeIcon; ?>
                             <img src="<?= htmlspecialchars($wIcon) ?>" alt="Icon" class="weapon-item-icon">
                             

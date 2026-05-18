@@ -4,19 +4,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const elementCheckboxes = document.querySelectorAll('.element-checkbox');
     const weaponItems = document.querySelectorAll('.weapon-item');
 
-    // --- GESTION DES MENUS DÉROULANTS ---
+    // --- GESTION DES MENUS DÉROULANTS (FILTRES) ---
     const rankBtn = document.getElementById('rankFilterBtn');
     const rankContent = document.getElementById('rankFilterContent');
     const elementBtn = document.getElementById('elementFilterBtn');
     const elementContent = document.getElementById('elementFilterContent');
 
+    // NOUVEAU : Interrupteurs du Tri
+    const sortBtn = document.getElementById('sortBtn');
+    const sortContent = document.getElementById('sortContent');
+    const sortOptions = document.querySelectorAll('.sort-option');
+    const container = document.querySelector('.weapon-list-container');
+
     function setupDropdown(btn, content) {
         if(btn && content) {
             btn.addEventListener('click', function(e) {
                 e.stopPropagation();
-                // Ferme l'autre menu s'il est ouvert
-                if (content === rankContent) elementContent.classList.remove('show');
-                if (content === elementContent) rankContent.classList.remove('show');
+                // Ferme les autres menus quand on en ouvre un
+                if (content !== rankContent) rankContent.classList.remove('show');
+                if (content !== elementContent) elementContent.classList.remove('show');
+                if (content !== sortContent && sortContent) sortContent.classList.remove('show');
                 content.classList.toggle('show');
             });
         }
@@ -24,8 +31,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setupDropdown(rankBtn, rankContent);
     setupDropdown(elementBtn, elementContent);
+    setupDropdown(sortBtn, sortContent); // Liaison du bouton de tri
 
-    // Ferme les menus si on clique ailleurs sur la page
+    // Ferme les menus si on clique n'importe où ailleurs sur la page
     document.addEventListener('click', function(e) {
         if(rankContent && !rankContent.contains(e.target) && e.target !== rankBtn) {
             rankContent.classList.remove('show');
@@ -33,18 +41,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if(elementContent && !elementContent.contains(e.target) && e.target !== elementBtn) {
             elementContent.classList.remove('show');
         }
+        if(sortContent && !sortContent.contains(e.target) && e.target !== sortBtn) {
+            sortContent.classList.remove('show');
+        }
     });
 
     // --- LOGIQUE DE FILTRAGE MULTICRITÈRES ---
     function filterWeapons() {
         const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
         
-        // Récupère les rangs cochés
         const checkedRanks = Array.from(rankCheckboxes)
             .filter(cb => cb.checked)
             .map(cb => cb.value);
             
-        // Récupère les éléments cochés
         const checkedElements = Array.from(elementCheckboxes)
             .filter(cb => cb.checked)
             .map(cb => cb.value);
@@ -54,34 +63,68 @@ document.addEventListener('DOMContentLoaded', function() {
             const itemRarity = item.getAttribute('data-rarity');
             const itemElementsAttr = item.getAttribute('data-elements');
             
-            // Transforme la liste "fire,poison" en vrai tableau Javascript ['fire', 'poison']
             const itemElements = itemElementsAttr ? itemElementsAttr.split(',') : [];
 
-            // 1. Vérification de la recherche textuelle
             const matchesSearch = itemName.includes(searchTerm);
-
-            // 2. Vérification du Rang (Si aucun coché, on affiche tout)
             const matchesRank = checkedRanks.length === 0 || checkedRanks.includes(itemRarity);
 
-            // 3. Vérification de l'Élément (Doit posséder TOUS les éléments cochés)
+            // Doit posséder STRICTEMENT TOUS les éléments cochés
             let matchesElements = true;
             if (checkedElements.length > 0) {
                 for (const el of checkedElements) {
                     if (!itemElements.includes(el)) {
-                        matchesElements = false; // Il manque un des éléments cochés, on cache !
+                        matchesElements = false;
                         break;
                     }
                 }
             }
 
-            // Affichage final : l'arme doit passer les 3 tests !
             if (matchesSearch && matchesRank && matchesElements) {
-                item.style.display = 'flex'; // On restaure l'affichage flex d'origine
+                item.style.display = 'flex';
             } else {
-                item.style.display = 'none'; // On cache la carte
+                item.style.display = 'none';
             }
         });
     }
+
+    // --- NOUVEAU : ALGORITHME DE TRI DYNAMIQUE ---
+    sortOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const criteria = this.getAttribute('data-sort');
+            // On récupère la liste fraîche des éléments du DOM
+            const itemsArray = Array.from(container.querySelectorAll('.weapon-item'));
+
+            itemsArray.sort((a, b) => {
+                const attackA = parseInt(a.getAttribute('data-attack'));
+                const attackB = parseInt(b.getAttribute('data-attack'));
+                const rankA = parseInt(a.getAttribute('data-rarity'));
+                const rankB = parseInt(b.getAttribute('data-rarity'));
+                const sharpA = parseInt(a.getAttribute('data-sharpness'));
+                const sharpB = parseInt(b.getAttribute('data-sharpness'));
+                const elementA = a.getAttribute('data-elements') || 'zzz';
+                const elementB = b.getAttribute('data-elements') || 'zzz';
+
+                switch(criteria) {
+                    case 'attack-desc': return attackB - attackA;
+                    case 'attack-asc':  return attackA - attackB;
+                    case 'rank-desc':   return rankB - rankA;
+                    case 'rank-asc':    return rankA - rankB;
+                    case 'sharpness-desc': return sharpB - sharpA;
+                    case 'sharpness-asc':  return sharpA - sharpB;
+                    case 'element-asc': return elementA.localeCompare(elementB);
+                    default: return 0;
+                }
+            });
+
+            // Ré-injection physique ordonnée dans la boîte parent du DOM
+            itemsArray.forEach(item => container.appendChild(item));
+            
+            // Personnalise l'en-tête du menu pour afficher le tri courant
+            if (sortBtn) sortBtn.innerHTML = this.textContent + ' ▾';
+            
+            sortContent.classList.remove('show');
+        });
+    });
 
     // --- DÉCLENCHEURS ---
     if(searchInput) searchInput.addEventListener('input', filterWeapons);
