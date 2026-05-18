@@ -9,6 +9,11 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+//Génération du jeton CSRF s'il n'existe pas encore
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 require_once 'db.php';
 $user_id = $_SESSION['user_id'];
 
@@ -22,6 +27,9 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // 2. Traitement des formulaires de modification
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        $error = "Security error : Invalid CSRF token. Please refresh the page and try again.";
+    } else {
     $action = $_POST['action'] ?? '';
 
     // --- FORMULAIRE : CONFIGURATION DU PROFIL (Pseudo & Avatar) ---
@@ -33,39 +41,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = "Hunter name cannot be empty.";
         } else {
             // Gestion du téléversement de fichier (IMAGE UPLOAD)
+            // Gestion du téléversement de fichier sécurisé (IMAGE UPLOAD)
             if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
-                $fileTmpPath = $_FILES['avatar']['tmp_name'];
-                $fileName = $_FILES['avatar']['name'];
-                $fileSize = $_FILES['avatar']['size'];
                 
-                // Vérification de l'extension
-                $fileArgs = explode(".", $fileName);
-                $fileExtension = strtolower(end($fileArgs));
-                $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-
-                if (in_array($fileExtension, $allowedExtensions)) {
-                    if ($fileSize < 2 * 1024 * 1024) { // Limite à 2 Mo
-                        // On crée le dossier s'il n'existe pas
-                        $uploadFileDir = 'assets/img/avatars/';
-                        if (!is_dir($uploadFileDir)) {
-                            mkdir($uploadFileDir, 0755, true);
-                        }
-
-                        // On renomme proprement l'image pour éviter les doublons
-                        $newFileName = 'avatar_' . $user_id . '_' . time() . '.' . $fileExtension;
-                        $dest_path = $uploadFileDir . $newFileName;
-
-                        // Déplacement physique du fichier vers notre dossier serveur
-                        if (move_uploaded_file($fileTmpPath, $dest_path)) {
-                            $avatar_filename = $newFileName;
-                        } else {
-                            $error = "Error moving the uploaded file.";
-                        }
-                    } else {
-                        $error = "Image size must be less than 2MB.";
-                    }
+                $file_tmp = $_FILES['avatar']['tmp_name'];
+                $file_size = $_FILES['avatar']['size'];
+                
+                // 1. LIMITE DE TAILLE : 2 Mo maximum (2 * 1024 * 1024 octets)
+                $max_size = 2 * 1024 * 1024;
+                if ($file_size > $max_size) {
+                    $error = "File is too large. Maximum size allowed is 2MB.";
                 } else {
-                    $error = "Invalid file type. Allowed formats: JPG, JPEG, PNG, GIF.";
+                    
+                    // 2. VÉRIFICATION DU VRAI TYPE MIME (Analyse du contenu réel du fichier)
+                    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                    $real_mime_type = finfo_file($finfo, $file_tmp);
+                    finfo_close($finfo);
+
+                    // Tableau des types MIME et extensions autorisés
+                    $allowed_types = [
+                        'image/png'  => 'png',
+                        'image/jpeg' => 'jpg',
+                        'image/jpg'  => 'jpg',
+                        'image/gif'  => 'gif'
+                    ];
+
+                    if (!array_key_exists($real_mime_type, $allowed_types)) {
+                        $error = "Invalid file type. Only PNG, JPG, and GIF images are allowed.";
+                    } else {
+                        
+                        // 3. NOMMAGE UNIQUE ET SÉCURISÉ
+                        $extension = $allowed_types[$real_mime_type];
+                        // Génère un nom du style : avatar_645e74d70380c.jpg
+                        $new_filename = uniqid('avatar_', true) . '.' . $extension;
+                        
+                        $upload_dir = 'assets/img/avatars/';
+                        $destination = $upload_dir . $new_filename;
+
+                        // On déplace le fichier temporaire vers son dossier final
+                        if (move_uploaded_file($file_tmp, $destination)) {
+                            
+                            // OPTIONNEL : Si l'ancien avatar n'était pas l'avatar par défaut, on supprime le vieux fichier du serveur pour ne pas encombrer l'espace disque
+                            if ($user['avatar'] !== 'default_avatar.png' && !empty($user['avatar'])) {
+                                $old_file = $upload_dir . $user['avatar'];
+                                if (file_exists($old_file)) {
+                                    unlink($old_file);
+                                }
+                            }
+
+                            // On valide le nouveau nom pour la mise à jour en BDD
+                            $avatar_filename = $new_filename;
+                            
+                        } else {
+                            $error = "An error occurred while saving your avatar.";
+                        }
+                    }
                 }
             }
 
@@ -154,6 +184,7 @@ if (empty($user['avatar']) || !file_exists($avatarPath)) {
                 <h4 class="reward-type-title">Identity & Emblem</h4>
                 <form method="POST" action="profile.php" enctype="multipart/form-data" class="auth-form form-spaced">
                     <input type="hidden" name="action" value="update_profile">
+                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
                     
                     <div class="form-group">
                         <label for="username">Hunter Name</label>
@@ -172,6 +203,7 @@ if (empty($user['avatar']) || !file_exists($avatarPath)) {
                 <h4 class="reward-type-title">Security & Credentials</h4>
                 <form method="POST" action="profile.php" class="auth-form">
                     <input type="hidden" name="action" value="update_password">
+                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 
                     <div class="form-group">
                         <label for="old_password">Current Password</label>
