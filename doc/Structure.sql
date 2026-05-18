@@ -1,6 +1,3 @@
-CREATE DATABASE IF NOT EXISTS monster_hunter_db;
-USE monster_hunter_db;
-
 -- 1. Table des monstres
 CREATE TABLE monsters (
     id INT AUTO_INCREMENT PRIMARY KEY,
