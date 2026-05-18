@@ -1,6 +1,6 @@
 <?php
 // Inclusion de ton fichier de connexion à la base de données
-require_once 'db_connect.php';
+require_once 'db.php';
 
 $jsonFile = '../db/mh_db_monsters.json';
 

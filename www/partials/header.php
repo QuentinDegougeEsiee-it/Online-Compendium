@@ -8,10 +8,11 @@ $headerAvatar = 'assets/img/monsters/MHW-Rathalos_Icon.png'; // Icône par défa
 if (isset($_SESSION['user_id'])) {
     // On s'assure d'avoir accès à la connexion PDO de la base de données
     if (!isset($pdo)) {
-        if (file_exists('db_connect.php')) {
-            require_once 'db_connect.php';
-        } elseif (file_exists('db.php')) {
+        if (file_exists('db.php')) {
             require_once 'db.php';
+        } else {
+            // Si on n'arrive pas à inclure db.php, on peut quand même afficher le header sans l'avatar personnalisé
+            error_log("⚠️ Warning: Unable to include db.php for avatar retrieval. Default avatar will be used.");
         }
     }
     

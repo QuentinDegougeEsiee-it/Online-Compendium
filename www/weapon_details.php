@@ -3,9 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-if (file_exists('db_connect.php')) {
-    require_once 'db_connect.php';
-} elseif (file_exists('db.php')) {
+if (file_exists('db.php')) {
     require_once 'db.php';
 }
 

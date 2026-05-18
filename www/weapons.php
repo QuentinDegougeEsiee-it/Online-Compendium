@@ -4,11 +4,9 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Sécurité pour la connexion PDO utilisée dans header.php
-if (file_exists('db_connect.php')) {
-    require_once 'db_connect.php';
-} elseif (file_exists('db.php')) {
+if (file_exists('db.php')) {
     require_once 'db.php';
-}
+} 
 
 // Extraction automatique des types d'armes
 $jsonPath = '../db/mh_db_weapons.json';

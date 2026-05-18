@@ -1,5 +1,5 @@
 <?php
-require_once 'db_connect.php';
+require_once 'db.php';
 
 // On cherche ton fichier JSON (avec le même chemin que dans import_data.php)
 $jsonFile = '../db/mh_db_monsters.json';

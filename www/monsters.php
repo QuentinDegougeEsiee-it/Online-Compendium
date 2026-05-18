@@ -1,6 +1,6 @@
 <?php
 // Connexion à la base de données
-require_once 'db_connect.php';
+require_once 'db.php';
 
 try {
     // On récupère TOUS les monstres (le filtrage se fera en Javascript)
