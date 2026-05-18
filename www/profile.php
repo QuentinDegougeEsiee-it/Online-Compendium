@@ -149,6 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+}
 
 if (isset($_GET['success'])) {
     $success = "Guild Card updated successfully!";

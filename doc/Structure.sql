@@ -27,7 +27,7 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 4. Table des notes de chasse (Le CRUD, liée aux utilisateurs)
+-- 4. Table des notes de chasse (Le CRUD, liée aux utilisateurs et monstres)
 CREATE TABLE hunter_notes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -35,5 +35,6 @@ CREATE TABLE hunter_notes (
     title VARCHAR(100) NOT NULL,
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (monster_id) REFERENCES monsters(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
