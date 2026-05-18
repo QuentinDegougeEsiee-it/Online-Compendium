@@ -124,7 +124,7 @@ if (file_exists($jsonPath)) {
                             }
                         ?>
                         
-                        <div class="weapon-item" data-name="<?= htmlspecialchars($wNameLower) ?>" data-rarity="<?= $wRarity ?>" data-elements="<?= htmlspecialchars($elString) ?>" data-attack="<?= intval($w['attack']['display'] ?? 0) ?>" data-sharpness="<?= $sharpnessTotal ?>">
+                        <a href="weapon_details.php?id=<?= $w['id'] ?>" class="weapon-item" data-name="<?= htmlspecialchars($wNameLower) ?>" data-rarity="<?= $wRarity ?>" data-elements="<?= htmlspecialchars($elString) ?>" data-attack="<?= intval($w['attack']['display'] ?? 0) ?>" data-sharpness="<?= $sharpnessTotal ?>">
                             <?php $wIcon = $w['assets']['icon'] ?? $typeIcon; ?>
                             <img src="<?= htmlspecialchars($wIcon) ?>" alt="Icon" class="weapon-item-icon">
                             
@@ -175,7 +175,7 @@ if (file_exists($jsonPath)) {
                                 <?php endif; ?>
 
                             </div>
-                        </div>
+                        </a>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <p class="unknown-text"><em>No weapons found for this category.</em></p>

@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'monster_hunter_db'; /* REMPLACE PAR LE VRAI NOM DE TA BASE SI DIFFÉRENT */
+$dbname = 'monster_hunter_db'; 
 $user = 'root'; 
 $pass = ''; 
 
