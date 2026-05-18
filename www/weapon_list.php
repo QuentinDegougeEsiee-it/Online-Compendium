@@ -43,7 +43,7 @@ if (file_exists($jsonPath)) {
 <body>
     <?php require_once 'partials/header.php'; ?>
 
-    <main class="container-detail profile-main-margin">
+    <main class="container-detail">
         <section class="detail-main weapon-tree-container">
             
             <div class="weapon-tree-header">

@@ -854,7 +854,7 @@ h1, h2, h3, p { margin: 0; }
 .armory-container {
     width: 100%;
     max-width: 1200px;
-    margin: auto;
+    margin: 0 auto;
     flex: 1;
 }
 
@@ -918,7 +918,7 @@ h1, h2, h3, p { margin: 0; }
 .weapon-tree-container {
     width: 100%;
     max-width: 1000px;
-    margin: auto;
+    margin: 0 auto;
     flex: 1;
 }
 
