@@ -53,10 +53,54 @@ if (file_exists($jsonPath)) {
             
             <a href="weapons.php" class="auth-btn btn-padded back-to-armory">← Back to Armory</a>
 
+            <div class="search-container">
+                <div class="search-form">
+                    <input type="text" id="weaponSearchInput" placeholder="Search weapon by name...">
+                </div>
+            </div>
+
+            <div class="filters-container">
+                <div class="dropdown">
+                    <button class="dropdown-btn" id="rankFilterBtn">Rank ▾</button>
+                    <div class="dropdown-content" id="rankFilterContent">
+                        <?php for($i=1; $i<=12; $i++): ?>
+                            <label><input type="checkbox" class="rank-checkbox" value="<?= $i ?>"> Rank <?= $i ?></label>
+                        <?php endfor; ?>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="dropdown-btn" id="elementFilterBtn">Element ▾</button>
+                    <div class="dropdown-content" id="elementFilterContent">
+                        <?php 
+                        $availableElements = ['fire', 'water', 'thunder', 'ice', 'dragon', 'poison', 'paralysis', 'sleep', 'blast'];
+                        foreach($availableElements as $el): ?>
+                            <label>
+                                <input type="checkbox" class="element-checkbox" value="<?= $el ?>"> 
+                                <img src="assets/img/elements/<?= $el ?>.png" alt="<?= $el ?>"> <?= ucfirst($el) ?>
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+
             <div class="weapon-list-container">
                 <?php if (!empty($weapons)): ?>
                     <?php foreach ($weapons as $w): ?>
-                        <div class="weapon-item">
+                        <?php 
+                            // Préparation des données pour le Javascript
+                            $wRarity = $w['rarity'] ?? 1;
+                            $wNameLower = strtolower($w['name']);
+                            $elArray = [];
+                            if (!empty($w['elements'])) {
+                                foreach($w['elements'] as $el) {
+                                    $elArray[] = strtolower($el['type']);
+                                }
+                            }
+                            $elString = implode(',', $elArray);
+                        ?>
+                        
+                        <div class="weapon-item" data-name="<?= htmlspecialchars($wNameLower) ?>" data-rarity="<?= $wRarity ?>" data-elements="<?= htmlspecialchars($elString) ?>">
                             <?php $wIcon = $w['assets']['icon'] ?? $typeIcon; ?>
                             <img src="<?= htmlspecialchars($wIcon) ?>" alt="Icon" class="weapon-item-icon">
                             
@@ -116,6 +160,7 @@ if (file_exists($jsonPath)) {
         </section>
     </main>
 
+    <script src="weapon_list.js"></script>
     <?php require_once 'partials/footer.php'; ?>
 </body>
 </html>

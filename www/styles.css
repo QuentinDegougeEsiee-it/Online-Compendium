@@ -943,7 +943,7 @@ h1, h2, h3, p { margin: 0; }
     border: none;
 }
 
-.back-to-armory {
+.back-to-armory, .back-to-bestiary {
     margin-bottom: 20px;
     display: inline-block;
 }

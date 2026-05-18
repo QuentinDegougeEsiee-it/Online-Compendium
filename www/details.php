@@ -135,6 +135,7 @@ require_once 'partials/header.php';
 
     <main class="container-detail">
         <section class="detail-main">
+            <a href="monsters.php" class="auth-btn btn-padded back-to-bestiary">← Back to Bestiary</a>
             <div class="tabs-header">
                 <button class="tab-link active" data-tab="info">Information</button>
                 <button class="tab-link" data-tab="fight">Fight</button>
