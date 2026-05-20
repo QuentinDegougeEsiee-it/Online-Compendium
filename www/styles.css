@@ -1327,6 +1327,18 @@ a.weapon-item:hover {
     /* Optionnel : Assurer que la grille des armes passe bien sur 1 seule colonne si l'écran est très étroit */
     .weapon-list-container {
         grid-template-columns: 1fr;
+        
+    }
+    /* NOUVEAU : Réduire la taille du gros titre sur la page d'accueil */
+    .home-title {
+        font-size: 2rem !important; /* Réduit drastiquement la taille de la police */
+        word-wrap: break-word;      /* Permet au texte de passer à la ligne si besoin */
+    }
+
+    /* Optionnel : Réduire un peu les espaces de la boîte principale sur mobile */
+    .home-content-wrapper {
+        padding: 30px 15px;
+        gap: 20px;
     }
     
 }
