@@ -105,15 +105,30 @@ h1, h2, h3, p { margin: 0; }
     color: #f8efb9;
 }
 
-.site-footer { 
-    background-color: #1a1a1a; 
-    color: #7f8c8d; 
-    text-align: center; 
-    padding: 20px; 
-    font-size: 0.9rem; 
-    border-top: 3px solid #804808; 
-    margin-top: auto; 
-    margin-bottom: 0; 
+.site-footer {
+    background-color: #0f141c; 
+    border-top: 2px solid #804808;
+    padding: 12px 20px; /* Très fin */
+    margin-top: auto;   /* Reste bien collé en bas */
+    color: #bdc3c7;
+    font-size: 0.85rem; /* Écrit un peu plus petit */
+}
+
+.footer-container {
+    display: block; /* Évite les bugs de Flexbox globale */
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.footer-text-right a {
+    color: #f1c40f;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer-text-right a:hover {
+    text-decoration: underline;
 }
 /* ========================================== */
 /* CONFIGURATION MENU DÉROULANT USER          */
@@ -1327,7 +1342,7 @@ a.weapon-item:hover {
     /* Optionnel : Assurer que la grille des armes passe bien sur 1 seule colonne si l'écran est très étroit */
     .weapon-list-container {
         grid-template-columns: 1fr;
-        
+
     }
     /* NOUVEAU : Réduire la taille du gros titre sur la page d'accueil */
     .home-title {
@@ -1339,6 +1354,59 @@ a.weapon-item:hover {
     .home-content-wrapper {
         padding: 30px 15px;
         gap: 20px;
+    }
+
+    .footer-container {
+        display: table; /* Alternative ultra-fiable à flex pour WeasyPrint/Mobiles */
+        width: 100%;
+    }
+    .footer-text-left {
+        display: table-cell;
+        text-align: left;
+        vertical-align: middle;
+    }
+    .footer-text-right {
+        display: table-cell;
+        text-align: right;
+        vertical-align: middle;
+    }
+    .footer-legal {
+        margin-left: 15px;
+        border-left: 1px solid #4a3424;
+        padding-left: 15px;
+        opacity: 0.8;
+    }
+    
+    .site-footer {
+        padding: 20px 15px; /* Un peu plus d'air autour */
+    }
+    
+    .footer-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px; /* Sépare proprement le bloc de gauche et le bloc de droite */
+    }
+
+    .footer-text-left, 
+    .footer-text-right {
+        text-align: center;
+        display: block;
+    }
+
+    .footer-legal {
+        display: block; 
+        margin-top: 10px;
+        font-size: 0.75rem;
+        line-height: 1.5; /* LE SECRET EST ICI : Fait respirer le pavé de texte */
+        opacity: 0.6;
+        border-left: none; /* Enlève la bordure verticale du PC */
+        padding-left: 0;
+    }
+
+    .footer-text-right {
+        border-top: 1px solid rgba(255, 255, 255, 0.1); /* Ligne de séparation très discrète */
+        padding-top: 15px;
+        font-size: 0.85rem;
     }
     
 }
