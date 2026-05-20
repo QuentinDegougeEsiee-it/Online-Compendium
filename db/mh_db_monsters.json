@@ -4628,9 +4628,6 @@
         "locations": [
             {
                 "name": "Wildspire Waste"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -5435,9 +5432,6 @@
         "locations": [
             {
                 "name": "Wildspire Waste"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -6533,9 +6527,6 @@
         "locations": [
             {
                 "name": "Coral Highlands"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -7354,9 +7345,6 @@
             },
             {
                 "name": "Elder's Recess"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -7568,9 +7556,6 @@
             },
             {
                 "name": "Hoarfrost Reach"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -7669,9 +7654,6 @@
             },
             {
                 "name": "Elder's Recess"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -7860,9 +7842,6 @@
             },
             {
                 "name": "Rotten Vale"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -8206,9 +8185,6 @@
             },
             {
                 "name": "Elder's Recess"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -8343,9 +8319,6 @@
             },
             {
                 "name": "Wildspire Waste"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -8599,9 +8572,6 @@
             },
             {
                 "name": "Elder's Recess"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -9546,9 +9516,6 @@
         "locations": [
             {
                 "name": "Hoarfrost Reach"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -9641,9 +9608,6 @@
             },
             {
                 "name": "Hoarfrost Reach"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -9879,9 +9843,6 @@
         "locations": [
             {
                 "name": "Coral Highlands"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -9954,9 +9915,6 @@
             },
             {
                 "name": "Coral Highlands"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -10081,9 +10039,6 @@
             },
             {
                 "name": "Hoarfrost Reach"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -10238,9 +10193,6 @@
             },
             {
                 "name": "Elder's Recess"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -10498,9 +10450,6 @@
             },
             {
                 "name": "Coral Highlands"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ]
     },
@@ -10552,9 +10501,6 @@
             },
             {
                 "name": "Hoarfrost Reach"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -10785,9 +10731,6 @@
             },
             {
                 "name": "Hoarfrost Reach"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ]
     },
@@ -11067,9 +11010,6 @@
             },
             {
                 "name": "Elder's Recess"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ]
     },
@@ -11152,9 +11092,6 @@
         "locations": [
             {
                 "name": "Elder's Recess"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ]
     },
@@ -11211,9 +11148,6 @@
             },
             {
                 "name": "Elder's Recess"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ],
         "resistances": [
@@ -11369,9 +11303,6 @@
         "locations": [
             {
                 "name": "Rotten Vale"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ]
     },
@@ -11483,9 +11414,6 @@
         "locations": [
             {
                 "name": "Elder's Recess"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ]
     },
@@ -11577,9 +11505,6 @@
         "locations": [
             {
                 "name": "Coral Highlands"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ]
     },
@@ -11671,7 +11596,8 @@
                 "condition": null
             }
         ],
-        "rewards": []
+        "rewards": [],
+        "locations": []
     },
     {
         "id": 77,
@@ -11799,9 +11725,6 @@
         "locations": [
             {
                 "name": "Ancient Forest"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ]
     },
@@ -12123,9 +12046,6 @@
             },
             {
                 "name": "Hoarfrost Reach"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ]
     },
@@ -12229,9 +12149,6 @@
             },
             {
                 "name": "Rotten Vale"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ]
     },
@@ -12346,9 +12263,6 @@
         "locations": [
             {
                 "name": "Elder's Recess"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ]
     },
@@ -12478,9 +12392,6 @@
         "locations": [
             {
                 "name": "Ancient Forest"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ]
     },
@@ -12626,9 +12537,6 @@
             },
             {
                 "name": "Elder's Recess"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ]
     },
@@ -12754,7 +12662,8 @@
                 "condition": null
             }
         ],
-        "rewards": []
+        "rewards": [],
+        "locations": []
     },
     {
         "id": 85,
@@ -12899,9 +12808,6 @@
         "locations": [
             {
                 "name": "Rotten Vale"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ]
     },
@@ -12977,11 +12883,7 @@
             }
         ],
         "rewards": [],
-        "locations": [
-            {
-                "name": "Guiding Lands"
-            }
-        ]
+        "locations": []
     },
     {
         "id": 89,
@@ -13072,9 +12974,6 @@
         "locations": [
             {
                 "name": "Hoarfrost Reach"
-            },
-            {
-                "name": "Guiding Lands"
             }
         ]
     },
