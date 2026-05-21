@@ -5,7 +5,7 @@
 ![MySQL](https://img.shields.io/badge/MySQL-Database-orange)
 ![License](https://img.shields.io/badge/license-Educational-green)
 
-Bienvenue sur le dépôt officiel du projet **Online Compendium**, une encyclopédie interactive dédiée à l'univers du jeu vidéo *Monster Hunter World: Iceborne*. Ce projet a été développé dans le cadre de l'EC Projet Web 2025-2026.
+Bienvenue sur le dépôt officiel du projet **Online Compendium**, une encyclopédie interactive dédiée à l'univers du jeu vidéo *Monster Hunter World: Iceborne*. Ce projet a été développé dans le cadre de l'EC Projet Web 2025-2026 et est toujours en cours de développement
 
 ## 🎯 Objectif du Projet
 
