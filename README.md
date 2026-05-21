@@ -30,6 +30,9 @@ Conformément aux consignes du projet, le dépôt est structuré comme suit :
   * `structure.sql` : Le schéma des tables de la base de données.
   * `data.sql` : Le jeu de données initial (tests et informations de base).
   * `installation.md` : La procédure détaillée pour déployer le site sur un serveur AlwaysData.
+* `/scripts/` : Contient les scripts à usage unique nécessaires à la mise à jour des données des bases de données
+
+
 
 ---
 
