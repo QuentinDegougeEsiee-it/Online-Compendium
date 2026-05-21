@@ -16,7 +16,7 @@ Ce site web a pour but de fournir une interface riche et interactive permettant 
 * **Armurerie (Armory)** : Navigation dynamique dans les arbres d'armes, avec affichage détaillé des statistiques (Tranchant, Attaque, Emplacements de joyaux).
 * **Espace Chasseur Restreint** : Système de création de compte sécurisé (mots de passe hachés) et page de profil personnelle.
 * **Système de Notes (CRUD)** : Possibilité pour les utilisateurs inscrits d'ajouter, lire, modifier et supprimer (CRUD) des notes personnelles et stratégiques sur la fiche de chaque monstre.
-* **Personnalisation** : Téléversement (upload) sécurisé d'images pour personnaliser l'avatar de la Guilde de l'utilisateur.
+* **Personnalisation** : Téléversement (upload) sécurisé d'images pour personnaliser l'avatar de l'utilisateur.
 * **Design Responsive** : Interface adaptative, optimisée pour le format mobile (1 colonne) et pour les grands écrans (multi-colonnes).
 
 ---
