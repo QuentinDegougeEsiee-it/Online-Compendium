@@ -2,8 +2,11 @@
 CREATE TABLE monsters (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    species VARCHAR(50),
-    description TEXT
+    category VARCHAR(50),
+    description TEXT,
+    elements VARCHAR(100),
+    type VARCHAR(100),
+    locations VARCHAR(255)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 2. Table des objets (liée aux monstres)

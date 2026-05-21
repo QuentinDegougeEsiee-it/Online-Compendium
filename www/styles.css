@@ -11,12 +11,9 @@ body {
     padding: 0;
     font-family: 'Arial', sans-serif;
     background-color: #0f141c; 
-    
-    /* LE SECRET EST ICI : On transforme le body en colonne étirable ! */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    
     overflow-y: scroll;
     background-image: url('assets/img/backgrounds/map_background.png'); 
     background-size: cover;
@@ -26,27 +23,20 @@ body {
 }
 
 h1, h2, h3, p { margin: 0; }
-/* LE PANNEAU CENTRAL (BESTIAIRE) */
+
 .container {
     max-width: 1200px;
     width: 100%; 
-    
-    /* MODIFIÉ : Marge de 20px en bas pour frôler le footer (au lieu de 50px) */
     margin: 0 auto 20px auto; 
-    
     padding: 40px 30px;
     text-align: center;
     background-color: #c5b38f; 
     color: #1a1a1a; 
-    
-    /* NOUVEAU : On réactive l'élastique pour pousser jusqu'au footer */
     flex: 1; 
-    
     border-left: 3px solid #804808; 
     border-right: 3px solid #804808;
     border-bottom: 3px solid #804808;
     border-radius: 0 0 15px 15px;
-    
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
     box-sizing: border-box;
 }
@@ -56,24 +46,22 @@ h1, h2, h3, p { margin: 0; }
 /* ========================================== */
 .site-header { 
     background-color: #381f03; 
-    border-bottom: 3px solid #804808; /* Assorti aux bordures du panneau */
+    border-bottom: 3px solid #804808;
     padding: 15px 30px; 
 }
 
 .header-nav-container { 
-    /* On retire le max-width: 1200px et le margin: 0 auto pour que ça prenne tout l'écran */
     display: flex; 
-    justify-content: space-between; /* Pousse les liens à l'extrême gauche, le logo à l'extrême droite */
+    justify-content: space-between; 
     align-items: center; 
     width: 100%;
     position: relative;
 }
 
-/* Style de la nouvelle zone de navigation à gauche */
 .header-nav-left {
     display: flex;
     gap: 25px; 
-    flex: 1; /* NOUVEAU : Force la zone à prendre un espace égal à celle de droite */
+    flex: 1; 
 }
 
 .header-nav-left a {
@@ -86,10 +74,9 @@ h1, h2, h3, p { margin: 0; }
 }
 
 .header-nav-left a:hover { 
-    color: #f1c40f; /* Devient jaune au survol */
+    color: #f1c40f; 
 }
 
-/* Le titre du site (Logo) */
 .nav-logo { 
     color: #f1c40f; 
     font-size: 1.5rem; 
@@ -108,14 +95,14 @@ h1, h2, h3, p { margin: 0; }
 .site-footer {
     background-color: #0f141c; 
     border-top: 2px solid #804808;
-    padding: 12px 20px; /* Très fin */
-    margin-top: auto;   /* Reste bien collé en bas */
+    padding: 12px 20px; 
+    margin-top: auto;   
     color: #bdc3c7;
-    font-size: 0.85rem; /* Écrit un peu plus petit */
+    font-size: 0.85rem; 
 }
 
 .footer-container {
-    display: block; /* Évite les bugs de Flexbox globale */
+    display: block; 
     max-width: 1200px;
     margin: 0 auto;
     text-align: center;
@@ -130,6 +117,7 @@ h1, h2, h3, p { margin: 0; }
 .footer-text-right a:hover {
     text-decoration: underline;
 }
+
 /* ========================================== */
 /* CONFIGURATION MENU DÉROULANT USER          */
 /* ========================================== */
@@ -138,7 +126,6 @@ h1, h2, h3, p { margin: 0; }
     display: inline-block;
 }
 
-/* Aligne le menu parchemin sur le bord droit pour éviter qu'il sorte de l'écran */
 .user-dropdown-content {
     right: 0;
     left: auto;
@@ -148,7 +135,7 @@ h1, h2, h3, p { margin: 0; }
 
 .user-dropdown-content a {
     display: block;
-    color: #4a3424 !important; /* Texte brun foncé */
+    color: #4a3424 !important; 
     padding: 10px 20px;
     text-decoration: none;
     font-family: 'Georgia', serif;
@@ -158,37 +145,35 @@ h1, h2, h3, p { margin: 0; }
 }
 
 .user-dropdown-content a:hover {
-    background-color: rgba(128, 72, 8, 0.1); /* Léger survol brun */
+    background-color: rgba(128, 72, 8, 0.1); 
     color: #804808 !important;
 }
 
-/* Ligne pointillée de séparation et style pour le bouton Logout */
 .user-dropdown-content .dropdown-logout {
     border-top: 1px dashed #c0a080;
-    color: #c0392b !important; /* Texte rouge */
+    color: #c0392b !important; 
 }
 
 .user-dropdown-content .dropdown-logout:hover {
-    background-color: rgba(231, 76, 60, 0.1); /* Survol rouge très léger */
+    background-color: rgba(231, 76, 60, 0.1); 
     color: #c0392b !important;
 }
-/* Ajustement de la taille du bouton pour qu'il ne déforme pas le header */
+
 .user-dropdown-btn {
-    padding: 6px 12px; /* Même rembourrage que tes boutons Login/Register */
-    font-size: 0.95rem; /* Police plus petite */
-    font-family: 'Arial', sans-serif; /* Pour correspondre aux autres liens du header */
+    padding: 6px 12px; 
+    font-size: 0.95rem; 
+    font-family: 'Arial', sans-serif; 
     margin: 0;
 }
-
 
 /* ========================================== */
 /* 3. PAGE D'ACCUEIL (INDEX.PHP)              */
 /* ========================================== */
 .home-main { 
-    flex: 1; /* Permet à la zone principale de s'étirer */
+    flex: 1; 
     display: flex; 
     justify-content: center; 
-    align-items: stretch; /* Permet au cadre intérieur de suivre l'étirement */
+    align-items: stretch; 
     padding: 0; 
 }
 
@@ -201,40 +186,35 @@ h1, h2, h3, p { margin: 0; }
     width: 100%; 
     max-width: 1200px; 
     padding: 50px 30px;
-    
     background-color: #c5b38f; 
-    
     border-left: 3px solid #804808; 
     border-right: 3px solid #804808;
     border-bottom: 3px solid #804808;
     border-radius: 0 0 15px 15px;
-    
-    /* MODIFIÉ : Marge de 20px en bas pour l'accueil aussi */
     margin-bottom: 20px;
-    
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
     box-sizing: border-box;
 }
+
 .home-title { 
     font-family: 'Georgia', serif; 
-    color: #804808; /* Changé en brun foncé pour ressortir magnifiquement sur le fond sable */
+    color: #804808; 
     font-size: 3.5rem; 
     text-transform: uppercase; 
     letter-spacing: 3px; 
     margin: 0; 
     text-shadow: 1px 1px 0px rgba(255,255,255,0.4); 
 }
+
 .logo-container { width: 100%; max-width: 650px; }
 .mhwi-logo-large { max-width: 100%; height: auto; }
 
-
-/* Le menu utilisateur à droite */
 .header-nav-right {
     display: flex;
     align-items: center;
     gap: 15px;
-    flex: 1; /* NOUVEAU : Force la zone à prendre un espace égal à celle de gauche */
-    justify-content: flex-end; /* NOUVEAU : Plaque le texte et le bouton tout à droite */
+    flex: 1; 
+    justify-content: flex-end; 
 }
 
 .user-greeting {
@@ -245,8 +225,8 @@ h1, h2, h3, p { margin: 0; }
 }
 
 .auth-btn {
-    color: #4a3424 !important; /* Texte marron */
-    background-color: #f7e1b5; /* Fond parchemin */
+    color: #4a3424 !important; 
+    background-color: #f7e1b5; 
     padding: 6px 12px;
     border-radius: 4px;
     border: 2px solid #804808;
@@ -270,37 +250,35 @@ h1, h2, h3, p { margin: 0; }
 .logout-btn:hover {
     background-color: #c0392b;
 }
+
 /* ========================================== */
 /* 4. PAGE BESTIAIRE (MONSTERS.PHP)           */
 /* ========================================== */
 .search-container { margin-bottom: 20px; display: flex; justify-content: center;}
 .search-form { width: 100%; max-width: 500px; }
 
-/* La barre de recherche style Parchemin */
 .search-form input { 
     padding: 12px 20px; width: 100%; 
     border-radius: 25px; 
-    border: 3px solid #804808; /* Grosse bordure bois/cuir */
-    background-color: #f7f1e3; /* Fond parchemin clair */
-    color: #4a3424; /* Texte brun foncé */
+    border: 3px solid #804808; 
+    background-color: #f7f1e3; 
+    color: #4a3424; 
     font-size: 1.1rem; 
     font-family: 'Georgia', serif;
     font-weight: bold;
     outline: none; 
     box-sizing: border-box;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); /* Effet de profondeur intérieur */
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); 
 }
 .search-form input::placeholder { color: #8c7f6f; font-style: italic; font-weight: normal; }
 .search-form input:focus { background-color: #fff; border-color: #4a3424; }
 
-/* Conteneur des boutons de filtres */
 .filters-container { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 30px; }
 .dropdown { position: relative; display: inline-block; }
 
-/* Les boutons de tri style "Onglets de grimoire" */
 .dropdown-btn { 
-    background-color: #f7e1b5; /* Couleur sable/parchemin */
-    color: #4a3424; /* Texte brun foncé */
+    background-color: #f7e1b5; 
+    color: #4a3424; 
     padding: 10px 20px; 
     border: 2px solid #804808; 
     border-radius: 8px; 
@@ -312,15 +290,14 @@ h1, h2, h3, p { margin: 0; }
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 .dropdown-btn:hover { 
-    background-color: #f8efb9; /* S'éclaircit au survol */
-    transform: translateY(-2px); /* Se soulève légèrement */
+    background-color: #f8efb9; 
+    transform: translateY(-2px); 
 }
 
-/* Le menu déroulant style Parchemin */
 .dropdown-content { 
     display: none; 
     position: absolute; 
-    background-color: #f7f1e3; /* Fond parchemin clair */
+    background-color: #f7f1e3; 
     min-width: 100%;
     width: max-content;
     white-space: nowrap; 
@@ -335,13 +312,12 @@ h1, h2, h3, p { margin: 0; }
 }
 .dropdown-content.show { display: block; }
 
-/* Les options à cocher à l'intérieur du menu */
 .dropdown-content label { 
     display: flex; 
     align-items: center; 
     gap: 10px; 
     margin-bottom: 8px; 
-    color: #4a3424; /* Texte brun */
+    color: #4a3424; 
     font-family: 'Georgia', serif;
     font-weight: bold;
     cursor: pointer;
@@ -349,14 +325,13 @@ h1, h2, h3, p { margin: 0; }
     border-radius: 4px;
     transition: background 0.2s;
 }
-/* Taille des icônes d'éléments dans les filtres */
 .dropdown-content label img {
     width: 24px;
     height: 24px;
     object-fit: contain;
 }
 .dropdown-content label:hover { 
-    background-color: rgba(128, 72, 8, 0.1); /* Léger fond brun au survol des cases */
+    background-color: rgba(128, 72, 8, 0.1); 
 }
 
 .monsters-grid { 
@@ -372,7 +347,6 @@ h1, h2, h3, p { margin: 0; }
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     transition: transform 0.2s, border-color 0.2s; 
 }
-/* Enlève le soulignement sur les liens et les noms des monstres */
 .monster-item a {
     text-decoration: none;
 }
@@ -392,21 +366,19 @@ h1, h2, h3, p { margin: 0; }
 }
 .monster-name { 
     font-size: 1.3rem; 
-    color: #1a1a1a; /* Noir profond */
+    color: #1a1a1a; 
     font-weight: bold; 
 }
 .monster-species { 
     font-size: 0.9rem; 
-    color: #4a3424; /* Brun foncé au lieu du gris clair */
+    color: #4a3424; 
     margin-top: 5px; 
 }
 .hidden-message { display: none; color: #e74c3c; font-size: 1.2rem; margin-top: 20px;}
 
 /* ========================================== */
-/* 5. PAGE DÉTAILS (DETAILS.PHP) - PARCHEMIN  */
+/* 5. PAGE DÉTAILS (DETAILS.PHP)              */
 /* ========================================== */
-
-/* On réutilise l'aspect du grand parchemin central pour la page détails */
 .container-detail {
     max-width: 1200px;
     width: 100%; 
@@ -421,40 +393,35 @@ h1, h2, h3, p { margin: 0; }
     border-radius: 0 0 15px 15px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
     box-sizing: border-box;
-    
-    /* MODIFIÉ : On plaque tout en haut ! */
     display: flex;
-    flex-wrap: wrap; /* On enlève le wrap-reverse */
+    flex-wrap: wrap; 
     gap: 40px;
     justify-content: space-between;
     align-items: flex-start;
-    align-content: flex-start; /* Force les blocs à rester collés au plafond */
+    align-content: flex-start; 
 }
 
-/* NOUVEAU : On gère l'ordre sur mobile proprement */
 @media (max-width: 850px) {
     .container-detail {
-        flex-direction: column-reverse; /* Sur petit écran, la sidebar passera au-dessus */
+        flex-direction: column-reverse; 
     }
     .detail-sidebar {
-        position: static; /* Annule l'effet qui suit l'écran sur mobile */
+        position: static; 
     }
 }
-/* Colonne de gauche (Onglets et Infos) */
+
 .detail-main {
     flex: 2;
     min-width: 300px;
-    text-align: left; /* On aligne le texte à gauche pour faciliter la lecture */
+    text-align: left; 
 }
 
-/* Colonne de droite (Sidebar du monstre) */
 .detail-sidebar {
     flex: 1;
     min-width: 280px;
     max-width: 350px;
 }
 
-/* En-tête des onglets */
 .tabs-header { 
     display: flex; 
     gap: 10px; 
@@ -478,11 +445,11 @@ h1, h2, h3, p { margin: 0; }
 .tab-link:hover { color: #804808; }
 
 .tab-link.active { 
-    background-color: #f7e1b5; /* Parchemin clair */
+    background-color: #f7e1b5; 
     color: #4a3424; 
     border-radius: 8px 8px 0 0; 
     border: 3px solid #804808; 
-    border-bottom: 3px solid #f7e1b5; /* Efface la ligne en dessous pour fusionner avec le contenu */
+    border-bottom: 3px solid #f7e1b5; 
     margin-bottom: -3px; 
 }
 
@@ -490,7 +457,6 @@ h1, h2, h3, p { margin: 0; }
 .tab-content.active { display: block; animation: fadeIn 0.3s; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* Panneaux de contenu (Info, Fight, Reward) */
 .info-block, .fight-block, .reward-block { 
     background-color: #f7e1b5; 
     border: 3px solid #804808; 
@@ -508,15 +474,14 @@ h1, h2, h3, p { margin: 0; }
     margin-bottom: 20px;
     font-size: 1.5rem;
 }
-/* Amélioration de la lisibilité pour la description */
+
 .info-block p {
-    font-size: 1.2rem; /* Augmente la taille de la police */
-    line-height: 1.6; /* Aère l'espace entre les lignes pour un effet "livre" */
-    color: #2c1e16; /* Un brun très sombre pour un contraste parfait */
-    margin-bottom: 15px; /* Laisse un peu d'espace si jamais il y a plusieurs paragraphes */
+    font-size: 1.2rem; 
+    line-height: 1.6; 
+    color: #2c1e16; 
+    margin-bottom: 15px; 
 }
 
-/* La Sidebar (ID Card) */
 .monster-id-card { 
     background-color: #f7e1b5; 
     border: 3px solid #804808; 
@@ -525,7 +490,7 @@ h1, h2, h3, p { margin: 0; }
     border-radius: 8px; 
     padding: 25px; 
     text-align: center;
-    position: sticky; /* Astuce : la carte suivra l'écran quand on descend ! */
+    position: sticky; 
     top: 20px; 
 }
 
@@ -539,39 +504,34 @@ h1, h2, h3, p { margin: 0; }
 }
 
 .monster-id-icon img { max-width: 150px; margin: 20px 0; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3)); }
-
 .monster-id-stats { text-align: left; }
 
-/* On grossit le texte des statistiques (Size, Category...) */
 .stat-line { 
     border-bottom: 1px dashed #c0a080; 
-    padding: 15px 0; /* Un peu plus d'espace vertical */
-    font-size: 1.25rem; /* Police plus grande */
+    padding: 15px 0; 
+    font-size: 1.25rem; 
 }
 .stat-line span, .elements-line span { 
     color: #804808; 
     font-weight: bold; 
 }
 
-/* On grossit le texte "Elements:" */
 .elements-line { 
     padding: 15px 0; 
-    font-size: 1.25rem; /* Police plus grande */
+    font-size: 1.25rem; 
 }
 .elements-icons { 
     margin-top: 12px; 
     display: flex; 
-    gap: 8px; /* Un peu plus d'espace entre les icônes */
+    gap: 8px; 
     flex-wrap: wrap; 
 }
 
-/* On agrandit les icônes d'éléments */
 .el-icon { 
-    width: 52px; /* Icônes beaucoup plus visibles (au lieu de 30px) */
-    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2)); /* Ajoute un joli petit relief */
+    width: 52px; 
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2)); 
 }
 
-/* Faiblesses et Résistances */
 .weakness-condition { 
     color: #804808 !important; 
     font-size: 1.2rem; 
@@ -583,7 +543,7 @@ h1, h2, h3, p { margin: 0; }
 .weakness-grid { 
     display: flex; 
     flex-wrap: wrap; 
-    gap: 20px; /* Un peu plus d'espace entre les éléments */
+    gap: 20px; 
     margin-bottom: 20px; 
 }
 
@@ -591,8 +551,6 @@ h1, h2, h3, p { margin: 0; }
     display: flex; 
     flex-direction: column; 
     align-items: center; 
-    
-    /* MODIFIÉ : On rend le fond transparent et on enlève les bordures/ombres */
     background: transparent; 
     padding: 5px; 
     border: none; 
@@ -603,14 +561,11 @@ h1, h2, h3, p { margin: 0; }
 .weakness-el-icon { 
     width: 35px; 
     margin-bottom: 8px; 
-    
-    /* NOUVEAU : On ajoute une petite ombre directement sur l'icône pour la faire ressortir du parchemin */
     filter: drop-shadow(0 3px 4px rgba(0,0,0,0.3)); 
 }
 
 .weakness-star, .weakness-cross { 
     width: 18px; 
-    /* Petite ombre sur les étoiles aussi pour la cohérence */
     filter: drop-shadow(0 2px 2px rgba(0,0,0,0.4));
 }
 
@@ -618,46 +573,39 @@ h1, h2, h3, p { margin: 0; }
     display: flex; 
     gap: 2px; 
 }
-/* Séparateur VS */
+
 .fight-separator { border: none; border-top: 3px solid #804808; margin: 50px 0; position: relative; overflow: visible; }
 .fight-separator::after { content: "VS"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #f7f1e3; padding: 0 20px; color: #804808; font-weight: bold; font-family: 'Georgia', serif; font-size: 1.5rem; }
 
-/* Récompenses */
 .reward-rank-title { color: #4a3424 !important; font-size: 1.6rem; font-family: 'Georgia', serif; margin-top: 40px; border-bottom: 3px solid #804808; padding-bottom: 5px; }
 .reward-type-title { color: #804808 !important; font-size: 1.2rem; margin-top: 20px; margin-bottom: 15px; font-style: italic; border-left: 4px solid #804808; padding-left: 10px; }
-.reward-list { display: flex; flex-direction: column; gap: 5px; } /* Moins d'espace pour un effet "liste" */
+.reward-list { display: flex; flex-direction: column; gap: 5px; } 
 
-/* Le nouveau design sans boîte blanche, style ligne de livre */
 .reward-row { 
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
-    background-color: transparent; /* Fond transparent */
-    border-bottom: 1px dashed #c0a080; /* Ligne pointillée style vieux papier */
+    background-color: transparent; 
+    border-bottom: 1px dashed #c0a080; 
     padding: 10px 5px; 
     transition: background 0.2s; 
 }
 
-/* Léger survol pour savoir où on regarde */
 .reward-row:hover { 
     background-color: rgba(128, 72, 8, 0.05); 
 }
 
-/* Côté Gauche */
 .reward-info { display: flex; align-items: center; gap: 15px; }
 .reward-name { color: #1a1a1a; font-weight: bold; font-size: 1.15rem; }
 .reward-chance { color: #804808; font-weight: bold; font-size: 1rem; }
-
-/* Côté Droit */
 .reward-meta-container { display: flex; align-items: center; gap: 15px; }
 .reward-meta { color: #8c7f6f; font-size: 0.95rem; font-style: italic; }
-
 .unknown-text { color: #8c7f6f !important; font-style: italic; }
-/* Habitats / Locations */
+
 .locations-grid { 
     display: flex; 
     flex-wrap: wrap; 
-    gap: 25px; /* Un peu plus d'espace pour aérer */
+    gap: 25px; 
 }
 
 .loc-item { 
@@ -666,7 +614,6 @@ h1, h2, h3, p { margin: 0; }
     align-items: center; 
     text-align: center; 
     width: 100px; 
-    /* On a supprimé le fond blanc, la bordure, et l'ombre du conteneur ! */
 }
 
 .loc-img { 
@@ -674,8 +621,7 @@ h1, h2, h3, p { margin: 0; }
     height: auto; 
     object-fit: contain; 
     margin-bottom: 10px; 
-    /* On a supprimé le border-radius et la bordure marron ! */
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); /* Petite ombre sur l'icône elle-même */
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); 
 }
 
 .loc-name { 
@@ -684,36 +630,30 @@ h1, h2, h3, p { margin: 0; }
     font-size: 0.95rem; 
 }
 
-/* NOUVEAU : Sous-cadre pour séparer les conditions (Ice active, Dragon active...) */
 .condition-block {
-    background-color: rgba(128, 72, 8, 0.05); /* Un fond brun très léger pour se détacher du parchemin */
-    border: 1px dashed #c0a080; /* Une bordure pointillée style "notes rajoutées" */
+    background-color: rgba(128, 72, 8, 0.05); 
+    border: 1px dashed #c0a080; 
     border-radius: 8px;
     padding: 15px 20px;
     margin-bottom: 20px;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); /* Très légère profondeur intérieure */
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); 
 }
 
-/* Ajustements pour que le texte rentre parfaitement dans le sous-cadre */
 .condition-block .weakness-condition {
-    margin-top: 0; /* Enlève la marge du haut pour coller au bord du cadre */
+    margin-top: 0; 
     margin-bottom: 15px;
-    border-bottom: 1px solid rgba(192, 160, 128, 0.4); /* Petite ligne sous le nom de la condition */
+    border-bottom: 1px solid rgba(192, 160, 128, 0.4); 
     padding-bottom: 8px;
-    display: inline-block; /* Permet à la ligne de ne pas prendre toute la largeur si on préfère */
     width: 100%;
 }
 
-/* On retire la marge basse de la grille d'icônes car le padding du cadre s'en charge */
 .condition-block .weakness-grid {
     margin-bottom: 0;
 }
 
-
 /* ========================================== */
 /* 6. FORMULAIRES D'AUTHENTIFICATION          */
 /* ========================================== */
-
 .auth-container {
     background-color: #c5b38f;
     border: 3px solid #804808;
@@ -723,7 +663,7 @@ h1, h2, h3, p { margin: 0; }
     max-width: 450px;
     text-align: center;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
-    margin: 40px auto; /* Centre le bloc */
+    margin: 40px auto; 
 }
 
 .auth-container h2 {
@@ -772,7 +712,6 @@ h1, h2, h3, p { margin: 0; }
     padding: 12px;
 }
 
-/* Messages de succès et d'erreur */
 .alert {
     padding: 15px;
     border-radius: 5px;
@@ -792,18 +731,16 @@ h1, h2, h3, p { margin: 0; }
     border: 1px solid #2ecc71;
 }
 
-/* Force la même hauteur et le même alignement pour les liens d'auth et le bouton dropdown */
 .auth-btn, .user-dropdown-btn {
-    box-sizing: border-box; /* S'assure que les bordures sont incluses dans la taille */
-    height: 36px; /* On impose une hauteur stricte et identique pour tous */
-    display: inline-flex; /* Permet de centrer parfaitement le texte à l'intérieur */
+    box-sizing: border-box; 
+    height: 36px; 
+    display: inline-flex; 
     align-items: center;
     justify-content: center;
     margin: 0;
     font-family: 'Arial', sans-serif;
 }
 
-/* Style pour le champ input file du profil */
 .auth-form input[type="file"] {
     cursor: pointer;
 }
@@ -812,23 +749,20 @@ h1, h2, h3, p { margin: 0; }
     border-color: #f1c40f !important;
 }
 
-/* Petite photo de profil ronde insérée dans le bouton du header */
 .header-avatar {
     width: 24px;
     height: 24px;
-    border-radius: 50%; /* Rend l'image parfaitement circulaire */
-    object-fit: cover; /* Évite de déformer l'image */
-    border: 1.5px solid #804808; /* Fine bordure boisée assortie au thème */
-    margin-left: 8px; /* Espace entre le pseudo et l'image */
-    margin-right: 4px; /* Espace entre l'image et la flèche du menu */
+    border-radius: 50%; 
+    object-fit: cover; 
+    border: 1.5px solid #804808; 
+    margin-left: 8px; 
+    margin-right: 4px; 
     background-color: #fff;
 }
 
 /* ========================================== */
 /* NETTOYAGE CLASSES INLINE (PROFILE & NOTES) */
 /* ========================================== */
-
-/* Profil */
 .profile-main-margin { margin-top: 30px; }
 .form-spaced { margin-bottom: 40px; }
 .file-upload-input { border: 2px dashed #804808; background: #f7f1e3; padding: 10px; }
@@ -842,11 +776,9 @@ h1, h2, h3, p { margin: 0; }
 .borderless-stat { border-bottom: none; }
 .guild-card-date { font-size: 1rem; color: #2c1e16; }
 
-/* Boutons d'annulation et suppression */
 .btn-cancel { background: #e74c3c !important; color: white !important; border-color: #c0392b !important; }
 .auth-form .btn-cancel { padding: 9px 15px; text-decoration: none; display: inline-block; }
 
-/* Notes de Chasse */
 .textarea-styled { width: 100%; border: 2px solid #804808; background: #f7f1e3; border-radius: 5px; padding: 10px; box-sizing: border-box; }
 .notes-list-container { display: flex; flex-direction: column; gap: 15px; margin-top: 15px; }
 .note-block-margin { margin-bottom: 0; }
@@ -861,8 +793,6 @@ h1, h2, h3, p { margin: 0; }
 /* ========================================== */
 /* 7. L'ARMURERIE (WEAPONS)                   */
 /* ========================================== */
-
-/* --- Page d'accueil de l'armurerie --- */
 .armory-container {
     width: 100%;
     max-width: 1200px;
@@ -926,7 +856,6 @@ h1, h2, h3, p { margin: 0; }
     text-transform: uppercase;
 }
 
-/* --- Page de l'arbre des armes --- */
 .weapon-tree-container {
     width: 100%;
     max-width: 1000px;
@@ -1016,7 +945,6 @@ h1, h2, h3, p { margin: 0; }
     color: #2c1e16;
 }
 
-/* La barre magique de Tranchant (Sharpness) */
 .sharpness-label {
     font-size: 0.85rem;
     color: #8c7f6f;
@@ -1037,7 +965,6 @@ h1, h2, h3, p { margin: 0; }
     height: 100%;
 }
 
-/* Style pour le rang textuel des armes */
 .weapon-rarity-text {
     font-family: 'Georgia', serif;
     font-size: 1rem;
@@ -1046,7 +973,6 @@ h1, h2, h3, p { margin: 0; }
     font-style: italic;
 }
 
-/* Style pour les icônes d'éléments dans la liste des armes */
 .weapon-item-elements {
     display: flex;
     align-items: center;
@@ -1066,18 +992,13 @@ h1, h2, h3, p { margin: 0; }
     object-fit: contain;
 }
 
-/* Rend les éléments "Cachés" (Hidden) légèrement grisés/transparents */
 .element-hidden {
     opacity: 0.6;
 }
 
-
-
 /* ========================================== */
 /* ALIGNEMENT ET ÉGALISATION DES BOUTONS HOME */
 /* ========================================== */
-
-/* Force l'alignement horizontal des deux cartes de navigation */
 .home-nav-links-container {
     display: flex !important;
     justify-content: center !important;
@@ -1092,7 +1013,6 @@ h1, h2, h3, p { margin: 0; }
     transform: none !important;
 }
 
-/* La boîte de la carte : annulation de tout héritage absolu parasite */
 .home-hub-card {
     background-color: #f2e6cb !important;
     border: 4px solid #804808 !important;
@@ -1115,14 +1035,12 @@ h1, h2, h3, p { margin: 0; }
     transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease !important;
 }
 
-/* Effet de survol fluide style parchemin */
 .home-hub-card:hover {
     transform: translateY(-5px) !important;
     border-color: #f1c40f !important;
     background-color: #f8efb9 !important;
 }
 
-/* Gestion de la taille des logos */
 .home-hub-img {
     width: auto !important;
     height: 130px !important;
@@ -1132,16 +1050,14 @@ h1, h2, h3, p { margin: 0; }
     display: block !important;
 }
 
-/* Style spécial pour le logo de l'arme (épuré, sans cadre ni fond) */
 .weapon-logo-clean {
-    height: 130px !important; /* Augmenté à 130px pour faire exactement la même taille que le Rathalos */
-    padding: 0 !important; /* Supprime l'espace interne */
-    background-color: transparent !important; /* Supprime le fond coloré */
-    border: none !important; /* Supprime le cadre en pointillés */
-    border-radius: 0 !important; /* Supprime l'arrondi */
+    height: 130px !important; 
+    padding: 0 !important; 
+    background-color: transparent !important; 
+    border: none !important; 
+    border-radius: 0 !important; 
 }
 
-/* Le texte sous les logos (MONSTERS / WEAPONS) */
 .home-hub-text {
     font-family: 'Georgia', serif !important;
     font-size: 1.5rem !important;
@@ -1154,22 +1070,20 @@ h1, h2, h3, p { margin: 0; }
     text-align: center !important;
 }
 
-/* Style pour l'étoile alignée avec le texte du rang */
 .weapon-inline-star {
     width: 16px;
     height: 16px;
     object-fit: contain;
-    vertical-align: -2px; /* Ajuste finement la hauteur pour s'aligner avec les lettres */
+    vertical-align: -2px; 
     margin-left: 2px;
 }
 
 /* ========================================== */
 /* ALIGNEMENT FILTRES & TRI DE L'ARMURERIE    */
 /* ========================================== */
-
 .filters-sort-container {
     display: flex !important;
-    justify-content: space-between !important; /* Filtres à gauche, Tri à droite extrême */
+    justify-content: space-between !important; 
     align-items: center !important;
     gap: 15px !important;
     flex-wrap: wrap !important;
@@ -1184,10 +1098,9 @@ h1, h2, h3, p { margin: 0; }
 }
 
 .sort-right-side {
-    margin-left: auto !important; /* Sécurité supplémentaire pour pousser à droite */
+    margin-left: auto !important; 
 }
 
-/* Style dédié aux boutons d'options de tri */
 .sort-option {
     display: block !important;
     width: 100% !important;
@@ -1209,7 +1122,6 @@ h1, h2, h3, p { margin: 0; }
     color: #804808 !important;
 }
 
-/* Aligne le volet déroulant sur le bord droit pour éviter qu'il sorte du parchemin */
 .alignment-right {
     right: 0 !important;
     left: auto !important;
@@ -1218,8 +1130,6 @@ h1, h2, h3, p { margin: 0; }
 /* ========================================== */
 /* STYLE DES DETAILS D'ARMES                  */
 /* ========================================== */
-
-/* Rend les cartes d'armes cliquables avec un effet 3D */
 a.weapon-item {
     text-decoration: none !important;
     color: inherit !important;
@@ -1233,7 +1143,6 @@ a.weapon-item:hover {
     box-shadow: 0 8px 15px rgba(0,0,0,0.3) !important;
 }
 
-/* Grande image de l'arme dans la sidebar */
 .weapon-big-image {
     width: 100% !important;
     max-height: 250px !important;
@@ -1242,14 +1151,12 @@ a.weapon-item:hover {
     filter: drop-shadow(0 8px 10px rgba(0,0,0,0.4)) !important;
 }
 
-/* Texte secondaire pour les stats (ex: Raw attack, base sharpness) */
 .stat-subtext {
     font-size: 0.9rem !important;
     color: #8c7f6f !important;
     font-weight: normal !important;
 }
 
-/* Barre de tranchant agrandie pour la page de détails */
 .sharpness-large {
     width: 100% !important;
     max-width: 400px !important;
@@ -1259,7 +1166,6 @@ a.weapon-item:hover {
     box-shadow: 0 4px 6px rgba(0,0,0,0.3) !important;
 }
 
-/* Liste des matériaux de forge */
 .material-list {
     display: flex !important;
     flex-direction: column !important;
@@ -1291,7 +1197,6 @@ a.weapon-item:hover {
     font-size: 1.1rem !important;
 }
 
-/* Emplacements de joyaux (Slots) */
 .deco-slot {
     background-color: #2c3e50 !important;
     color: #f1c40f !important;
@@ -1307,22 +1212,19 @@ a.weapon-item:hover {
    📱 RESPONSIVE DESIGN - MOBILE (Max 768px)
    ========================================= */
 @media screen and (max-width: 768px) {
-    /* 1. On passe la barre de navigation en colonne */
     .header-nav-container {
         flex-direction: column;
         gap: 20px;
     }
 
-    /* 2. LE PLUS IMPORTANT : On enlève la position absolue du logo pour qu'il arrête de se superposer */
     .nav-logo {
-        position: relative; /* Annule le position: absolute */
+        position: relative; 
         left: 0;
         transform: none;
-        order: -1; /* Place le logo tout en haut de la liste ! */
+        order: -1; 
         text-align: center;
     }
 
-    /* 3. On centre les menus de gauche et droite et on autorise le retour à la ligne */
     .header-nav-left,
     .header-nav-right {
         justify-content: center;
@@ -1330,61 +1232,29 @@ a.weapon-item:hover {
         width: 100%;
         gap: 15px;
     }
-    
-    /* ... tes autres règles mobiles existantes ... */
-
-    /* Limiter la hauteur des menus déroulants sur mobile */
-    .dropdown-content {
-        max-height: 200px; /* Force l'apparition de la barre de défilement dans la petite boîte au lieu de casser la page entière */
-        overflow-y: auto;
-    }
-    
-    /* Optionnel : Assurer que la grille des armes passe bien sur 1 seule colonne si l'écran est très étroit */
+        
     .weapon-list-container {
         grid-template-columns: 1fr;
-
     }
-    /* NOUVEAU : Réduire la taille du gros titre sur la page d'accueil */
+
     .home-title {
-        font-size: 2rem !important; /* Réduit drastiquement la taille de la police */
-        word-wrap: break-word;      /* Permet au texte de passer à la ligne si besoin */
+        font-size: 2rem !important; 
+        word-wrap: break-word;      
     }
 
-    /* Optionnel : Réduire un peu les espaces de la boîte principale sur mobile */
     .home-content-wrapper {
         padding: 30px 15px;
         gap: 20px;
-    }
+    }    
 
-    .footer-container {
-        display: table; /* Alternative ultra-fiable à flex pour WeasyPrint/Mobiles */
-        width: 100%;
-    }
-    .footer-text-left {
-        display: table-cell;
-        text-align: left;
-        vertical-align: middle;
-    }
-    .footer-text-right {
-        display: table-cell;
-        text-align: right;
-        vertical-align: middle;
-    }
-    .footer-legal {
-        margin-left: 15px;
-        border-left: 1px solid #4a3424;
-        padding-left: 15px;
-        opacity: 0.8;
-    }
-    
     .site-footer {
-        padding: 20px 15px; /* Un peu plus d'air autour */
+        padding: 20px 15px; 
     }
     
     .footer-container {
         display: flex;
         flex-direction: column;
-        gap: 15px; /* Sépare proprement le bloc de gauche et le bloc de droite */
+        gap: 15px; 
     }
 
     .footer-text-left, 
@@ -1397,16 +1267,39 @@ a.weapon-item:hover {
         display: block; 
         margin-top: 10px;
         font-size: 0.75rem;
-        line-height: 1.5; /* LE SECRET EST ICI : Fait respirer le pavé de texte */
+        line-height: 1.5; 
         opacity: 0.6;
-        border-left: none; /* Enlève la bordure verticale du PC */
+        border-left: none; 
         padding-left: 0;
     }
 
     .footer-text-right {
-        border-top: 1px solid rgba(255, 255, 255, 0.1); /* Ligne de séparation très discrète */
+        border-top: 1px solid rgba(255, 255, 255, 0.1); 
         padding-top: 15px;
         font-size: 0.85rem;
     }
-    
+    /* =========================================
+       CORRECTION DES DROPDOWNS SUR MOBILE
+       ========================================= */
+    .dropdown {
+        position: relative; /* On remet en relatif pour que le menu s'aligne sagement sous le bouton */
+    }
+
+    .dropdown-content {
+        position: absolute;
+        left: 0 !important; /* Aligne le bord gauche du menu sur le bouton */
+        transform: none !important; /* Supprime le centrage qui faisait déborder la boîte */
+        
+        width: max-content !important; /* La boîte prend JUSTE la largeur du texte à l'intérieur */
+        max-width: calc(100vw - 40px) !important; /* Sécurité : la boîte ne pourra JAMAIS être plus large que l'écran du téléphone */
+        
+        white-space: normal !important; /* Autorise le texte à passer à la ligne si une option est vraiment trop longue */
+        box-sizing: border-box;
+        padding: 12px;
+    }
+
+    .dropdown-content label {
+        white-space: normal !important; /* Applique le retour à la ligne aux textes des options */
+        word-break: break-word;
+    }
 }
