@@ -41,8 +41,10 @@ Conformément aux consignes du projet, le dépôt est structuré comme suit :
 Dans le cadre de ce projet étudiant éducatif, les données présentées proviennent de sources publiques et ouvertes au bénéfice de la communauté :
 
 1. **Données des Monstres et des Armes :**
-   * **Source :** Base de données publique et communautaire via [MHW-DB API](https://docs.mhw-db.com/).
-   * **Licence :** Les données de cette API sont fournies sous forme open-source par la communauté des joueurs à des fins de création d'outils annexes.
+   * **Source weapons :** Base de données publique et communautaire via [MHW-DB API](https://docs.mhw-db.com/).
+   * **Source monsters icons :** Base de données publique et communautaire via (https://github.com/CrimsonNynja/monster-hunter-DB)
+   * **Source monsters stats :** Base de données publique et communautaire via (https://github.com/Neryss/monster_hunter_db)
+   * **Licence :** Les données de ces API sont fournies sous forme open-source par la communauté des joueurs à des fins de création d'outils annexes.
 
 2. **Propriété Intellectuelle (Disclaimer Légale) :**
    * Les noms, icônes, images et concepts de *Monster Hunter™* et *Monster Hunter World: Iceborne™* sont des marques déposées appartenant à **Capcom Co., Ltd**.
