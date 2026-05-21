@@ -821,7 +821,7 @@ h1, h2, h3, p { margin: 0; }
 }
 
 .weapon-type-card {
-    background-color: #fcf0d4;
+    background-color: #f7e1b5;
     border: 2px solid #804808;
     border-radius: 8px;
     padding: 20px;
@@ -838,7 +838,7 @@ h1, h2, h3, p { margin: 0; }
 .weapon-type-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-    background-color: #f8efb9;
+    background-color: #f7e1b5;
     border-color: #f1c40f;
 }
 
@@ -897,7 +897,7 @@ h1, h2, h3, p { margin: 0; }
 }
 
 .weapon-item {
-    background-color: #f2e6cb;
+    background-color: #f7e1b5;
     border: 1px solid #c0a080;
     border-radius: 5px;
     display: flex;
@@ -909,7 +909,7 @@ h1, h2, h3, p { margin: 0; }
 .weapon-item-icon {
     width: 50px;
     height: 50px;
-    background: #fff;
+    background: #f2e6cb;
     border: 1px solid #804808;
     border-radius: 4px;
     padding: 5px;
