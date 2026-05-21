@@ -12,7 +12,7 @@ Bienvenue sur le dépôt officiel du projet **Online Compendium**, une encyclop�
 Ce site web a pour but de fournir une interface riche et interactive permettant aux utilisateurs d'explorer les données complexes du jeu (Monstres et Armes). Il met en œuvre les technologies HTML5, CSS3, JavaScript (Vanilla), PHP et MySQL, tout en respectant une architecture de base de données relationnelle.
 
 ### 🌟 Fonctionnalités Principales
-* **Bestiaire Interactif** : Recherche multi-critères avancée (Nom, Éléments, Espèces, Tailles, Biomes) filtrée instantanément en JavaScript.
+* **Bestiaire Interactif** : Recherche multi-critères avancée (Nom, Éléments, Espèces, Tailles, Biomes) filtrée en temps réel en JavaScript.
 * **Armurerie (Armory)** : Navigation dynamique dans les arbres d'armes, avec affichage détaillé des statistiques (Tranchant, Attaque, Emplacements de joyaux).
 * **Espace Chasseur Restreint** : Système de création de compte sécurisé (mots de passe hachés) et page de profil personnelle.
 * **Système de Notes (CRUD)** : Possibilité pour les utilisateurs inscrits d'ajouter, lire, modifier et supprimer (CRUD) des notes personnelles et stratégiques sur la fiche de chaque monstre.
