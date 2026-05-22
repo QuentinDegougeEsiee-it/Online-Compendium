@@ -36,6 +36,7 @@ if (isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Compendium</title>
     <link rel="stylesheet" href="styles.css?v=<?php echo time(); ?>">
+    <link rel="icon" type="image/png" href="assets/img/favicon.png">
 </head>
 <body>
     <header class="site-header">

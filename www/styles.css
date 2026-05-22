@@ -207,7 +207,7 @@ h1, h2, h3, p { margin: 0; }
 }
 
 .logo-container { width: 100%; max-width: 650px; }
-.mhwi-logo-large { max-width: 100%; height: auto; }
+.mhwi-logo-large { max-width: 100%; height: auto; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3)); }
 
 .header-nav-right {
     display: flex;
