@@ -48,7 +48,7 @@ mon-projet-mhw/
 2. Ouvrez un client FTP comme **FileZilla** et connectez-vous avec ces identifiants.
 3. Sur le serveur distant, supprimez les fichiers présents par défaut (comme `index.html`) dans le dossier `/www/`.
 4. Transférez **l'intégralité du contenu** de votre dossier local `www/` (les fichiers PHP, le CSS, le JS, et le dossier `assets/`) **SAUF LE .env** vers le dossier `/www/` de votre serveur distant.
-5. Transférez également les 3 fichiers du dossier script (**import_data.php,fix_biomes.php et clean_biomes.php**) vers le dossier `/www/` de votre serveur distant.
+5. Transférez également les 3 fichiers du dossier `/script/` (**import_data.php,fix_biomes.php et clean_biomes.php**) vers le dossier `/www/` de votre serveur distant.
 6. Transférez ensuite le dossier local `/db/` à coté du dossier distant `/www/`
 7. Une fois le transfert FileZilla terminé, faites un clic droit dans la colonne de droite (sur le serveur AlwaysData) et choisissez Créer un nouveau fichier. Nommez-le exactement .env.
 8. Faites un clic droit sur ce nouveau fichier .env et cliquez sur Afficher/Modifier.
